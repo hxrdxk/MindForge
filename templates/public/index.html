@@ -1,0 +1,41 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+{{ brand.name }} | Home
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container text-center">
+
+        <img
+            src="{{ url_for('static', filename=brand.logo) }}"
+            width="120"
+            class="mb-4"
+            alt="MindForge Logo">
+
+        <h1 class="display-3 fw-bold">
+
+            {{ brand.name }}
+
+        </h1>
+
+        <p class="lead">
+
+            {{ brand.tagline }}
+
+        </p>
+
+        <p class="text-secondary">
+
+            {{ brand.description }}
+
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}
