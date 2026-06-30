@@ -1,0 +1,412 @@
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.primary-btn{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:10px;
+
+    padding:14px 30px;
+
+    border-radius:var(--radius-pill);
+
+    background:var(--gradient);
+
+    color:#fff;
+
+    font-weight:var(--fw-semibold);
+
+    box-shadow:var(--shadow-md);
+
+    transition:var(--transition);
+
+}
+
+.primary-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-lg);
+
+    color:#fff;
+
+}
+
+.secondary-btn{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:10px;
+
+    padding:14px 30px;
+
+    border-radius:var(--radius-pill);
+
+    border:1px solid var(--border);
+
+    background:#fff;
+
+    color:var(--primary);
+
+    font-weight:var(--fw-semibold);
+
+    transition:var(--transition);
+
+}
+
+.secondary-btn:hover{
+
+    background:var(--surface-alt);
+
+    transform:translateY(-3px);
+
+    color:var(--primary);
+
+}
+
+/* ==========================================
+   ICON BUTTON
+========================================== */
+
+.icon-btn{
+
+    width:48px;
+    height:48px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    color:var(--primary);
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow-sm);
+
+    transition:var(--transition);
+
+}
+
+.icon-btn:hover{
+
+    transform:translateY(-3px);
+
+    color:var(--secondary);
+
+    box-shadow:var(--shadow-md);
+
+}
+
+/* ==========================================
+   BADGE
+========================================== */
+
+.badge-ai{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 16px;
+
+    border-radius:var(--radius-pill);
+
+    background:rgba(124,58,237,.10);
+
+    color:var(--secondary);
+
+    font-weight:var(--fw-semibold);
+
+    font-size:.9rem;
+
+}
+
+/* ==========================================
+   GLASS CARD
+========================================== */
+
+.glass-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:#fff;
+
+    padding:40px;
+
+    border-radius:var(--radius-lg);
+
+    border:1px solid rgba(255,255,255,.45);
+
+    box-shadow:var(--shadow-md);
+
+    transition:var(--transition);
+
+    overflow:hidden;
+
+    position:relative;
+
+    height:100%;
+
+}
+
+.glass-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+/* ==========================================
+   FEATURE CARD
+========================================== */
+
+.feature-card{
+
+    min-height:320px;
+
+}
+
+.feature-card i{
+
+    width:74px;
+
+    height:74px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:20px;
+
+    background:rgba(124,58,237,.08);
+
+    color:var(--secondary);
+
+    font-size:2rem;
+
+    margin-bottom:22px;
+
+}
+
+.feature-card h4{
+
+    margin-bottom:16px;
+
+}
+
+.feature-card p{
+
+    flex-grow:1;
+
+    line-height:1.8;
+
+}
+
+/* ==========================================
+   STAT CARD
+========================================== */
+
+.stat-card{
+
+    align-items:center;
+
+    text-align:center;
+
+    min-height:250px;
+
+}
+
+.stat-card i{
+
+    width:76px;
+
+    height:76px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:rgba(124,58,237,.08);
+
+    color:var(--secondary);
+
+    font-size:2.2rem;
+
+    margin-bottom:22px;
+
+}
+
+.stat-card h3{
+
+    font-size:2.5rem;
+
+    margin-bottom:8px;
+
+    color:var(--primary);
+
+}
+
+.stat-card p{
+
+    color:var(--text-light);
+
+}
+
+/* ==========================================
+   COURSE CARD
+========================================== */
+
+.course-card{
+
+    min-height:360px;
+
+}
+
+.course-card h4{
+
+    margin-bottom:18px;
+
+}
+
+.course-meta{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:18px 0;
+
+    color:var(--text-light);
+
+    font-size:.92rem;
+
+}
+
+.course-level{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:max-content;
+
+    padding:6px 14px;
+
+    border-radius:var(--radius-pill);
+
+    background:rgba(37,99,235,.08);
+
+    color:var(--primary);
+
+    font-size:.9rem;
+
+    font-weight:var(--fw-semibold);
+
+}
+
+.course-card .primary-btn{
+
+    margin-top:auto;
+
+    align-self:flex-start;
+
+}
+
+/* ==========================================
+   RESOURCE CARD
+========================================== */
+
+.resource-card{
+
+    align-items:center;
+
+    text-align:center;
+
+    min-height:220px;
+
+}
+
+.resource-icon{
+
+    width:80px;
+
+    height:80px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:22px;
+
+    background:rgba(124,58,237,.08);
+
+    color:var(--secondary);
+
+    font-size:2rem;
+
+    margin-bottom:22px;
+
+}
+
+.resource-card h5{
+
+    margin-top:auto;
+
+    font-weight:var(--fw-bold);
+
+}
+
+/* ==========================================
+   INPUT
+========================================== */
+
+.mf-input{
+
+    width:100%;
+
+    padding:14px 18px;
+
+    border-radius:var(--radius-md);
+
+    border:1px solid var(--border);
+
+    outline:none;
+
+    transition:var(--transition);
+
+}
+
+.mf-input:focus{
+
+    border-color:var(--secondary);
+
+    box-shadow:0 0 0 4px rgba(124,58,237,.08);
+
+}

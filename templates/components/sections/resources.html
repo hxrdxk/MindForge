@@ -1,0 +1,68 @@
+<section class="resources-section">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="badge-ai">
+
+                <i class="bi bi-folder2-open me-2"></i>
+
+                Learning Resources
+
+            </span>
+
+            <h2 class="section-title mt-4">
+
+                Everything You Need In One Place
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                Access high-quality learning materials collected from multiple trusted sources.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% set resources = [
+
+            {"icon":"bi-camera-video","title":"Video Lectures"},
+            {"icon":"bi-file-earmark-pdf","title":"PDF Notes"},
+            {"icon":"bi-file-earmark-slides","title":"PPT Presentations"},
+            {"icon":"bi-file-earmark-text","title":"Study Notes"},
+            {"icon":"bi-stars","title":"AI Generated Notes"},
+            {"icon":"bi-patch-question","title":"Interview Questions"},
+            {"icon":"bi-journal-bookmark","title":"Previous Year Papers"},
+            {"icon":"bi-cloud-arrow-up","title":"Community Uploads"}
+
+            ] %}
+
+            {% for item in resources %}
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="glass-card resource-card">
+
+                    <div class="resource-icon">
+
+                        <i class="bi {{ item.icon }}"></i>
+
+                    </div>
+
+                    <h5>{{ item.title }}</h5>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>

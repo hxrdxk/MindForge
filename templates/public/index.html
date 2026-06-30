@@ -6,36 +6,14 @@
 
 {% block content %}
 
-<section class="py-5">
+{% include "components/sections/hero.html" %}
 
-    <div class="container text-center">
+{% include "components/sections/stats.html" %}
 
-        <img
-            src="{{ url_for('static', filename=brand.logo) }}"
-            width="120"
-            class="mb-4"
-            alt="MindForge Logo">
+{% include "components/sections/why.html" %}
 
-        <h1 class="display-3 fw-bold">
+{% include "components/sections/learning-paths.html" %}
 
-            {{ brand.name }}
-
-        </h1>
-
-        <p class="lead">
-
-            {{ brand.tagline }}
-
-        </p>
-
-        <p class="text-secondary">
-
-            {{ brand.description }}
-
-        </p>
-
-    </div>
-
-</section>
+{% include "components/sections/resources.html" %}
 
 {% endblock %}

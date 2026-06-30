@@ -1,12 +1,72 @@
-<nav class="navbar border-bottom bg-white">
+<nav class="mf-navbar">
 
     <div class="container">
 
-        <a class="navbar-brand fw-bold fs-3" href="/">
+        <div class="navbar-container">
 
-            {{ brand.name }}
+            <!-- Logo -->
 
-        </a>
+            <a href="/" class="mf-logo">
+
+                <img
+                    src="{{ url_for('static', filename=brand.logo) }}"
+                    alt="{{ brand.name }}">
+
+                <span>{{ brand.name }}</span>
+
+            </a>
+
+            <!-- Navigation -->
+
+            <ul class="mf-nav-links">
+
+                <li><a href="#">Courses</a></li>
+
+                <li><a href="#">Resources</a></li>
+
+                <li><a href="#">Community</a></li>
+
+                <li><a href="#">About</a></li>
+
+            </ul>
+
+            <!-- Right Side -->
+
+            <div class="mf-nav-actions">
+
+                <div class="mf-search">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Search courses...">
+
+                </div>
+
+                <a href="#" class="mf-login">
+
+                    Login
+
+                </a>
+
+                <a href="#" class="primary-btn">
+
+                    Get Started
+
+                </a>
+
+            </div>
+
+            <!-- Mobile -->
+
+            <button class="mf-mobile-toggle">
+
+                <i class="bi bi-list"></i>
+
+            </button>
+
+        </div>
 
     </div>
 

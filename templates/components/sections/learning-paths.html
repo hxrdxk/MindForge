@@ -1,0 +1,96 @@
+<section class="learning-section">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <span class="badge-ai">
+
+                <i class="bi bi-mortarboard me-2"></i>
+
+                Learning Paths
+
+            </span>
+
+            <h2 class="section-title mt-4">
+
+                Learn Computer Science Step by Step
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                Explore structured learning paths carefully designed to help
+                students master core Computer Science concepts through notes,
+                videos, quizzes and AI-powered guidance.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% set courses = [
+                {"icon":"bi-database","title":"Database Management Systems","level":"Beginner","units":"5 Units","resources":"42 Resources"},
+                {"icon":"bi-cup-hot","title":"Core Java","level":"Beginner","units":"8 Units","resources":"55 Resources"},
+                {"icon":"bi-filetype-py","title":"Python Programming","level":"Beginner","units":"6 Units","resources":"48 Resources"},
+                {"icon":"bi-diagram-3","title":"Data Structures & Algorithms","level":"Intermediate","units":"10 Units","resources":"70 Resources"},
+                {"icon":"bi-globe","title":"Web Development","level":"Intermediate","units":"8 Units","resources":"65 Resources"},
+                {"icon":"bi-cpu","title":"Operating Systems","level":"Beginner","units":"5 Units","resources":"35 Resources"}
+            ] %}
+
+            {% for course in courses %}
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="glass-card course-card">
+
+                    <div class="course-icon">
+                        <i class="bi {{ course.icon }}"></i>
+                    </div>
+
+                    <h4>{{ course.title }}</h4>
+
+                    <div class="course-meta">
+
+                        <span>{{ course.units }}</span>
+
+                        <span>{{ course.resources }}</span>
+
+                    </div>
+
+                    <span class="course-level">
+
+                        {{ course.level }}
+
+                    </span>
+
+                    <a href="#" class="primary-btn mt-4">
+
+                        Start Learning
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="text-center mt-5">
+
+            <a href="#" class="secondary-btn">
+
+                View All Courses
+
+                <i class="bi bi-arrow-right ms-2"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

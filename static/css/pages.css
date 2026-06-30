@@ -1,0 +1,278 @@
+/* ==========================================
+   HERO SECTION
+========================================== */
+
+.hero-section{
+
+    padding:120px 0 140px;
+
+    background:
+        radial-gradient(circle at top right,
+            rgba(124,58,237,.08),
+            transparent 35%),
+
+        radial-gradient(circle at bottom left,
+            rgba(37,99,235,.06),
+            transparent 35%);
+
+}
+
+.hero-title{
+
+    max-width:650px;
+
+    margin:28px 0;
+
+    font-size:4rem;
+
+    font-weight:var(--fw-black);
+
+    line-height:1.15;
+
+    padding-bottom:.18em;
+
+}
+
+.hero-title span{
+
+    display:block;
+
+    background:var(--gradient);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+    padding:.08em 0em;
+
+}
+
+.hero-description{
+
+    max-width:620px;
+
+    margin-bottom:42px;
+
+    font-size:1.1rem;
+
+    line-height:1.85;
+
+}
+
+.hero-buttons{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:18px;
+
+}
+
+.hero-visual{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.hero-circle{
+
+    width:500px;
+
+    height:500px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(circle,
+
+            rgba(124,58,237,.16),
+
+            rgba(37,99,235,.08),
+
+            transparent);
+
+}
+
+.hero-circle img{
+
+    width:240px;
+
+    animation:floatLogo 6s ease-in-out infinite;
+
+}
+
+@keyframes floatLogo{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
+
+}
+
+/* ==========================================
+   STATS SECTION
+========================================== */
+
+.stats-section{
+
+    padding:var(--section-padding) 0;
+
+    background:var(--gradient-light);
+
+}
+
+/* ==========================================
+   WHY SECTION
+========================================== */
+
+.why-section{
+
+    padding:var(--section-padding) 0;
+
+    background:#fff;
+
+}
+
+/* ==========================================
+   LEARNING SECTION
+========================================== */
+
+.learning-section{
+
+    padding:var(--section-padding) 0;
+
+    background:var(--surface-alt);
+
+}
+
+.course-icon{
+
+    width:74px;
+
+    height:74px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-bottom:22px;
+
+    border-radius:20px;
+
+    background:rgba(124,58,237,.08);
+
+    color:var(--secondary);
+
+    font-size:2rem;
+
+}
+
+/* ==========================================
+   RESOURCES
+========================================== */
+
+.resources-section{
+
+    padding:var(--section-padding) 0;
+
+    background:#fff;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:992px){
+
+    .hero-section{
+
+        text-align:center;
+
+        padding:90px 0;
+
+    }
+
+    .hero-title{
+
+        margin-inline:auto;
+
+        font-size:3rem;
+
+    }
+
+    .hero-description{
+
+        margin-inline:auto;
+
+    }
+
+    .hero-buttons{
+
+        justify-content:center;
+
+    }
+
+    .hero-circle{
+
+        width:380px;
+
+        height:380px;
+
+        margin-top:60px;
+
+    }
+
+    .hero-circle img{
+
+        width:190px;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .hero-title{
+
+        font-size:2.5rem;
+
+    }
+
+    .hero-circle{
+
+        width:300px;
+
+        height:300px;
+
+    }
+
+    .hero-circle img{
+
+        width:150px;
+
+    }
+
+}
