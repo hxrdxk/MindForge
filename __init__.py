@@ -41,6 +41,9 @@ def create_app():
     from routes.enrollment import enrollment_bp
     app.register_blueprint(enrollment_bp)
 
+    from routes.teacher_lessons import teacher_lessons_bp
+    app.register_blueprint(teacher_lessons_bp)
+
     @app.context_processor
     def inject_brand():
         return {

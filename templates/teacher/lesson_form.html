@@ -1,0 +1,149 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+
+{% if lesson %}
+Edit Lesson
+{% else %}
+Create Lesson
+{% endif %}
+
+| {{ brand.name }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-5">
+
+                    <h2 class="mb-4">
+
+                        {% if lesson %}
+
+                            Edit Lesson
+
+                        {% else %}
+
+                            Create Lesson
+
+                        {% endif %}
+
+                    </h2>
+
+                    <form method="POST">
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Lesson Title
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="title"
+                                class="form-control"
+                                required
+                                value="{{ lesson.title if lesson else '' }}">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Video URL
+
+                            </label>
+
+                            <input
+                                type="url"
+                                name="video_url"
+                                class="form-control"
+                                placeholder="https://youtube.com/..."
+                                value="{{ lesson.video_url if lesson else '' }}">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Lesson Content
+
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                rows="12"
+                                name="content">{{ lesson.content if lesson else '' }}</textarea>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Lesson Position
+
+                            </label>
+
+                            <input
+                                type="number"
+                                min="1"
+                                class="form-control"
+                                name="position"
+                                value="{{ lesson.position if lesson else 1 }}">
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a
+                                href="{{ url_for('teacher.modules',
+                                course_id=module.course.id) }}"
+                                class="btn btn-outline-secondary">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                class="primary-btn">
+
+                                {% if lesson %}
+
+                                    Save Changes
+
+                                {% else %}
+
+                                    Create Lesson
+
+                                {% endif %}
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

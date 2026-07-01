@@ -1,0 +1,133 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+
+{% if module %}
+Edit Module
+{% else %}
+Create Module
+{% endif %}
+
+| {{ brand.name }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-5">
+
+                    <h2 class="mb-4">
+
+                        {% if module %}
+
+                            Edit Module
+
+                        {% else %}
+
+                            Create Module
+
+                        {% endif %}
+
+                    </h2>
+
+                    <form method="POST">
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Module Title
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="title"
+                                class="form-control"
+                                required
+                                value="{{ module.title if module else '' }}">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Description
+
+                            </label>
+
+                            <textarea
+                                name="description"
+                                rows="5"
+                                class="form-control">{{ module.description if module else '' }}</textarea>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Position
+
+                            </label>
+
+                            <input
+                                type="number"
+                                min="1"
+                                name="position"
+                                class="form-control"
+                                value="{{ module.position if module else 1 }}">
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a
+                                href="{{ url_for('teacher.modules',
+                                course_id=course.id) }}"
+                                class="btn btn-outline-secondary">
+
+                                Cancel
+
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="primary-btn">
+
+                                {% if module %}
+
+                                    Save Changes
+
+                                {% else %}
+
+                                    Create Module
+
+                                {% endif %}
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

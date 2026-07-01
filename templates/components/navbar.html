@@ -46,15 +46,37 @@
 
                 {% if current_user.is_authenticated %}
 
-                    <a href="{{ url_for('student.dashboard') }}"
-                       class="mf-login">
+                    {% if current_user.role == "student" %}
 
-                        Dashboard
+                        <a href="{{ url_for('student.dashboard') }}"
+                        class="mf-login">
 
-                    </a>
+                            Dashboard
+
+                        </a>
+
+                    {% elif current_user.role == "teacher" %}
+
+                        <a href="{{ url_for('teacher.dashboard') }}"
+                        class="mf-login">
+
+                            Dashboard
+
+                        </a>
+
+                    {% elif current_user.role == "admin" %}
+
+                        <a href="#"
+                        class="mf-login">
+
+                            Dashboard
+
+                        </a>
+
+                    {% endif %}
 
                     <a href="{{ url_for('auth.logout') }}"
-                       class="primary-btn">
+                    class="primary-btn">
 
                         Logout
 
@@ -63,21 +85,21 @@
                 {% else %}
 
                     <a href="{{ url_for('auth.login') }}"
-                       class="mf-login">
+                    class="mf-login">
 
                         Login
 
                     </a>
 
                     <a href="{{ url_for('auth.register') }}"
-                       class="primary-btn">
+                    class="primary-btn">
 
                         Get Started
 
                     </a>
 
                 {% endif %}
-
+                
             </div>
 
             <!-- Mobile -->

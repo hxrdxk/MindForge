@@ -12,6 +12,12 @@ class Course(db.Model):
         primary_key=True,
     )
 
+    teacher_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id"),
+        nullable=False,
+    )
+
     title = db.Column(
         db.String(200),
         nullable=False,
@@ -71,6 +77,14 @@ class Course(db.Model):
         db.DateTime,
         default=datetime.utcnow,
         onupdate=datetime.utcnow,
+    )
+
+    teacher = db.relationship(
+        "User",
+        backref=db.backref(
+            "courses",
+            lazy=True,
+        ),
     )
 
     def __repr__(self):
