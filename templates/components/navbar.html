@@ -6,7 +6,7 @@
 
             <!-- Logo -->
 
-            <a href="/" class="mf-logo">
+            <a href="{{ url_for('main.home') }}" class="mf-logo">
 
                 <img
                     src="{{ url_for('static', filename=brand.logo) }}"
@@ -20,7 +20,7 @@
 
             <ul class="mf-nav-links">
 
-                <li><a href="#">Courses</a></li>
+                <li><a href="{{ url_for('course.index') }}">Courses</a></li>
 
                 <li><a href="#">Resources</a></li>
 
@@ -44,17 +44,39 @@
 
                 </div>
 
-                <a href="#" class="mf-login">
+                {% if current_user.is_authenticated %}
 
-                    Login
+                    <a href="{{ url_for('student.dashboard') }}"
+                       class="mf-login">
 
-                </a>
+                        Dashboard
 
-                <a href="#" class="primary-btn">
+                    </a>
 
-                    Get Started
+                    <a href="{{ url_for('auth.logout') }}"
+                       class="primary-btn">
 
-                </a>
+                        Logout
+
+                    </a>
+
+                {% else %}
+
+                    <a href="{{ url_for('auth.login') }}"
+                       class="mf-login">
+
+                        Login
+
+                    </a>
+
+                    <a href="{{ url_for('auth.register') }}"
+                       class="primary-btn">
+
+                        Get Started
+
+                    </a>
+
+                {% endif %}
 
             </div>
 

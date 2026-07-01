@@ -1,0 +1,253 @@
+/* ==========================================
+   AUTH PAGE
+========================================== */
+
+.auth-page{
+    min-height:100vh;
+    display:grid;
+    grid-template-columns:45% 55%;
+    background:
+        radial-gradient(circle at top left,rgba(124,58,237,.12),transparent 35%),
+        radial-gradient(circle at bottom right,rgba(37,99,235,.10),transparent 35%),
+        #fff;
+}
+
+/* ==========================================
+   LEFT PANEL
+========================================== */
+
+.auth-brand{
+    background:var(--gradient);
+    color:#fff;
+    padding:5rem;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.auth-brand::before{
+    content:"";
+    position:absolute;
+    width:520px;
+    height:520px;
+    right:-180px;
+    bottom:-180px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+}
+
+.auth-logo{
+    width:90px;
+    margin-bottom:32px;
+    object-fit:contain;
+}
+
+.auth-brand h1{
+    color:#fff;
+    font-size:3rem;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.auth-brand h2{
+    color:#fff;
+    font-size:2rem;
+    font-weight:700;
+    line-height:1.25;
+    margin-bottom:28px;
+}
+
+.auth-brand p{
+    color:rgba(255,255,255,.88);
+    font-size:1.05rem;
+    line-height:1.85;
+    max-width:470px;
+    margin-bottom:42px;
+}
+
+.auth-features{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.auth-feature{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-size:1rem;
+    font-weight:500;
+}
+
+.auth-feature i{
+    font-size:1.2rem;
+    width:24px;
+    text-align:center;
+}
+
+/* ==========================================
+   RIGHT PANEL
+========================================== */
+
+.auth-content{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:4rem 5rem 4rem 3rem;
+}
+
+.auth-card{
+    width:100%;
+    max-width:500px;
+    background:#fff;
+    border-radius:24px;
+    padding:48px;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow-lg);
+}
+
+.auth-card h2{
+    font-size:3rem;
+    font-weight:700;
+    margin-bottom:12px;
+}
+
+.auth-card p{
+    color:var(--text-light);
+    margin-bottom:32px;
+    line-height:1.7;
+}
+
+/* ==========================================
+   FORM
+========================================== */
+
+.auth-form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.auth-form label{
+    display:block;
+    margin-bottom:8px;
+    font-size:.95rem;
+    font-weight:600;
+    color:var(--text-light);
+}
+
+.auth-form input{
+    width:100%;
+    padding:15px 18px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    outline:none;
+    font-size:1rem;
+    transition:var(--transition);
+    background:#fff;
+}
+
+.auth-form input::placeholder{
+    color:#9aa5b1;
+}
+
+.auth-form input:focus{
+    border-color:var(--secondary);
+    box-shadow:0 0 0 4px rgba(124,58,237,.08);
+}
+
+.auth-submit{
+    margin-top:10px;
+    width:100%;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.auth-divider{
+    text-align:center;
+    margin:26px 0 18px;
+    color:var(--text-light);
+}
+
+.auth-footer{
+    text-align:center;
+}
+
+.auth-footer a{
+    color:var(--secondary);
+    font-weight:600;
+    transition:.3s;
+}
+
+.auth-footer a:hover{
+    color:var(--primary);
+}
+
+/* ==========================================
+   FLASH MESSAGES
+========================================== */
+
+.auth-flash{
+    margin-bottom:20px;
+    border-radius:12px;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:992px){
+
+    .auth-page{
+        grid-template-columns:1fr;
+    }
+
+    .auth-brand{
+        padding:4rem 3rem;
+    }
+
+    .auth-content{
+        padding:3rem 1.5rem;
+    }
+
+    .auth-card{
+        max-width:550px;
+    }
+
+}
+
+@media (max-width:576px){
+
+    .auth-brand{
+        padding:3rem 2rem;
+    }
+
+    .auth-logo{
+        width:72px;
+    }
+
+    .auth-brand h1{
+        font-size:2.4rem;
+    }
+
+    .auth-brand h2{
+        font-size:1.7rem;
+    }
+
+    .auth-content{
+        padding:2rem 1rem;
+    }
+
+    .auth-card{
+        padding:32px 24px;
+    }
+
+    .auth-card h2{
+        font-size:2.3rem;
+    }
+
+}

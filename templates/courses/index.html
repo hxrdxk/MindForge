@@ -1,0 +1,125 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Courses | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="learning-section">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+
+                Explore Courses
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                Learn industry-relevant skills through structured learning paths.
+
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% for course in courses %}
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="glass-card course-card">
+
+                    <div class="course-icon">
+
+                        <i class="bi bi-book"></i>
+
+                    </div>
+
+                    <h4>
+
+                        <a href="{{ url_for('course.details',
+                                            slug=course.slug) }}">
+
+                            {{ course.title }}
+
+                        </a>
+
+                    </h4>
+
+                    <p>
+
+                        {{ course.description }}
+
+                    </p>
+
+                    <div class="course-meta">
+
+                        <span>
+
+                            <i class="bi bi-grid"></i>
+
+                            {{ course.category }}
+
+                        </span>
+
+                    </div>
+
+                    <span class="badge-ai">
+
+                        {{ course.difficulty }}
+
+                    </span>
+
+                    <div class="mt-4">
+
+                        <a
+                            href="{{ url_for('course.details',
+                                            slug=course.slug) }}"
+                            class="primary-btn">
+
+                            View Course
+
+                        </a>
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="col-12">
+
+                <div class="glass-card text-center">
+
+                    <h3>
+
+                        No Courses Available
+
+                    </h3>
+
+                    <p>
+
+                        Courses published by teachers will appear here.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

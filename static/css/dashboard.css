@@ -1,0 +1,223 @@
+/* ==========================================
+   DASHBOARD LAYOUT
+========================================== */
+
+.dashboard{
+    display:flex;
+    min-height:calc(100vh - 76px);
+    background:#f8f9ff;
+}
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+.dashboard-sidebar{
+    width:270px;
+    background:#fff;
+    border-right:1px solid var(--border);
+    padding:32px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    flex-shrink:0;
+}
+
+.dashboard-sidebar-title{
+    font-size:.8rem;
+    font-weight:700;
+    color:var(--text-light);
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    margin:8px 0 12px;
+}
+
+.dashboard-nav{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.dashboard-nav a{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 16px;
+    border-radius:14px;
+    color:var(--text);
+    font-weight:600;
+    transition:var(--transition);
+}
+
+.dashboard-nav a i{
+    font-size:1.15rem;
+}
+
+.dashboard-nav a:hover{
+    background:rgba(124,58,237,.08);
+    color:var(--secondary);
+}
+
+.dashboard-nav a.active{
+    background:var(--gradient);
+    color:#fff;
+    box-shadow:var(--shadow-md);
+}
+
+/* ==========================================
+   MAIN CONTENT
+========================================== */
+
+.dashboard-main{
+    flex:1;
+    padding:40px;
+}
+
+.dashboard-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+}
+
+.dashboard-title h1{
+    font-size:2.2rem;
+    margin-bottom:8px;
+}
+
+.dashboard-title p{
+    color:var(--text-light);
+    margin:0;
+}
+
+.dashboard-profile{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.dashboard-avatar{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--gradient);
+    color:#fff;
+    font-weight:700;
+    font-size:1.1rem;
+}
+
+/* ==========================================
+   STATS GRID
+========================================== */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:24px;
+    margin-bottom:40px;
+}
+
+.dashboard-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:28px;
+    box-shadow:var(--shadow-sm);
+    transition:var(--transition);
+}
+
+.dashboard-card:hover{
+    transform:translateY(-6px);
+    box-shadow:var(--shadow-lg);
+}
+
+.dashboard-card-icon{
+    width:62px;
+    height:62px;
+    border-radius:18px;
+    background:rgba(124,58,237,.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--secondary);
+    font-size:1.6rem;
+    margin-bottom:18px;
+}
+
+.dashboard-card h3{
+    font-size:2rem;
+    margin-bottom:8px;
+}
+
+.dashboard-card p{
+    color:var(--text-light);
+    margin:0;
+}
+
+/* ==========================================
+   CONTENT CARD
+========================================== */
+
+.dashboard-section{
+    background:#fff;
+    border-radius:22px;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow-sm);
+    padding:32px;
+    margin-bottom:28px;
+}
+
+.dashboard-section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:24px;
+}
+
+.dashboard-section-header h2{
+    font-size:1.5rem;
+    margin:0;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:992px){
+
+    .dashboard{
+        flex-direction:column;
+    }
+
+    .dashboard-sidebar{
+        width:100%;
+        border-right:none;
+        border-bottom:1px solid var(--border);
+    }
+
+    .dashboard-main{
+        padding:24px;
+    }
+
+    .dashboard-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+}
+
+@media(max-width:576px){
+
+    .dashboard-main{
+        padding:18px;
+    }
+
+    .dashboard-card{
+        padding:22px;
+    }
+
+}

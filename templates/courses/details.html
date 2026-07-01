@@ -1,0 +1,70 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+{{ course.title }} | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="glass-card">
+
+        <span class="badge-ai">
+
+            {{ course.difficulty }}
+
+        </span>
+
+        <h1 class="mt-4">
+
+            {{ course.title }}
+
+        </h1>
+
+        <p class="mt-4">
+
+            {{ course.description }}
+
+        </p>
+
+        <div class="mt-4">
+
+            <strong>Category:</strong>
+
+            {{ course.category }}
+
+        </div>
+
+        <div class="mt-5">
+
+            {% if enrollment %}
+
+                <a
+                    href="{{ url_for('student.dashboard') }}"
+                    class="primary-btn">
+
+                    Continue Learning
+
+                </a>
+
+            {% else %}
+
+                <a
+                    href="{{ url_for('enrollment.enroll',
+                                     course_id=course.id) }}"
+                    class="primary-btn">
+
+                    Enroll Now
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,184 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Teacher Dashboard | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <main class="dashboard-main">
+
+        <div class="dashboard-header">
+
+            <div class="dashboard-title">
+
+                <h1>Teacher Dashboard</h1>
+
+                <p>
+
+                    Manage your courses and students.
+
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('teacher.create_course') }}"
+                class="primary-btn">
+
+                Create Course
+
+            </a>
+
+        </div>
+
+        <div class="dashboard-grid">
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-card-icon">
+
+                    <i class="bi bi-book"></i>
+
+                </div>
+
+                <h3>{{ total_courses }}</h3>
+
+                <p>Total Courses</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-card-icon">
+
+                    <i class="bi bi-check-circle"></i>
+
+                </div>
+
+                <h3>{{ published_courses }}</h3>
+
+                <p>Published Courses</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-card-icon">
+
+                    <i class="bi bi-people"></i>
+
+                </div>
+
+                <h3>{{ total_students }}</h3>
+
+                <p>Total Enrollments</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-card-icon">
+
+                    <i class="bi bi-graph-up"></i>
+
+                </div>
+
+                <h3>{{ average_progress }}%</h3>
+
+                <p>Average Progress</p>
+
+            </div>
+
+        </div>
+
+        <section class="dashboard-section">
+
+            <div class="dashboard-section-header">
+
+                <h2>Your Courses</h2>
+
+            </div>
+
+            {% if courses %}
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Course</th>
+                            <th>Category</th>
+                            <th>Difficulty</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for course in courses %}
+
+                        <tr>
+
+                            <td>{{ course.title }}</td>
+
+                            <td>{{ course.category }}</td>
+
+                            <td>{{ course.difficulty }}</td>
+
+                            <td>
+
+                                {% if course.is_published %}
+
+                                    <span class="badge bg-success">
+
+                                        Published
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        Draft
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <p>
+
+                    No courses created yet.
+
+                </p>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

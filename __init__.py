@@ -3,8 +3,8 @@ from datetime import datetime
 from flask import Flask
 
 from config import Config
-from extensions import db, migrate
-
+from extensions import db, login_manager
+from models.user import User
 
 def create_app():
 
@@ -13,10 +13,33 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
-    migrate.init_app(app, db)
+    login_manager.init_app(app)
 
+    with app.app_context():
+        db.create_all()
+
+    @login_manager.user_loader
+    def load_user(user_id):
+
+        return db.session.get(User, int(user_id))
+    
     from routes.main import main_bp
     app.register_blueprint(main_bp)
+
+    from routes.auth import auth_bp
+    app.register_blueprint(auth_bp)
+
+    from routes.student import student_bp
+    app.register_blueprint(student_bp)
+
+    from routes.teacher import teacher_bp
+    app.register_blueprint(teacher_bp)
+
+    from routes.course import course_bp
+    app.register_blueprint(course_bp)
+
+    from routes.enrollment import enrollment_bp
+    app.register_blueprint(enrollment_bp)
 
     @app.context_processor
     def inject_brand():

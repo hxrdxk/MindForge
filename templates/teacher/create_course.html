@@ -1,0 +1,117 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Create Course | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="col-lg-8 mx-auto">
+
+        <h1 class="mb-4">
+
+            Create New Course
+
+        </h1>
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Course Title
+
+                </label>
+
+                <input
+                    type="text"
+                    name="title"
+                    class="form-control"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Slug
+
+                </label>
+
+                <input
+                    type="text"
+                    name="slug"
+                    class="form-control"
+                    placeholder="python-programming"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Category
+
+                </label>
+
+                <input
+                    type="text"
+                    name="category"
+                    class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Difficulty
+
+                </label>
+
+                <select
+                    name="difficulty"
+                    class="form-select">
+
+                    <option>Beginner</option>
+                    <option>Intermediate</option>
+                    <option>Advanced</option>
+
+                </select>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Description
+
+                </label>
+
+                <textarea
+                    name="description"
+                    rows="6"
+                    class="form-control"></textarea>
+
+            </div>
+
+            <button
+                class="primary-btn">
+
+                Create Course
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
