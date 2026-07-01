@@ -39,6 +39,15 @@ class Enrollment(db.Model):
         default=datetime.utcnow,
     )
 
+    last_lesson_id = db.Column(
+        db.Integer,
+        db.ForeignKey("lessons.id"),
+    )
+
+    last_accessed = db.Column(
+        db.DateTime,
+    )
+
     user = db.relationship(
         "User",
         backref=db.backref(

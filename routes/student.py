@@ -5,6 +5,7 @@ from flask_login import current_user
 from utils.decorators import student_required
 from models.enrollment import Enrollment
 from models.course import Course
+from models.lesson import Lesson
 
 student_bp = Blueprint(
     "student",
@@ -79,4 +80,52 @@ def course_curriculum(course_id):
         "student/course_curriculum.html",
         course=course,
         enrollment=enrollment,
+    )
+
+@student_bp.route("/lessons/<int:lesson_id>")
+@student_required
+def lesson_view(lesson_id):
+
+    lesson = Lesson.query.get_or_404(lesson_id)
+
+    enrollment = Enrollment.query.filter_by(
+        user_id=current_user.id,
+        course_id=lesson.module.course.id,
+    ).first_or_404()
+
+    modules = lesson.module.course.modules
+
+    lessons = []
+
+    for module in modules:
+        lessons.extend(module.lessons)
+
+    lessons = sorted(
+        lessons,
+        key=lambda l: (
+            l.module.position,
+            l.position,
+        ),
+    )
+
+    current_index = lessons.index(lesson)
+
+    previous_lesson = (
+        lessons[current_index - 1]
+        if current_index > 0
+        else None
+    )
+
+    next_lesson = (
+        lessons[current_index + 1]
+        if current_index < len(lessons) - 1
+        else None
+    )
+
+    return render_template(
+        "student/lesson_view.html",
+        lesson=lesson,
+        enrollment=enrollment,
+        previous_lesson=previous_lesson,
+        next_lesson=next_lesson,
     )

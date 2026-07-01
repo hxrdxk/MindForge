@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+{{ lesson.title }} | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <a
+        href="{{ url_for(
+            'student.course_curriculum',
+            course_id=lesson.module.course.id
+        ) }}"
+        class="btn btn-outline-secondary mb-4">
+
+        ← Back to Curriculum
+
+    </a>
+
+    <h1>{{ lesson.title }}</h1>
+
+    <p class="text-muted">
+
+        {{ lesson.module.title }}
+
+    </p>
+
+    {% if lesson.video_url %}
+
+    <div class="ratio ratio-16x9 mb-4">
+
+        <iframe
+            src="{{ lesson.video_url }}"
+            allowfullscreen>
+
+        </iframe>
+
+    </div>
+
+    {% endif %}
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            {{ lesson.content|safe }}
+
+        </div>
+
+    </div>
+
+    <div class="d-flex justify-content-between">
+
+        {% if previous_lesson %}
+
+        <a
+            href="{{ url_for(
+                'student.lesson_view',
+                lesson_id=previous_lesson.id
+            ) }}"
+            class="btn btn-outline-primary">
+
+            ← Previous
+
+        </a>
+
+        {% else %}
+
+        <div></div>
+
+        {% endif %}
+
+        {% if next_lesson %}
+
+        <a
+            href="{{ url_for(
+                'student.lesson_view',
+                lesson_id=next_lesson.id
+            ) }}"
+            class="primary-btn">
+
+            Next →
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
