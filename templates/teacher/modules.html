@@ -50,106 +50,131 @@ Modules | {{ course.title }}
 
     {% if modules %}
 
-    <div class="card shadow-sm">
+        {% for module in modules %}
 
-        <div class="table-responsive">
+        <div class="card shadow-sm mb-4">
 
-            <table class="table align-middle mb-0">
+            <div class="card-body">
 
-                <thead>
+                <div class="d-flex justify-content-between align-items-start">
 
-                    <tr>
+                    <div>
 
-                        <th width="80">
+                        <h4>
 
-                            Order
+                            📘 {{ module.position }}.
+                            {{ module.title }}
 
-                        </th>
+                        </h4>
 
-                        <th>
-
-                            Module
-
-                        </th>
-
-                        <th>
-
-                            Description
-
-                        </th>
-
-                        <th width="170">
-
-                            Actions
-
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {% for module in modules %}
-
-                    <tr>
-
-                        <td>
-
-                            {{ module.position }}
-
-                        </td>
-
-                        <td>
-
-                            <strong>
-
-                                {{ module.title }}
-
-                            </strong>
-
-                        </td>
-
-                        <td>
+                        <p class="text-muted mb-3">
 
                             {{ module.description }}
 
-                        </td>
+                        </p>
 
-                        <td>
+                    </div>
 
-                            <a
-                                href="{{ url_for('teacher.edit_module',
-                                module_id=module.id) }}"
-                                class="btn btn-sm btn-outline-primary">
+                    <div>
 
-                                Edit
+                        <a
+                            href="{{ url_for('teacher.edit_module',
+                            module_id=module.id) }}"
+                            class="btn btn-sm btn-outline-primary">
 
-                            </a>
+                            Edit Module
 
-                            <a
-                                href="{{ url_for('teacher.delete_module',
-                                module_id=module.id) }}"
-                                class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Delete this module?')">
+                        </a>
 
-                                Delete
+                        <a
+                            href="{{ url_for('teacher.delete_module',
+                            module_id=module.id) }}"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Delete this module?')">
 
-                            </a>
+                            Delete
 
-                        </td>
+                        </a>
 
-                    </tr>
+                    </div>
 
-                    {% endfor %}
+                </div>
 
-                </tbody>
+                <hr>
 
-            </table>
+                {% if module.lessons %}
+
+                    <div class="list-group mb-3">
+
+                        {% for lesson in module.lessons %}
+
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <strong>
+
+                                    {{ lesson.position }}.
+
+                                </strong>
+
+                                {{ lesson.title }}
+
+                            </div>
+
+                            <div>
+
+                                <a
+                                    href="{{ url_for('teacher_lessons.edit_lesson',
+                                    lesson_id=lesson.id) }}"
+                                    class="btn btn-sm btn-outline-primary">
+
+                                    Edit
+
+                                </a>
+
+                                <a
+                                    href="{{ url_for('teacher_lessons.delete_lesson',
+                                    lesson_id=lesson.id) }}"
+                                    class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Delete this lesson?')">
+
+                                    Delete
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="alert alert-light">
+
+                        No lessons added yet.
+
+                    </div>
+
+                {% endif %}
+
+                <a
+                    href="{{ url_for('teacher_lessons.create_lesson',
+                    module_id=module.id) }}"
+                    class="primary-btn">
+
+                    + Add Lesson
+
+                </a>
+
+            </div>
 
         </div>
 
-    </div>
+        {% endfor %}
 
     {% else %}
 

@@ -1,0 +1,110 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+{{ course.title }} | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1>{{ course.title }}</h1>
+
+            <p class="text-muted">
+
+                {{ course.description }}
+
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('student.my_courses') }}"
+            class="btn btn-outline-secondary">
+
+            Back
+
+        </a>
+
+    </div>
+
+    <div class="mb-4">
+
+        <strong>Course Progress</strong>
+
+        <div class="progress mt-2">
+
+            <div
+                class="progress-bar"
+                style="width: {{ enrollment.progress }}%;">
+
+                {{ enrollment.progress }}%
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% for module in course.modules %}
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h4>
+
+                📘 {{ module.title }}
+
+            </h4>
+
+            <p class="text-muted">
+
+                {{ module.description }}
+
+            </p>
+
+            {% if module.lessons %}
+
+            <div class="list-group">
+
+                {% for lesson in module.lessons %}
+
+                <a
+                    href="{{ url_for(
+                        'student.lesson_view',
+                        lesson_id=lesson.id
+                    ) }}"
+                    class="list-group-item list-group-item-action">
+
+                    ▶ {{ lesson.title }}
+
+                </a>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-light">
+
+                No lessons available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
