@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask
 
 from config import Config
-from extensions import db, login_manager
+from extensions import db, migrate, login_manager
 from models.user import User
 
 def create_app():
@@ -13,10 +13,8 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
+    migrate.init_app(app, db)
     login_manager.init_app(app)
-
-    with app.app_context():
-        db.create_all()
 
     @login_manager.user_loader
     def load_user(user_id):
