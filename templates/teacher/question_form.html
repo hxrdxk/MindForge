@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+{{ quiz.title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<h2>{{ quiz.title }}</h2>
+
+<p>
+
+{{ quiz.description }}
+
+</p>
+
+<hr>
+
+<h4>
+
+Questions
+
+</h4>
+
+{% if quiz.questions %}
+
+<ul class="list-group">
+
+{% for question in quiz.questions %}
+
+<li class="list-group-item">
+
+{{ question.position }}.
+
+{{ question.question_text }}
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>
+
+No questions yet.
+
+</p>
+
+{% endif %}
+
+<a
+href="#"
+class="primary-btn mt-4">
+
++ Add Question
+
+</a>
+
+</div>
+
+{% endblock %}

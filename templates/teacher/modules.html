@@ -170,6 +170,34 @@ Modules | {{ course.title }}
 
                 </a>
 
+                {% if module.quiz %}
+
+                <a
+                    href="{{ url_for(
+                        'teacher.manage_quiz',
+                        quiz_id=module.quiz.id
+                    ) }}"
+                    class="btn btn-outline-success mt-2">
+
+                    Manage Quiz
+
+                </a>
+
+                {% else %}
+
+                <a
+                    href="{{ url_for(
+                        'teacher.create_quiz',
+                        module_id=module.id
+                    ) }}"
+                    class="btn btn-outline-primary mt-2">
+
+                    + Create Quiz
+
+                </a>
+
+                {% endif %}
+
             </div>
 
         </div>

@@ -1,0 +1,60 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Create Quiz
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<h2>Create Quiz</h2>
+
+<form method="POST">
+
+<div class="mb-3">
+
+<label>Quiz Title</label>
+
+<input
+class="form-control"
+name="title"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Description</label>
+
+<textarea
+class="form-control"
+name="description"></textarea>
+
+</div>
+
+<div class="mb-3">
+
+<label>Passing Score (%)</label>
+
+<input
+type="number"
+class="form-control"
+name="passing_score"
+value="70"
+min="1"
+max="100">
+
+</div>
+
+<button class="primary-btn">
+
+Create Quiz
+
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}
