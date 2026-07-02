@@ -82,8 +82,15 @@ My Courses | {{ brand.name }}
                             ) }}"
                             class="primary-btn w-100">
 
+                            {% if enrollment.completed %}
+
+                            Review Course
+
+                            {% else %}
+
                             Continue Learning
 
+                            {% endif %}
                         </a>
 
                     </div>

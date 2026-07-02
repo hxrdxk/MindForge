@@ -45,12 +45,19 @@ class LessonProgress(db.Model):
     lesson = db.relationship(
         "Lesson",
         backref=db.backref(
-            "progress",
+            "lesson_progress",
             lazy=True,
-            cascade="all, delete-orphan",
         ),
     )
 
+    __table_args__ = (
+        db.UniqueConstraint(
+            "enrollment_id",
+            "lesson_id",
+            name="uq_enrollment_lesson",
+        ),
+    )
+    
     def mark_complete(self):
 
         self.completed = True

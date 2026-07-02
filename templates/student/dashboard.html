@@ -29,7 +29,7 @@ Student Dashboard | {{ brand.name }}
                 <i class="bi bi-book"></i>
                 My Courses
             </a>
-            
+
             <a href="#">
                 <i class="bi bi-journal-bookmark"></i>
                 Resources
@@ -179,8 +179,20 @@ Student Dashboard | {{ brand.name }}
 
                 <li class="list-group-item">
 
-                    {{ enrollment.course.title }}
+                    <strong>
 
+                        {{ enrollment.course.title }}
+
+                    </strong>
+
+                    <br>
+
+                    <small class="text-muted">
+
+                        {{ enrollment.progress }}% Complete
+
+                    </small>
+                    
                     <span class="float-end">
 
                         {{ enrollment.progress }}%

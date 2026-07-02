@@ -1,11 +1,13 @@
-from flask import Blueprint
-from flask import render_template
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required
 from flask_login import current_user
 from utils.decorators import student_required
 from models.enrollment import Enrollment
 from models.course import Course
 from models.lesson import Lesson
+from datetime import datetime
+from models.lesson_progress import LessonProgress
+from extensions import db
 
 student_bp = Blueprint(
     "student",
@@ -13,6 +15,43 @@ student_bp = Blueprint(
     url_prefix="/student",
 )
 
+def update_course_progress(enrollment):
+
+    total_lessons = sum(
+        len(module.lessons)
+        for module in enrollment.course.modules
+    )
+
+    completed_lessons = LessonProgress.query.filter_by(
+        enrollment_id=enrollment.id,
+        completed=True,
+    ).count()
+
+    if total_lessons == 0:
+
+        enrollment.progress = 0
+        enrollment.completed = False
+
+    else:
+
+        enrollment.progress = round(
+            completed_lessons / total_lessons * 100,
+            1,
+        )
+
+        enrollment.completed = (
+            completed_lessons == total_lessons
+        )
+
+    db.session.commit()
+
+def get_completed_lessons(enrollment):
+
+    return {
+        progress.lesson_id
+        for progress in enrollment.lesson_progress
+        if progress.completed
+    }
 
 @student_bp.route("/dashboard")
 @student_required
@@ -76,10 +115,15 @@ def course_curriculum(course_id):
 
     course = Course.query.get_or_404(course_id)
 
+    completed_lessons = get_completed_lessons(
+        enrollment
+    )
+
     return render_template(
         "student/course_curriculum.html",
         course=course,
         enrollment=enrollment,
+        completed_lessons=completed_lessons,
     )
 
 @student_bp.route("/lessons/<int:lesson_id>")
@@ -122,10 +166,63 @@ def lesson_view(lesson_id):
         else None
     )
 
+    completed = LessonProgress.query.filter_by(
+        enrollment_id=enrollment.id,
+        lesson_id=lesson.id,
+        completed=True,
+    ).first()
+    
     return render_template(
         "student/lesson_view.html",
         lesson=lesson,
         enrollment=enrollment,
         previous_lesson=previous_lesson,
         next_lesson=next_lesson,
+        completed=completed,
+    )
+
+@student_bp.route(
+    "/lessons/<int:lesson_id>/complete",
+    methods=["POST"],
+)
+@student_required
+def complete_lesson(lesson_id):
+
+    lesson = Lesson.query.get_or_404(lesson_id)
+
+    enrollment = Enrollment.query.filter_by(
+        user_id=current_user.id,
+        course_id=lesson.module.course.id,
+    ).first_or_404()
+
+    progress = LessonProgress.query.filter_by(
+        enrollment_id=enrollment.id,
+        lesson_id=lesson.id,
+    ).first()
+
+    if progress is None:
+
+        progress = LessonProgress(
+            enrollment_id=enrollment.id,
+            lesson_id=lesson.id,
+        )
+
+        db.session.add(progress)
+
+    progress.mark_complete()
+
+    update_course_progress(enrollment)
+
+    db.session.commit()
+
+    flash(
+        "Lesson marked as completed.",
+        "success",
+    )
+
+    return redirect(
+        url_for(
+            "student.lesson_view",
+            lesson_id=lesson.id,
+        )
     )

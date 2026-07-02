@@ -51,6 +51,34 @@
 
     </div>
 
+    {% if completed %}
+
+    <div class="alert alert-success mb-4">
+
+        ✓ Lesson Completed
+
+    </div>
+
+    {% else %}
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'student.complete_lesson',
+            lesson_id=lesson.id
+        ) }}"
+        class="mb-4">
+
+        <button class="primary-btn">
+
+            ✓ Mark as Complete
+
+        </button>
+
+    </form>
+
+    {% endif %}
+
     <div class="d-flex justify-content-between">
 
         {% if previous_lesson %}
