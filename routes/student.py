@@ -220,9 +220,44 @@ def complete_lesson(lesson_id):
         "success",
     )
 
+    next_lesson = None
+
+    modules = lesson.module.course.modules
+
+    all_lessons = []
+
+    for module in sorted(modules, key=lambda m: m.position):
+        all_lessons.extend(
+            sorted(
+                module.lessons,
+                key=lambda l: l.position,
+            )
+        )
+
+    current_index = all_lessons.index(lesson)
+
+    if current_index < len(all_lessons) - 1:
+        next_lesson = all_lessons[current_index + 1]
+
+    db.session.commit()
+
+    if next_lesson:
+
+        return redirect(
+            url_for(
+                "student.lesson_view",
+                lesson_id=next_lesson.id,
+            )
+        )
+
+    flash(
+        "🎉 Congratulations! You have completed this course.",
+        "success",
+    )
+
     return redirect(
         url_for(
-            "student.lesson_view",
-            lesson_id=lesson.id,
+            "student.course_curriculum",
+            course_id=lesson.module.course.id,
         )
     )
