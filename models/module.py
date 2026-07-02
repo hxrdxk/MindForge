@@ -48,6 +48,13 @@ class Module(db.Model):
         ),
     )
 
+    quiz = db.relationship(
+        "Quiz",
+        back_populates="module",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
+
     def __repr__(self):
 
         return f"<Module {self.title}>"
