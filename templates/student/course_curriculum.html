@@ -68,6 +68,33 @@
 
             </p>
 
+            {% if module.quiz and module.quiz.is_published %}
+
+            <div class="mb-3">
+
+                <a
+                    href="{{ url_for(
+                        'student.take_quiz',
+                        quiz_id=module.quiz.id
+                    ) }}"
+                    class="btn btn-success btn-sm">
+
+                    📝 Take Quiz
+
+                </a>
+
+            </div>
+
+            {% elif module.quiz %}
+
+            <div class="alert alert-warning py-2">
+
+                Quiz not published yet.
+
+            </div>
+
+            {% endif %}
+
             {% if module.lessons %}
 
             <div class="list-group">
@@ -94,7 +121,7 @@
                     ▶ {{ lesson.title }}
 
                     {% endif %}
-                    
+
                 </a>
 
                 {% endfor %}

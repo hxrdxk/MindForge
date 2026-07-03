@@ -13,9 +13,6 @@ from models.course import Course
 from models.enrollment import Enrollment
 from models.module import Module
 from utils.decorators import teacher_required
-from models.quiz import Quiz
-from models.question import Question
-from models.option import Option
 
 teacher_bp = Blueprint(
     "teacher",
@@ -319,73 +316,5 @@ def delete_module(module_id):
             "teacher.modules",
             course_id=course_id,
         )
-    )
-
-@teacher_bp.route(
-    "/modules/<int:module_id>/quiz",
-    methods=["GET", "POST"],
-)
-@teacher_required
-def create_quiz(module_id):
-
-    module = Module.query.get_or_404(module_id)
-
-    if module.course.teacher_id != current_user.id:
-        return redirect(url_for("teacher.dashboard"))
-
-    quiz = module.quiz
-
-    if quiz:
-        return redirect(
-            url_for(
-                "teacher.manage_quiz",
-                quiz_id=quiz.id,
-            )
-        )
-
-    if request.method == "POST":
-
-        quiz = Quiz(
-            module_id=module.id,
-            title=request.form["title"],
-            description=request.form["description"],
-            passing_score=int(
-                request.form["passing_score"]
-            ),
-            is_published=False,
-        )
-
-        db.session.add(quiz)
-        db.session.commit()
-
-        flash(
-            "Quiz created successfully.",
-            "success",
-        )
-
-        return redirect(
-            url_for(
-                "teacher.manage_quiz",
-                quiz_id=quiz.id,
-            )
-        )
-
-    return render_template(
-        "teacher/quiz_form.html",
-        module=module,
-    )
-
-@teacher_bp.route("/quiz/<int:quiz_id>")
-@teacher_required
-def manage_quiz(quiz_id):
-
-    quiz = Quiz.query.get_or_404(quiz_id)
-
-    if quiz.module.course.teacher_id != current_user.id:
-        return redirect(url_for("teacher.dashboard"))
-
-    return render_template(
-        "teacher/question_form.html",
-        quiz=quiz,
     )
 

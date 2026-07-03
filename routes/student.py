@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
 from flask_login import current_user
 from utils.decorators import student_required
@@ -8,6 +8,11 @@ from models.lesson import Lesson
 from datetime import datetime
 from models.lesson_progress import LessonProgress
 from extensions import db
+from models.quiz import Quiz
+from models.quiz_attempt import QuizAttempt
+from models.answer import Answer
+from models.option import Option
+from models.question import Question
 
 student_bp = Blueprint(
     "student",
@@ -260,4 +265,120 @@ def complete_lesson(lesson_id):
             "student.course_curriculum",
             course_id=lesson.module.course.id,
         )
+    )
+
+@student_bp.route(
+    "/quiz/<int:quiz_id>",
+    methods=["GET", "POST"],
+)
+@student_required
+def take_quiz(quiz_id):
+
+    quiz = Quiz.query.get_or_404(quiz_id)
+
+    if not quiz.is_published:
+
+        flash(
+            "This quiz is not available.",
+            "warning",
+        )
+
+        return redirect(
+            url_for(
+                "student.course_curriculum",
+                course_id=quiz.module.course.id,
+            )
+        )
+
+    enrollment = Enrollment.query.filter_by(
+        user_id=current_user.id,
+        course_id=quiz.module.course.id,
+    ).first_or_404()
+
+    if request.method == "POST":
+
+        attempt = QuizAttempt(
+            enrollment_id=enrollment.id,
+            quiz_id=quiz.id,
+        )
+
+        db.session.add(attempt)
+        db.session.flush()
+
+        total_points = 0
+        earned_points = 0
+
+        for question in quiz.questions:
+
+            selected = request.form.get(
+                f"question_{question.id}"
+            )
+
+            if not selected:
+                continue
+
+            selected_option = Option.query.get(
+                int(selected)
+            )
+
+            correct = selected_option.is_correct
+
+            if correct:
+                earned_points += question.points
+
+            total_points += question.points
+
+            db.session.add(
+                Answer(
+                    attempt_id=attempt.id,
+                    question_id=question.id,
+                    selected_option_id=selected_option.id,
+                    is_correct=correct,
+                )
+            )
+
+        if total_points:
+
+            score = round(
+                earned_points / total_points * 100,
+                1,
+            )
+
+        else:
+
+            score = 0
+
+        attempt.score = score
+
+        attempt.passed = (
+            score >= quiz.passing_score
+        )
+
+        db.session.commit()
+
+        return redirect(
+            url_for(
+                "student.quiz_result",
+                attempt_id=attempt.id,
+            )
+        )
+
+    return render_template(
+        "student/quiz.html",
+        quiz=quiz,
+    )
+
+@student_bp.route(
+    "/quiz/result/<int:attempt_id>"
+)
+@student_required
+def quiz_result(attempt_id):
+
+    attempt = QuizAttempt.query.get_or_404(
+        attempt_id
+    )
+
+    return render_template(
+        "student/quiz_result.html",
+        attempt=attempt,
     )

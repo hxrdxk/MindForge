@@ -1,0 +1,120 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Add Question | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="col-lg-8 mx-auto">
+
+        <h2 class="mb-4">
+
+            Add Question
+
+        </h2>
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Question
+
+                </label>
+
+                <textarea
+                    name="question_text"
+                    class="form-control"
+                    rows="4"
+                    required></textarea>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Question Type
+
+                </label>
+
+                <select
+                    name="question_type"
+                    class="form-select">
+
+                    <option value="mcq">
+
+                        Multiple Choice
+
+                    </option>
+
+                    <option value="true_false">
+
+                        True / False
+
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Points
+
+                    </label>
+
+                    <input
+                        type="number"
+                        name="points"
+                        class="form-control"
+                        value="1"
+                        min="1">
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="form-label">
+
+                        Position
+
+                    </label>
+
+                    <input
+                        type="number"
+                        name="position"
+                        class="form-control"
+                        value="1"
+                        min="1">
+
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+
+                <button
+                    class="primary-btn">
+
+                    Create Question
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

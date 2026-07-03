@@ -174,7 +174,7 @@ Modules | {{ course.title }}
 
                 <a
                     href="{{ url_for(
-                        'teacher.manage_quiz',
+                        'teacher_quiz.manage_quiz',
                         quiz_id=module.quiz.id
                     ) }}"
                     class="btn btn-outline-success mt-2">
@@ -187,7 +187,7 @@ Modules | {{ course.title }}
 
                 <a
                     href="{{ url_for(
-                        'teacher.create_quiz',
+                        'teacher_quiz.create_quiz',
                         module_id=module.id
                     ) }}"
                     class="btn btn-outline-primary mt-2">
@@ -225,7 +225,7 @@ Modules | {{ course.title }}
             </p>
 
             <a
-                href="{{ url_for('teacher.create_module',
+                href="{{ url_for('teacher_quiz.create_module',
                 course_id=course.id) }}"
                 class="primary-btn">
 

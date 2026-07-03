@@ -1,0 +1,100 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Edit Question | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="col-lg-8 mx-auto">
+
+        <h2 class="mb-4">
+
+            Edit Question
+
+        </h2>
+
+        <form method="POST">
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Question
+
+                </label>
+
+                <textarea
+                    name="question_text"
+                    class="form-control"
+                    rows="3"
+                    required>{{ question.question_text }}</textarea>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Points
+
+                </label>
+
+                <input
+                    type="number"
+                    name="points"
+                    class="form-control"
+                    value="{{ question.points }}"
+                    min="1">
+
+            </div>
+
+            <hr>
+
+            <h4 class="mb-3">
+
+                Options
+
+            </h4>
+
+            {% for option in question.options %}
+
+            <div class="input-group mb-3">
+
+                <div class="input-group-text">
+
+                    <input
+                        class="form-check-input mt-0"
+                        type="radio"
+                        name="correct_option"
+                        value="{{ option.id }}"
+                        {% if option.is_correct %}checked{% endif %}>
+
+                </div>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="option_{{ option.id }}"
+                    value="{{ option.option_text }}"
+                    required>
+
+            </div>
+
+            {% endfor %}
+
+            <button class="primary-btn">
+
+                Save Question
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

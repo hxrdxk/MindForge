@@ -8,3 +8,5 @@ from .lesson_progress import LessonProgress
 from .quiz import Quiz
 from .question import Question
 from .option import Option
+from .quiz_attempt import QuizAttempt
+from .answer import Answer

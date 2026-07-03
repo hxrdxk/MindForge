@@ -16,6 +16,57 @@
 
 </p>
 
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        {% if quiz.is_published %}
+
+        <span class="badge bg-success">
+
+            Published
+
+        </span>
+
+        {% else %}
+
+        <span class="badge bg-warning text-dark">
+
+            Draft
+
+        </span>
+
+        {% endif %}
+
+    </div>
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'teacher_quiz.publish_quiz',
+            quiz_id=quiz.id
+        ) }}">
+
+        <button
+            type="submit"
+            class="btn btn-outline-primary">
+
+            {% if quiz.is_published %}
+
+            Unpublish
+
+            {% else %}
+
+            Publish Quiz
+
+            {% endif %}
+
+        </button>
+
+    </form>
+
+</div>
+
 <hr>
 
 <h4>
@@ -34,7 +85,49 @@ Questions
 
 {{ question.position }}.
 
-{{ question.question_text }}
+<div class="d-flex justify-content-between align-items-center">
+
+    <div>
+
+        <strong>
+
+            {{ question.position }}.
+            {{ question.question_text }}
+
+        </strong>
+
+        <br>
+
+        <small class="text-muted">
+
+            {% if question.question_type == "mcq" %}
+
+                Multiple Choice
+
+            {% else %}
+
+                True / False
+
+            {% endif %}
+
+            • {{ question.options|length }} Options
+
+        </small>
+
+    </div>
+
+    <a
+        href="{{ url_for(
+            'teacher_quiz.edit_question',
+            question_id=question.id
+        ) }}"
+        class="btn btn-outline-primary btn-sm">
+
+        Edit
+
+    </a>
+
+</div>
 
 </li>
 
@@ -53,8 +146,11 @@ No questions yet.
 {% endif %}
 
 <a
-href="#"
-class="primary-btn mt-4">
+href="{{ url_for(
+'teacher_quiz.add_question',
+quiz_id=quiz.id
+) }}"
+class="primary-btn">
 
 + Add Question
 
