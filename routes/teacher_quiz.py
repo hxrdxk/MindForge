@@ -14,6 +14,7 @@ from utils.decorators import teacher_required
 from models.quiz import Quiz
 from models.question import Question
 from models.option import Option
+from models.quiz_attempt import QuizAttempt
 
 teacher_quiz_bp = Blueprint(
     "teacher_quiz",
@@ -82,11 +83,70 @@ def manage_quiz(quiz_id):
     quiz = Quiz.query.get_or_404(quiz_id)
 
     if quiz.module.course.teacher_id != current_user.id:
-        return redirect(url_for("teacher.dashboard"))
+        return redirect(
+            url_for("teacher.dashboard")
+        )
+
+    attempts = (
+        QuizAttempt.query.filter_by(
+            quiz_id=quiz.id
+        )
+        .order_by(
+            QuizAttempt.submitted_at.desc()
+        )
+        .all()
+    )
+
+    total_attempts = len(attempts)
+
+    if total_attempts:
+
+        average_score = round(
+            sum(
+                a.score
+                for a in attempts
+            ) / total_attempts,
+            1,
+        )
+
+        highest_score = max(
+            a.score
+            for a in attempts
+        )
+
+        lowest_score = min(
+            a.score
+            for a in attempts
+        )
+
+        pass_rate = round(
+            (
+                sum(
+                    1
+                    for a in attempts
+                    if a.passed
+                )
+                / total_attempts
+            ) * 100,
+            1,
+        )
+
+    else:
+
+        average_score = 0
+        highest_score = 0
+        lowest_score = 0
+        pass_rate = 0
 
     return render_template(
         "teacher/question_form.html",
         quiz=quiz,
+        attempts=attempts,
+        total_attempts=total_attempts,
+        average_score=average_score,
+        highest_score=highest_score,
+        lowest_score=lowest_score,
+        pass_rate=pass_rate,
     )
 
 @teacher_quiz_bp.route(

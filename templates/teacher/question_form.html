@@ -1,28 +1,66 @@
 {% extends "layouts/base.html" %}
 
 {% block title %}
-{{ quiz.title }}
+{{ quiz.title }} | {{ brand.name }}
 {% endblock %}
 
 {% block content %}
 
 <div class="container py-5">
 
-<h2>{{ quiz.title }}</h2>
+    <!-- Header -->
 
-<p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-{{ quiz.description }}
+        <div>
 
-</p>
+            <h2 class="mb-1">
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+                {{ quiz.title }}
 
-    <div>
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {{ quiz.description }}
+
+            </p>
+
+        </div>
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'teacher_quiz.publish_quiz',
+                quiz_id=quiz.id
+            ) }}">
+
+            <button
+                class="btn {% if quiz.is_published %}btn-outline-danger{% else %}btn-success{% endif %}">
+
+                {% if quiz.is_published %}
+
+                    Unpublish Quiz
+
+                {% else %}
+
+                    Publish Quiz
+
+                {% endif %}
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Status -->
+
+    <div class="mb-4">
 
         {% if quiz.is_published %}
 
-        <span class="badge bg-success">
+        <span class="badge bg-success fs-6">
 
             Published
 
@@ -30,7 +68,7 @@
 
         {% else %}
 
-        <span class="badge bg-warning text-dark">
+        <span class="badge bg-warning text-dark fs-6">
 
             Draft
 
@@ -40,121 +78,295 @@
 
     </div>
 
-    <form
-        method="POST"
-        action="{{ url_for(
-            'teacher_quiz.publish_quiz',
-            quiz_id=quiz.id
-        ) }}">
+    <!-- Analytics -->
 
-        <button
-            type="submit"
-            class="btn btn-outline-primary">
+    <div class="row g-3 mb-5">
 
-            {% if quiz.is_published %}
+        <div class="col-md-2">
 
-            Unpublish
+            <div class="card shadow-sm text-center">
 
-            {% else %}
+                <div class="card-body">
 
-            Publish Quiz
+                    <h3>{{ total_attempts }}</h3>
 
-            {% endif %}
+                    <small class="text-muted">
 
-        </button>
+                        Attempts
 
-    </form>
+                    </small>
 
-</div>
+                </div>
 
-<hr>
+            </div>
 
-<h4>
+        </div>
 
-Questions
+        <div class="col-md-2">
 
-</h4>
+            <div class="card shadow-sm text-center">
 
-{% if quiz.questions %}
+                <div class="card-body">
 
-<ul class="list-group">
+                    <h3>{{ average_score }}%</h3>
 
-{% for question in quiz.questions %}
+                    <small class="text-muted">
 
-<li class="list-group-item">
+                        Average
 
-{{ question.position }}.
+                    </small>
 
-<div class="d-flex justify-content-between align-items-center">
+                </div>
 
-    <div>
+            </div>
 
-        <strong>
+        </div>
 
-            {{ question.position }}.
-            {{ question.question_text }}
+        <div class="col-md-2">
 
-        </strong>
+            <div class="card shadow-sm text-center">
 
-        <br>
+                <div class="card-body">
 
-        <small class="text-muted">
+                    <h3>{{ highest_score }}%</h3>
 
-            {% if question.question_type == "mcq" %}
+                    <small class="text-muted">
 
-                Multiple Choice
+                        Highest
 
-            {% else %}
+                    </small>
 
-                True / False
+                </div>
 
-            {% endif %}
+            </div>
 
-            • {{ question.options|length }} Options
+        </div>
 
-        </small>
+        <div class="col-md-2">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h3>{{ lowest_score }}%</h3>
+
+                    <small class="text-muted">
+
+                        Lowest
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h3>{{ pass_rate }}%</h3>
+
+                    <small class="text-muted">
+
+                        Pass Rate
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <a
-        href="{{ url_for(
-            'teacher_quiz.edit_question',
-            question_id=question.id
-        ) }}"
-        class="btn btn-outline-primary btn-sm">
+    <!-- Questions -->
 
-        Edit
+    <div class="d-flex justify-content-between align-items-center mb-3">
 
-    </a>
+        <h4 class="mb-0">
 
-</div>
+            Questions
 
-</li>
+        </h4>
 
-{% endfor %}
+        <a
+            href="{{ url_for(
+                'teacher_quiz.add_question',
+                quiz_id=quiz.id
+            ) }}"
+            class="btn btn-primary">
 
-</ul>
+            + Add Question
 
-{% else %}
+        </a>
 
-<p>
+    </div>
 
-No questions yet.
+    {% if quiz.questions %}
 
-</p>
+    <div class="list-group mb-5">
 
-{% endif %}
+        {% for question in quiz.questions %}
 
-<a
-href="{{ url_for(
-'teacher_quiz.add_question',
-quiz_id=quiz.id
-) }}"
-class="primary-btn">
+        <div class="list-group-item">
 
-+ Add Question
+            <div class="d-flex justify-content-between align-items-start">
 
-</a>
+                <div>
+
+                    <strong>
+
+                        {{ question.position }}.
+                        {{ question.question_text }}
+
+                    </strong>
+
+                    <br>
+
+                    <small class="text-muted">
+
+                        {% if question.question_type == "mcq" %}
+
+                            Multiple Choice
+
+                        {% else %}
+
+                            True / False
+
+                        {% endif %}
+
+                        • {{ question.options|length }} Options
+
+                    </small>
+
+                </div>
+
+                <a
+                    href="{{ url_for(
+                        'teacher_quiz.edit_question',
+                        question_id=question.id
+                    ) }}"
+                    class="btn btn-outline-primary btn-sm">
+
+                    Edit
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-info">
+
+        No questions added yet.
+
+    </div>
+
+    {% endif %}
+
+    <!-- Student Attempts -->
+
+    <h4 class="mb-3">
+
+        Student Attempts
+
+    </h4>
+
+    {% if attempts %}
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Student</th>
+                    <th>Score</th>
+                    <th>Status</th>
+                    <th>Date</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for attempt in attempts %}
+
+                <tr>
+
+                    <td>
+
+                        {{ attempt.enrollment.user.full_name }}
+
+                    </td>
+
+                    <td>
+
+                        {{ attempt.score }}%
+
+                    </td>
+
+                    <td>
+
+                        {% if attempt.passed %}
+
+                        <span class="badge bg-success">
+
+                            Passed
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger">
+
+                            Failed
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {{ attempt.submitted_at.strftime("%d %b %Y %I:%M %p") }}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-secondary">
+
+        No student has attempted this quiz yet.
+
+    </div>
+
+    {% endif %}
 
 </div>
 

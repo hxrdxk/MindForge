@@ -32,21 +32,122 @@ def update_course_progress(enrollment):
         completed=True,
     ).count()
 
-    if total_lessons == 0:
-
-        enrollment.progress = 0
-        enrollment.completed = False
-
-    else:
+    if total_lessons:
 
         enrollment.progress = round(
             completed_lessons / total_lessons * 100,
             1,
         )
 
-        enrollment.completed = (
-            completed_lessons == total_lessons
+    else:
+
+        enrollment.progress = 0
+
+    course_completed = True
+
+    for module in enrollment.course.modules:
+
+        if module.lessons:
+
+            module_completed_lessons = sum(
+
+                1
+
+                for lesson in module.lessons
+
+                if LessonProgress.query.filter_by(
+                    enrollment_id=enrollment.id,
+                    lesson_id=lesson.id,
+                    completed=True,
+                ).first()
+
+            )
+
+            if module_completed_lessons != len(module.lessons):
+
+                course_completed = False
+                break
+
+        if (
+            module.quiz
+            and module.quiz.is_published
+        ):
+
+            passed_attempt = QuizAttempt.query.filter_by(
+                enrollment_id=enrollment.id,
+                quiz_id=module.quiz.id,
+                passed=True,
+            ).first()
+
+            if not passed_attempt:
+
+                course_completed = False
+                break
+
+    enrollment.completed = course_completed
+
+    db.session.commit()
+
+def issue_certificate(enrollment):
+
+    if not enrollment.completed:
+        return
+
+    from models.certificate import Certificate
+
+    existing = Certificate.query.filter_by(
+        enrollment_id=enrollment.id,
+    ).first()
+
+    if existing:
+        return
+
+    attempts = []
+
+    for module in enrollment.course.modules:
+
+        if module.quiz:
+
+            best_attempt = (
+                QuizAttempt.query.filter_by(
+                    enrollment_id=enrollment.id,
+                    quiz_id=module.quiz.id,
+                    passed=True,
+                )
+                .order_by(
+                    QuizAttempt.score.desc()
+                )
+                .first()
+            )
+
+            if best_attempt:
+
+                attempts.append(best_attempt.score)
+
+    final_score = (
+        round(
+            sum(attempts) / len(attempts),
+            1,
         )
+        if attempts
+        else 100
+    )
+
+    certificate = Certificate(
+
+        certificate_id=(
+            f"MF-"
+            f"{datetime.utcnow().year}-"
+            f"{enrollment.id:06d}"
+        ),
+
+        enrollment_id=enrollment.id,
+
+        final_score=final_score,
+
+    )
+
+    db.session.add(certificate)
 
     db.session.commit()
 
@@ -124,11 +225,65 @@ def course_curriculum(course_id):
         enrollment
     )
 
+    quiz_status = {}
+
+    for module in course.modules:
+
+        if not module.quiz:
+
+            continue
+
+        attempts = (
+            QuizAttempt.query.filter_by(
+                enrollment_id=enrollment.id,
+                quiz_id=module.quiz.id,
+            )
+            .order_by(
+                QuizAttempt.submitted_at.desc()
+            )
+            .all()
+        )
+
+        if not attempts:
+
+            quiz_status[module.id] = {
+
+                "attempted": False,
+                "passed": False,
+                "best_score": 0,
+                "latest_score": 0,
+                "attempts": 0,
+
+            }
+
+            continue
+
+        best_score = max(
+            attempt.score
+            for attempt in attempts
+        )
+
+        latest_attempt = attempts[0]
+
+        quiz_status[module.id] = {
+
+            "attempted": True,
+            "passed": any(
+                attempt.passed
+                for attempt in attempts
+            ),
+            "best_score": best_score,
+            "latest_score": latest_attempt.score,
+            "attempts": len(attempts),
+
+        }
+
     return render_template(
         "student/course_curriculum.html",
         course=course,
         enrollment=enrollment,
         completed_lessons=completed_lessons,
+        quiz_status=quiz_status,
     )
 
 @student_bp.route("/lessons/<int:lesson_id>")
@@ -356,13 +511,17 @@ def take_quiz(quiz_id):
 
         db.session.commit()
 
+        update_course_progress(enrollment)
+
+        issue_certificate(enrollment)
+
         return redirect(
             url_for(
                 "student.quiz_result",
                 attempt_id=attempt.id,
             )
         )
-
+    
     return render_template(
         "student/quiz.html",
         quiz=quiz,
@@ -378,7 +537,63 @@ def quiz_result(attempt_id):
         attempt_id
     )
 
+    if attempt.enrollment.user_id != current_user.id:
+
+        flash(
+            "Unauthorized access.",
+            "danger",
+        )
+
+        return redirect(
+            url_for(
+                "student.dashboard"
+            )
+        )
+
+    review = []
+
+    correct_count = 0
+
+    for answer in attempt.answers:
+
+        question = answer.question
+
+        correct_option = next(
+            (
+                option
+                for option in question.options
+                if option.is_correct
+            ),
+            None,
+        )
+
+        review.append({
+
+            "question": question,
+
+            "selected_option": answer.selected_option,
+
+            "correct_option": correct_option,
+
+            "is_correct": answer.is_correct,
+
+        })
+
+        if answer.is_correct:
+
+            correct_count += 1
+
+    total_questions = len(review)
+
+    incorrect_count = (
+        total_questions - correct_count
+    )
+
     return render_template(
         "student/quiz_result.html",
         attempt=attempt,
+        review=review,
+        correct_count=correct_count,
+        incorrect_count=incorrect_count,
+        total_questions=total_questions,
     )

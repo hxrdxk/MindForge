@@ -10,3 +10,4 @@ from .question import Question
 from .option import Option
 from .quiz_attempt import QuizAttempt
 from .answer import Answer
+from .certificate import Certificate

@@ -1,51 +1,244 @@
 {% extends "layouts/base.html" %}
 
+{% block title %}
+Quiz Result | {{ brand.name }}
+{% endblock %}
+
 {% block content %}
 
 <div class="container py-5">
 
-<h2>
+    <div class="row justify-content-center">
 
-Quiz Result
+        <div class="col-lg-10">
 
-</h2>
+            <!-- Summary -->
 
-<h1>
+            <div class="card shadow-sm mb-4">
 
-{{ attempt.score }}%
+                <div class="card-body text-center">
 
-</h1>
+                    <h2 class="mb-3">
 
-{% if attempt.passed %}
+                        Quiz Result
 
-<div class="alert alert-success">
+                    </h2>
 
-Passed 🎉
+                    <h1 class="display-4 fw-bold">
 
-</div>
+                        {{ attempt.score }}%
 
-{% else %}
+                    </h1>
 
-<div class="alert alert-danger">
+                    {% if attempt.passed %}
 
-Failed
+                    <div class="alert alert-success mt-3">
 
-</div>
+                        <h5 class="mb-0">
 
-{% endif %}
+                            🎉 Congratulations! You Passed
 
-<a
-href="{{ url_for(
-'student.course_curriculum',
-course_id=attempt.quiz.module.course.id
-) }}"
-class="primary-btn">
+                        </h5>
 
-Back to Course
+                    </div>
 
-</a>
+                    {% else %}
+
+                    <div class="alert alert-danger mt-3">
+
+                        <h5 class="mb-0">
+
+                            ❌ You Did Not Pass
+
+                        </h5>
+
+                    </div>
+
+                    {% endif %}
+
+                    <div class="row text-center mt-4">
+
+                        <div class="col-md-4">
+
+                            <div class="border rounded p-3">
+
+                                <h3>
+
+                                    {{ total_questions }}
+
+                                </h3>
+
+                                <small class="text-muted">
+
+                                    Questions
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="border rounded p-3">
+
+                                <h3 class="text-success">
+
+                                    {{ correct_count }}
+
+                                </h3>
+
+                                <small class="text-muted">
+
+                                    Correct
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="border rounded p-3">
+
+                                <h3 class="text-danger">
+
+                                    {{ incorrect_count }}
+
+                                </h3>
+
+                                <small class="text-muted">
+
+                                    Incorrect
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Review -->
+
+            <h3 class="mb-3">
+
+                Answer Review
+
+            </h3>
+
+            {% for item in review %}
+
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <h5>
+
+                        {{ loop.index }}.
+                        {{ item.question.question_text }}
+
+                    </h5>
+
+                    <hr>
+
+                    {% if item.is_correct %}
+
+                    <div class="alert alert-success mb-3">
+
+                        ✓ Correct
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="alert alert-danger mb-3">
+
+                        ✗ Incorrect
+
+                    </div>
+
+                    {% endif %}
+
+                    <p>
+
+                        <strong>
+
+                            Your Answer
+
+                        </strong>
+
+                    </p>
+
+                    <div class="mb-3">
+
+                        {{ item.selected_option.option_text }}
+
+                    </div>
+
+                    {% if not item.is_correct %}
+
+                    <p>
+
+                        <strong>
+
+                            Correct Answer
+
+                        </strong>
+
+                    </p>
+
+                    <div class="text-success">
+
+                        {{ item.correct_option.option_text }}
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            <!-- Buttons -->
+
+            <div class="d-flex justify-content-between mt-5">
+
+                <a
+                    href="{{ url_for(
+                        'student.take_quiz',
+                        quiz_id=attempt.quiz.id
+                    ) }}"
+                    class="btn btn-outline-primary">
+
+                    Retake Quiz
+
+                </a>
+
+                <a
+                    href="{{ url_for(
+                        'student.course_curriculum',
+                        course_id=attempt.quiz.module.course.id
+                    ) }}"
+                    class="primary-btn">
+
+                    Back to Course
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
 {% endblock %}
-

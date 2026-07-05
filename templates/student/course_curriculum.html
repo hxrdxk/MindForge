@@ -68,28 +68,110 @@
 
             </p>
 
-            {% if module.quiz and module.quiz.is_published %}
+            {% if module.quiz %}
 
-            <div class="mb-3">
+            {% set status = quiz_status.get(module.id) %}
 
-                <a
-                    href="{{ url_for(
-                        'student.take_quiz',
-                        quiz_id=module.quiz.id
-                    ) }}"
-                    class="btn btn-success btn-sm">
+            <div class="card border-0 bg-light mb-3">
 
-                    📝 Take Quiz
+                <div class="card-body py-3">
 
-                </a>
+                    <div class="d-flex justify-content-between align-items-center">
 
-            </div>
+                        <div>
 
-            {% elif module.quiz %}
+                            <h6 class="mb-2">
 
-            <div class="alert alert-warning py-2">
+                                Module Quiz
 
-                Quiz not published yet.
+                            </h6>
+
+                            {% if not module.quiz.is_published %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Draft
+
+                                </span>
+
+                            {% elif not status.attempted %}
+
+                                <span class="badge bg-secondary">
+
+                                    Not Attempted
+
+                                </span>
+
+                            {% elif status.passed %}
+
+                                <span class="badge bg-success">
+
+                                    Passed
+
+                                </span>
+
+                                <small class="text-muted d-block mt-1">
+
+                                    Best Score:
+                                    {{ status.best_score }}%
+
+                                    • Attempts:
+                                    {{ status.attempts }}
+
+                                </small>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Failed
+
+                                </span>
+
+                                <small class="text-muted d-block mt-1">
+
+                                    Latest Score:
+                                    {{ status.latest_score }}%
+
+                                    • Attempts:
+                                    {{ status.attempts }}
+
+                                </small>
+
+                            {% endif %}
+
+                        </div>
+
+                        <div>
+
+                            {% if module.quiz.is_published %}
+
+                                <a
+                                    href="{{ url_for(
+                                        'student.take_quiz',
+                                        quiz_id=module.quiz.id
+                                    ) }}"
+                                    class="btn btn-success">
+
+                                    {% if status.attempted %}
+
+                                        Retake Quiz
+
+                                    {% else %}
+
+                                        Take Quiz
+
+                                    {% endif %}
+
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
