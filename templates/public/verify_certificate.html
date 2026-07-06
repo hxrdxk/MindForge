@@ -1,0 +1,148 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Certificate Verification | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            {% if certificate %}
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body text-center p-5">
+
+                    <div class="mb-4">
+
+                        <i class="bi bi-patch-check-fill text-success display-1"></i>
+
+                    </div>
+
+                    <h2 class="text-success mb-3">
+
+                        Certificate Verified
+
+                    </h2>
+
+                    <p class="text-muted mb-5">
+
+                        This certificate was issued by
+                        <strong>{{ brand.name }}</strong>
+                        and is valid.
+
+                    </p>
+
+                    <hr class="my-4">
+
+                    <div class="row text-start">
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Student</strong>
+
+                            <p class="mb-0">
+
+                                {{ certificate.enrollment.user.full_name }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Course</strong>
+
+                            <p class="mb-0">
+
+                                {{ certificate.enrollment.course.title }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Final Score</strong>
+
+                            <p class="mb-0">
+
+                                {{ certificate.final_score }}%
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Issue Date</strong>
+
+                            <p class="mb-0">
+
+                                {{ certificate.issued_at.strftime("%d %B %Y") }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <strong>Certificate ID</strong>
+
+                            <p class="mb-0">
+
+                                {{ certificate.certificate_id }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="card border-0 shadow">
+
+                <div class="card-body text-center p-5">
+
+                    <div class="mb-4">
+
+                        <i class="bi bi-x-octagon-fill text-danger display-1"></i>
+
+                    </div>
+
+                    <h2 class="text-danger">
+
+                        Certificate Not Found
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        The certificate ID you entered does not exist
+                        or is invalid.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

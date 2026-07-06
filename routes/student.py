@@ -661,3 +661,45 @@ def view_certificate(certificate_id):
         "student/certificate.html",
         certificate=certificate,
     )
+
+@student_bp.route(
+    "/certificate/<int:certificate_id>/download"
+)
+@student_required
+def download_certificate(certificate_id):
+
+    certificate = Certificate.query.get_or_404(
+        certificate_id
+    )
+
+    if (
+        certificate.enrollment.user_id
+        != current_user.id
+    ):
+
+        flash(
+            "Unauthorized access.",
+            "danger",
+        )
+
+        return redirect(
+            url_for(
+                "student.dashboard"
+            )
+        )
+
+    pdf = generate_certificate_pdf(
+        certificate
+    )
+
+    filename = (
+        f"{certificate.certificate_id}.pdf"
+    )
+
+    return send_file(
+        pdf,
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=filename,
+    )
+

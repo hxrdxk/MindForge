@@ -93,14 +93,19 @@ My Certificates | {{ brand.name }}
 
                         </a>
 
-                        <button
-                            class="btn btn-outline-secondary"
-                            disabled>
+                        <a
+                            href="{{ url_for(
+                                'student.download_certificate',
+                                certificate_id=certificate.id
+                            ) }}"
+                            class="btn btn-outline-primary">
 
-                            PDF (Coming Soon)
+                            <i class="bi bi-download"></i>
 
-                        </button>
+                            Download PDF
 
+                        </a>
+                        
                     </div>
 
                 </div>

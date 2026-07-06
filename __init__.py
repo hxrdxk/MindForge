@@ -45,6 +45,9 @@ def create_app():
     from routes.teacher_quiz import teacher_quiz_bp
     app.register_blueprint(teacher_quiz_bp)
 
+    from routes.public import public_bp
+    app.register_blueprint(public_bp)
+
     @app.context_processor
     def inject_brand():
         return {

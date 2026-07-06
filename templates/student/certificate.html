@@ -8,18 +8,33 @@ Certificate | {{ brand.name }}
 
 <div class="container py-5">
 
-    <div class="text-end mb-3">
+    <div class="d-flex justify-content-between mb-4">
 
         <a
             href="{{ url_for('student.certificates') }}"
             class="btn btn-outline-secondary">
 
-            ← Back
+            <i class="bi bi-arrow-left"></i>
+
+            Back
+
+        </a>
+
+        <a
+            href="{{ url_for(
+                'student.download_certificate',
+                certificate_id=certificate.id
+            ) }}"
+            class="btn btn-primary">
+
+            <i class="bi bi-download"></i>
+
+            Download PDF
 
         </a>
 
     </div>
-
+    
     <div class="card shadow-lg border-0">
 
         <div class="card-body p-5">
