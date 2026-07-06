@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
 from flask_login import current_user
+from flask import send_file
 from utils.decorators import student_required
 from models.enrollment import Enrollment
 from models.course import Course
@@ -13,6 +14,8 @@ from models.quiz_attempt import QuizAttempt
 from models.answer import Answer
 from models.option import Option
 from models.question import Question
+from models.certificate import Certificate
+from utils.pdf import generate_certificate_pdf
 
 student_bp = Blueprint(
     "student",
@@ -184,11 +187,18 @@ def dashboard():
 
         overall_progress = 0
 
+    certificate_count = sum(
+        1
+        for enrollment in enrollments
+        if enrollment.certificate
+    )
+
     return render_template(
         "student/dashboard.html",
         enrollments=enrollments,
         total_courses=total_courses,
         completed_courses=completed_courses,
+        certificate_count=certificate_count,
         overall_progress=round(
             overall_progress,
             1,
@@ -596,4 +606,58 @@ def quiz_result(attempt_id):
         correct_count=correct_count,
         incorrect_count=incorrect_count,
         total_questions=total_questions,
+    )
+
+@student_bp.route("/certificates")
+@student_required
+def certificates():
+
+    certificates = (
+        Certificate.query.join(Enrollment)
+        .filter(
+            Enrollment.user_id == current_user.id
+        )
+        .order_by(
+            Certificate.issued_at.desc()
+        )
+        .all()
+    )
+
+    return render_template(
+        "student/certificates.html",
+        certificates=certificates,
+    )
+
+
+@student_bp.route(
+    "/certificate/<int:certificate_id>"
+)
+@student_required
+def view_certificate(certificate_id):
+
+    certificate = (
+        Certificate.query.get_or_404(
+            certificate_id
+        )
+    )
+
+    if (
+        certificate.enrollment.user_id
+        != current_user.id
+    ):
+
+        flash(
+            "Unauthorized access.",
+            "danger",
+        )
+
+        return redirect(
+            url_for(
+                "student.dashboard"
+            )
+        )
+
+    return render_template(
+        "student/certificate.html",
+        certificate=certificate,
     )

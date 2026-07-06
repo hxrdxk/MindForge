@@ -8,28 +8,85 @@
 
 <div class="container py-5">
 
-    <a
-        href="{{ url_for(
-            'student.course_curriculum',
-            course_id=lesson.module.course.id
-        ) }}"
-        class="btn btn-outline-secondary mb-4">
+    <!-- Breadcrumb -->
 
-        ← Back to Curriculum
+    <nav class="mb-4">
 
-    </a>
+        <ol class="breadcrumb">
 
-    <h1>{{ lesson.title }}</h1>
+            <li class="breadcrumb-item">
 
-    <p class="text-muted">
+                <a href="{{ url_for('student.dashboard') }}">
 
-        {{ lesson.module.title }}
+                    Dashboard
 
-    </p>
+                </a>
+
+            </li>
+
+            <li class="breadcrumb-item">
+
+                <a href="{{ url_for(
+                    'student.course_curriculum',
+                    course_id=lesson.module.course.id
+                ) }}">
+
+                    {{ lesson.module.course.title }}
+
+                </a>
+
+            </li>
+
+            <li class="breadcrumb-item active">
+
+                {{ lesson.title }}
+
+            </li>
+
+        </ol>
+
+    </nav>
+
+    <!-- Lesson Header -->
+
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+
+        <div>
+
+            <span class="badge bg-primary mb-2">
+
+                {{ lesson.module.title }}
+
+            </span>
+
+            <h1 class="fw-bold">
+
+                {{ lesson.title }}
+
+            </h1>
+
+        </div>
+
+        <a
+            href="{{ url_for(
+                'student.course_curriculum',
+                course_id=lesson.module.course.id
+            ) }}"
+            class="btn btn-outline-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Curriculum
+
+        </a>
+
+    </div>
+
+    <!-- Video -->
 
     {% if lesson.video_url %}
 
-    <div class="ratio ratio-16x9 mb-4">
+    <div class="ratio ratio-16x9 mb-4 shadow-sm rounded overflow-hidden">
 
         <iframe
             src="{{ lesson.video_url }}"
@@ -41,9 +98,11 @@
 
     {% endif %}
 
-    <div class="card shadow-sm mb-4">
+    <!-- Lesson Content -->
 
-        <div class="card-body">
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
 
             {{ lesson.content|safe }}
 
@@ -51,13 +110,17 @@
 
     </div>
 
+    <!-- Completion -->
+
     {% if completed %}
 
-    <div class="alert alert-success d-flex justify-content-between align-items-center">
+    <div class="alert alert-success d-flex justify-content-between align-items-center flex-wrap">
 
         <div>
 
-            ✓ Lesson Completed
+            <i class="bi bi-check-circle-fill me-2"></i>
+
+            <strong>Lesson Completed</strong>
 
         </div>
 
@@ -70,7 +133,9 @@
             ) }}"
             class="btn btn-success btn-sm">
 
-            Next Lesson →
+            Next Lesson
+
+            <i class="bi bi-arrow-right"></i>
 
         </a>
 
@@ -80,23 +145,52 @@
 
     {% else %}
 
-    <form
-        method="POST"
-        action="{{ url_for(
-            'student.complete_lesson',
-            lesson_id=lesson.id
-        ) }}"
-        class="mb-4">
+    <div class="card border-0 shadow-sm mb-4">
 
-        <button class="primary-btn">
+        <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
 
-            ✓ Mark as Complete
+            <div>
 
-        </button>
+                <h5 class="mb-1">
 
-    </form>
+                    Finish this lesson
+
+                </h5>
+
+                <small class="text-muted">
+
+                    Mark this lesson as complete to update your course progress.
+
+                </small>
+
+            </div>
+
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'student.complete_lesson',
+                    lesson_id=lesson.id
+                ) }}">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                    <i class="bi bi-check-lg"></i>
+
+                    Mark as Complete
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
 
     {% endif %}
+
+    <!-- Navigation -->
 
     <div class="d-flex justify-content-between">
 
@@ -109,7 +203,9 @@
             ) }}"
             class="btn btn-outline-primary">
 
-            ← Previous
+            <i class="bi bi-arrow-left"></i>
+
+            Previous Lesson
 
         </a>
 
@@ -126,9 +222,11 @@
                 'student.lesson_view',
                 lesson_id=next_lesson.id
             ) }}"
-            class="primary-btn">
+            class="btn btn-primary">
 
-            Next →
+            Next Lesson
+
+            <i class="bi bi-arrow-right"></i>
 
         </a>
 

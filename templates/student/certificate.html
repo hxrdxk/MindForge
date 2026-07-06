@@ -1,0 +1,171 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Certificate | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-end mb-3">
+
+        <a
+            href="{{ url_for('student.certificates') }}"
+            class="btn btn-outline-secondary">
+
+            ← Back
+
+        </a>
+
+    </div>
+
+    <div class="card shadow-lg border-0">
+
+        <div class="card-body p-5">
+
+            <div class="text-center">
+
+                <h5 class="text-uppercase text-muted">
+
+                    MindForge
+
+                </h5>
+
+                <h1 class="display-5 fw-bold my-4">
+
+                    Certificate of Completion
+
+                </h1>
+
+                <p class="lead">
+
+                    This certificate is proudly presented to
+
+                </p>
+
+                <h2 class="fw-bold text-primary my-4">
+
+                    {{ certificate.enrollment.user.full_name }}
+
+                </h2>
+
+                <p class="fs-5">
+
+                    for successfully completing the course
+
+                </p>
+
+                <h3 class="fw-semibold my-4">
+
+                    {{ certificate.enrollment.course.title }}
+
+                </h3>
+
+            </div>
+
+            <hr class="my-5">
+
+            <div class="row text-center">
+
+                <div class="col-md-4 mb-4">
+
+                    <h6 class="text-muted">
+
+                        Final Score
+
+                    </h6>
+
+                    <h3>
+
+                        {{ certificate.final_score }}%
+
+                    </h3>
+
+                </div>
+
+                <div class="col-md-4 mb-4">
+
+                    <h6 class="text-muted">
+
+                        Issue Date
+
+                    </h6>
+
+                    <h5>
+
+                        {{ certificate.issued_at.strftime("%d %B %Y") }}
+
+                    </h5>
+
+                </div>
+
+                <div class="col-md-4 mb-4">
+
+                    <h6 class="text-muted">
+
+                        Certificate ID
+
+                    </h6>
+
+                    <h5>
+
+                        {{ certificate.certificate_id }}
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+            <hr class="my-5">
+
+            <div class="row">
+
+                <div class="col-md-6 text-center">
+
+                    <div
+                        style="border-top:2px solid #000; width:220px; margin:auto;">
+
+                    </div>
+
+                    <strong>
+
+                        Instructor
+
+                    </strong>
+
+                    <br>
+
+                    {{ certificate.enrollment.course.teacher.full_name }}
+
+                </div>
+
+                <div class="col-md-6 text-center">
+
+                    <div
+                        style="border-top:2px solid #000; width:220px; margin:auto;">
+
+                    </div>
+
+                    <strong>
+
+                        MindForge
+
+                    </strong>
+
+                    <br>
+
+                    Official Certificate
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

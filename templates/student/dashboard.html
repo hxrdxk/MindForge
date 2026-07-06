@@ -45,7 +45,7 @@ Student Dashboard | {{ brand.name }}
                 AI Assistant
             </a>
 
-            <a href="#">
+            <a href="{{ url_for('student.certificates') }}">
                 <i class="bi bi-award"></i>
                 Certificates
             </a>
@@ -123,8 +123,8 @@ Student Dashboard | {{ brand.name }}
 
                 <h3>{{ completed_courses }}</h3>
 
-                <p>Completed Lessons</p>
-
+                <p>Completed Courses</p>
+            
             </div>
 
             <div class="dashboard-card">
@@ -135,7 +135,7 @@ Student Dashboard | {{ brand.name }}
 
                 </div>
 
-                <h3>0</h3>
+                <h3>{{ certificate_count }}</h3>
 
                 <p>Certificates</p>
 
@@ -173,45 +173,140 @@ Student Dashboard | {{ brand.name }}
 
             {% if enrollments %}
 
-            <ul class="list-group list-group-flush">
+            <div class="row g-4">
 
                 {% for enrollment in enrollments %}
 
-                <li class="list-group-item">
+                <div class="col-lg-6">
 
-                    <strong>
+                    <div class="card shadow-sm border-0 h-100">
 
-                        {{ enrollment.course.title }}
+                        <div class="card-body">
 
-                    </strong>
+                            <div class="d-flex justify-content-between align-items-start">
 
-                    <br>
+                                <div>
 
-                    <small class="text-muted">
+                                    <h5 class="mb-2">
 
-                        {{ enrollment.progress }}% Complete
+                                        📘 {{ enrollment.course.title }}
 
-                    </small>
-                    
-                    <span class="float-end">
+                                    </h5>
 
-                        {{ enrollment.progress }}%
+                                    <p class="text-muted mb-3">
 
-                    </span>
+                                        {{ enrollment.course.description[:90] }}
+                                        {% if enrollment.course.description|length > 90 %}...{% endif %}
 
-                </li>
+                                    </p>
+
+                                </div>
+
+                                {% if enrollment.completed %}
+
+                                <span class="badge bg-success">
+
+                                    Completed
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-primary">
+
+                                    In Progress
+
+                                </span>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="mb-2 d-flex justify-content-between">
+
+                                <small>
+
+                                    Progress
+
+                                </small>
+
+                                <small>
+
+                                    {{ enrollment.progress }}%
+
+                                </small>
+
+                            </div>
+
+                            <div class="progress mb-4">
+
+                                <div
+                                    class="progress-bar"
+                                    role="progressbar"
+                                    style="width: {{ enrollment.progress }}%;"
+                                    aria-valuenow="{{ enrollment.progress }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
+
+                                </div>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <small class="text-muted">
+
+                                    Enrolled:
+                                    {{ enrollment.enrolled_at.strftime("%d %b %Y") }}
+
+                                </small>
+
+                                <a
+                                    href="{{ url_for(
+                                        'student.course_curriculum',
+                                        course_id=enrollment.course.id
+                                    ) }}"
+                                    class="btn btn-primary btn-sm">
+
+                                    Continue Learning →
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
                 {% endfor %}
 
-            </ul>
+            </div>
 
             {% else %}
 
-            <p>
+            <div class="card border-0 shadow-sm">
 
-                You haven't enrolled in any course yet.
+                <div class="card-body text-center py-5">
 
-            </p>
+                    <i class="bi bi-book display-3 text-muted"></i>
+
+                    <h4 class="mt-4">
+
+                        No Courses Yet
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Enroll in a course to begin your learning journey.
+
+                    </p>
+
+                </div>
+
+            </div>
 
             {% endif %}
             

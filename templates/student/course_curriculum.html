@@ -68,6 +68,55 @@
 
             </p>
 
+            <p class="text-muted mb-2">
+
+                {{ module.lessons|length }} Lesson{% if module.lessons|length != 1 %}s{% endif %}
+
+            </p>
+            
+            {% if module.lessons %}
+            
+            <div class="list-group">
+                
+                {% for lesson in module.lessons %}
+                
+                <a
+                href="{{ url_for(
+                        'student.lesson_view',
+                        lesson_id=lesson.id
+                    ) }}"
+                    class="list-group-item list-group-item-action">
+
+                    {% if lesson.id in completed_lessons %}
+
+                    <span class="text-success">
+
+                        <i class="bi bi-check-circle-fill text-success me-2"></i> {{ lesson.title }}
+
+                    </span>
+
+                    {% else %}
+
+                    <i class="bi bi-play-circle me-2 text-primary"></i> {{ lesson.title }}
+
+                    {% endif %}
+                    
+                </a>
+
+                {% endfor %}
+                
+            </div>
+            
+            {% else %}
+            
+            <div class="alert alert-light">
+                
+                No lessons available.
+                
+            </div>
+            
+            {% endif %}
+
             {% if module.quiz %}
 
             {% set status = quiz_status.get(module.id) %}
@@ -151,7 +200,7 @@
                                         'student.take_quiz',
                                         quiz_id=module.quiz.id
                                     ) }}"
-                                    class="btn btn-success">
+                                    class="btn btn-primary">
 
                                     {% if status.attempted %}
 
@@ -172,49 +221,6 @@
                     </div>
 
                 </div>
-
-            </div>
-
-            {% endif %}
-
-            {% if module.lessons %}
-
-            <div class="list-group">
-
-                {% for lesson in module.lessons %}
-
-                <a
-                    href="{{ url_for(
-                        'student.lesson_view',
-                        lesson_id=lesson.id
-                    ) }}"
-                    class="list-group-item list-group-item-action">
-
-                    {% if lesson.id in completed_lessons %}
-
-                    <span class="text-success">
-
-                        ✓ {{ lesson.title }}
-
-                    </span>
-
-                    {% else %}
-
-                    ▶ {{ lesson.title }}
-
-                    {% endif %}
-
-                </a>
-
-                {% endfor %}
-
-            </div>
-
-            {% else %}
-
-            <div class="alert alert-light">
-
-                No lessons available.
 
             </div>
 
