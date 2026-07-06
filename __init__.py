@@ -1,7 +1,6 @@
 from datetime import datetime
-
 from flask import Flask
-
+from flask import render_template
 from config import Config
 from extensions import db, migrate, login_manager
 from models.user import User
@@ -48,6 +47,9 @@ def create_app():
     from routes.public import public_bp
     app.register_blueprint(public_bp)
 
+    from routes.admin import admin_bp
+    app.register_blueprint(admin_bp)
+
     @app.context_processor
     def inject_brand():
         return {
@@ -61,5 +63,39 @@ def create_app():
             },
             "current_year": datetime.now().year,
         }
+
+    @app.errorhandler(403)
+    def forbidden(error):
+
+        return (
+            render_template(
+                "errors/403.html"
+            ),
+            403,
+        )
+
+
+    @app.errorhandler(404)
+    def page_not_found(error):
+
+        return (
+            render_template(
+                "errors/404.html"
+            ),
+            404,
+        )
+
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+
+        db.session.rollback()
+
+        return (
+            render_template(
+                "errors/500.html"
+            ),
+            500,
+        )
 
     return app

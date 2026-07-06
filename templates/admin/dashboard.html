@@ -1,0 +1,267 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Admin Dashboard | {{ brand.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+
+        <div>
+
+            <h1 class="fw-bold">
+
+                Admin Dashboard
+
+            </h1>
+
+            <p class="text-muted mb-0">
+
+                Platform overview and statistics.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-people-fill display-5 text-primary"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_users }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Total Users
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-mortarboard-fill display-5 text-success"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_students }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Students
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-person-workspace display-5 text-warning"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_teachers }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Teachers
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-book-fill display-5 text-info"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_courses }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Courses
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-journal-check display-5 text-primary"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_enrollments }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Enrollments
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-award-fill display-5 text-success"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_certificates }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Certificates
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-bar-chart-fill display-5 text-danger"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_quiz_attempts }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Quiz Attempts
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row g-3">
+
+        <div class="col-md-4">
+
+            <a
+                href="{{ url_for('admin.users') }}"
+                class="secondary-btn w-100">
+
+                <i class="bi bi-people"></i>
+
+                Manage Users
+
+            </a>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <a
+                href="{{ url_for('admin.courses') }}"
+                class="secondary-btn w-100">
+
+                <i class="bi bi-book"></i>
+
+                Manage Courses
+
+            </a>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <a
+                href="{{ url_for('admin.certificates') }}"
+                class="secondary-btn w-100">
+
+                <i class="bi bi-award"></i>
+
+                Certificates
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

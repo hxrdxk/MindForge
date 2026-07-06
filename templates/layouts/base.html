@@ -57,33 +57,61 @@
 
     <main>
 
-        <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
 
-                {% if messages %}
+            <div class="container mt-4">
 
-                    {% for category, message in messages %}
+                {% for category, message in messages %}
 
-                        <div class="alert alert-{{ category }} alert-dismissible fade show">
+                <div
+                    class="alert alert-{{ category }} alert-dismissible fade show shadow-sm"
+                    role="alert">
+
+                    <div class="d-flex align-items-center">
+
+                        {% if category == "success" %}
+
+                        <i class="bi bi-check-circle-fill me-2"></i>
+
+                        {% elif category == "danger" %}
+
+                        <i class="bi bi-x-circle-fill me-2"></i>
+
+                        {% elif category == "warning" %}
+
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                        {% else %}
+
+                        <i class="bi bi-info-circle-fill me-2"></i>
+
+                        {% endif %}
+
+                        <span>
 
                             {{ message }}
 
-                            <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="alert">
-                            </button>
+                        </span>
 
-                        </div>
+                    </div>
 
-                    {% endfor %}
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                    </button>
 
-                {% endif %}
+                </div>
 
-            {% endwith %}
+                {% endfor %}
 
-        </div>
+            </div>
+
+            {% endif %}
+
+        {% endwith %}
 
         {% block content %}
 
