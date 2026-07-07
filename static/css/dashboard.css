@@ -129,11 +129,6 @@
     transition:var(--transition);
 }
 
-.dashboard-card:hover{
-    transform:translateY(-6px);
-    box-shadow:var(--shadow-lg);
-}
-
 .dashboard-card-icon{
     width:62px;
     height:62px;

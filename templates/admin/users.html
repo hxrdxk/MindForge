@@ -28,7 +28,7 @@ Manage Users | {{ brand.name }}
 
         <a
             href="{{ url_for('admin.dashboard') }}"
-            class="btn btn-outline-secondary">
+            class="secondary-btn">
 
             <i class="bi bi-arrow-left"></i>
 
@@ -38,7 +38,7 @@ Manage Users | {{ brand.name }}
 
     </div>
 
-    <div class="card shadow-sm border-0">
+    <div class="glass-card">
 
         <div class="table-responsive">
 
@@ -82,7 +82,7 @@ Manage Users | {{ brand.name }}
 
                             {% if user.role == "admin" %}
 
-                            <span class="badge bg-danger">
+                            <span class="mf-badge mf-badge-danger">
 
                                 Admin
 
@@ -90,7 +90,7 @@ Manage Users | {{ brand.name }}
 
                             {% elif user.role == "teacher" %}
 
-                            <span class="badge bg-warning text-dark">
+                            <span class="mf-badge mf-badge-warning">
 
                                 Teacher
 
@@ -98,7 +98,7 @@ Manage Users | {{ brand.name }}
 
                             {% else %}
 
-                            <span class="badge bg-primary">
+                            <span class="mf-badge mf-badge-primary">
 
                                 Student
 

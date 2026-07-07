@@ -53,7 +53,7 @@
 
     font-size:1.55rem;
 
-    font-weight:var(--fw-semibold);
+    font-weight:var(--fw-bold);
 
     transition:var(--transition);
 
@@ -61,7 +61,7 @@
 
 .mf-logo:hover{
 
-    transform:scale(1.03);
+    transform:scale(1.01);
 
     color:var(--primary);
 

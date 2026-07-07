@@ -1,99 +1,10 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/student_layout.html" %}
 
 {% block title %}
 Student Dashboard | {{ brand.name }}
 {% endblock %}
 
-{% block content %}
-
-<div class="dashboard">
-
-    <!-- Sidebar -->
-
-    <aside class="dashboard-sidebar">
-
-        <div class="dashboard-sidebar-title">
-
-            Student Menu
-
-        </div>
-
-        <nav class="dashboard-nav">
-
-            <a href="#" class="active">
-                <i class="bi bi-grid-fill"></i>
-                Dashboard
-            </a>
-
-            <a href="{{ url_for('student.my_courses') }}">
-                <i class="bi bi-book"></i>
-                My Courses
-            </a>
-
-            <a href="#">
-                <i class="bi bi-journal-bookmark"></i>
-                Resources
-            </a>
-
-            <a href="#">
-                <i class="bi bi-patch-question"></i>
-                Quizzes
-            </a>
-
-            <a href="#">
-                <i class="bi bi-robot"></i>
-                AI Assistant
-            </a>
-
-            <a href="{{ url_for('student.certificates') }}">
-                <i class="bi bi-award"></i>
-                Certificates
-            </a>
-
-            <a href="#">
-                <i class="bi bi-person"></i>
-                Profile
-            </a>
-
-        </nav>
-
-    </aside>
-
-    <!-- Main -->
-
-    <main class="dashboard-main">
-
-        <!-- Header -->
-
-        <div class="dashboard-header">
-
-            <div class="dashboard-title">
-
-                <h1>
-
-                    Welcome, {{ current_user.full_name }}
-
-                </h1>
-
-                <p>
-
-                    Continue your learning journey today.
-
-                </p>
-
-            </div>
-
-            <div class="dashboard-profile">
-
-                <div class="dashboard-avatar">
-
-                    {{ current_user.full_name[0] }}
-
-                </div>
-
-            </div>
-
-        </div>
+{% block dashboard_content %}
 
         <!-- Stats -->
 
@@ -103,7 +14,7 @@ Student Dashboard | {{ brand.name }}
 
                 <div class="dashboard-card-icon">
 
-                    <i class="bi bi-book-fill"></i>
+                    <i class="bi bi-book-half"></i>
 
                 </div>
 
@@ -179,9 +90,9 @@ Student Dashboard | {{ brand.name }}
 
                 <div class="col-lg-6">
 
-                    <div class="card shadow-sm border-0 h-100">
+                    <div class="glass-card">
 
-                        <div class="card-body">
+                        <div>
 
                             <div class="d-flex justify-content-between align-items-start">
 
@@ -189,7 +100,7 @@ Student Dashboard | {{ brand.name }}
 
                                     <h5 class="mb-2">
 
-                                        📘 {{ enrollment.course.title }}
+                                         {{ enrollment.course.title }}
 
                                     </h5>
 
@@ -204,7 +115,7 @@ Student Dashboard | {{ brand.name }}
 
                                 {% if enrollment.completed %}
 
-                                <span class="badge bg-success">
+                                <span class="mf-badge mf-badge-success">
 
                                     Completed
 
@@ -212,7 +123,7 @@ Student Dashboard | {{ brand.name }}
 
                                 {% else %}
 
-                                <span class="badge bg-primary">
+                                <span class="mf-badge mf-badge-primary">
 
                                     In Progress
 
@@ -238,10 +149,10 @@ Student Dashboard | {{ brand.name }}
 
                             </div>
 
-                            <div class="progress mb-4">
+                            <div class="mf-progress">
 
                                 <div
-                                    class="progress-bar"
+                                    class="mf-progress-fill"
                                     role="progressbar"
                                     style="width: {{ enrollment.progress }}%;"
                                     aria-valuenow="{{ enrollment.progress }}"
@@ -266,7 +177,7 @@ Student Dashboard | {{ brand.name }}
                                         'student.course_curriculum',
                                         course_id=enrollment.course.id
                                     ) }}"
-                                    class="btn btn-primary btn-sm">
+                                    class="btn primary-btn btn-sm">
 
                                     Continue Learning →
 
@@ -286,11 +197,11 @@ Student Dashboard | {{ brand.name }}
 
             {% else %}
 
-            <div class="card border-0 shadow-sm">
+            <div class="glass-card">
 
-                <div class="card-body text-center py-5">
+                <div class="text-center py-5">
 
-                    <i class="bi bi-book display-3 text-muted"></i>
+                    <i class="bi bi-book display-3"></i>
 
                     <h4 class="mt-4">
 
@@ -334,8 +245,5 @@ Student Dashboard | {{ brand.name }}
 
         </section>
 
-    </main>
-
-</div>
-
 {% endblock %}
+

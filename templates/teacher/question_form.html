@@ -36,7 +36,7 @@
             ) }}">
 
             <button
-                class="btn {% if quiz.is_published %}btn-outline-danger{% else %}btn-success{% endif %}">
+                class="btn secondary-btn {% if quiz.is_published %}btn-outline-danger{% else %}btn-outline-success{% endif %}">
 
                 {% if quiz.is_published %}
 
@@ -60,7 +60,7 @@
 
         {% if quiz.is_published %}
 
-        <span class="badge bg-success fs-6">
+        <span class="mf-badge mf-badge-success fs-6">
 
             Published
 
@@ -68,7 +68,7 @@
 
         {% else %}
 
-        <span class="badge bg-warning text-dark fs-6">
+        <span class="mf-badge mf-badge-warning fs-6">
 
             Draft
 
@@ -84,9 +84,9 @@
 
         <div class="col-md-2">
 
-            <div class="card shadow-sm text-center">
+            <div class="glass-card">
 
-                <div class="card-body">
+                <div class="">
 
                     <h3>{{ total_attempts }}</h3>
 
@@ -104,9 +104,9 @@
 
         <div class="col-md-2">
 
-            <div class="card shadow-sm text-center">
+            <div class="glass-card">
 
-                <div class="card-body">
+                <div class="">
 
                     <h3>{{ average_score }}%</h3>
 
@@ -124,9 +124,9 @@
 
         <div class="col-md-2">
 
-            <div class="card shadow-sm text-center">
+            <div class="glass-card">
 
-                <div class="card-body">
+                <div class="">
 
                     <h3>{{ highest_score }}%</h3>
 
@@ -144,9 +144,9 @@
 
         <div class="col-md-2">
 
-            <div class="card shadow-sm text-center">
+            <div class="glass-card">
 
-                <div class="card-body">
+                <div class="">
 
                     <h3>{{ lowest_score }}%</h3>
 
@@ -164,9 +164,9 @@
 
         <div class="col-md-4">
 
-            <div class="card shadow-sm text-center">
+            <div class="glass-card">
 
-                <div class="card-body">
+                <div class="">
 
                     <h3>{{ pass_rate }}%</h3>
 
@@ -199,7 +199,7 @@
                 'teacher_quiz.add_question',
                 quiz_id=quiz.id
             ) }}"
-            class="btn btn-primary">
+            class="primary-btn">
 
             + Add Question
 
@@ -251,7 +251,7 @@
                         'teacher_quiz.edit_question',
                         question_id=question.id
                     ) }}"
-                    class="secondary-btn btn-sm">
+                    class="btn secondary-btn btn-sm">
 
                     Edit
 
@@ -267,7 +267,7 @@
 
     {% else %}
 
-    <div class="alert alert-info">
+    <div class="mf-alert mf-alert-info">
 
         No questions added yet.
 
@@ -324,7 +324,7 @@
 
                         {% if attempt.passed %}
 
-                        <span class="badge bg-success">
+                        <span class="mf-badge mf-badge-success">
 
                             Passed
 
@@ -332,7 +332,7 @@
 
                         {% else %}
 
-                        <span class="badge bg-danger">
+                        <span class="mf-badge mf-badge-danger">
 
                             Failed
 
@@ -360,7 +360,7 @@
 
     {% else %}
 
-    <div class="alert alert-secondary">
+    <div class="mf-alert mf-alert-info">
 
         No student has attempted this quiz yet.
 

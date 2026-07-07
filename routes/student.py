@@ -199,6 +199,8 @@ def dashboard():
         total_courses=total_courses,
         completed_courses=completed_courses,
         certificate_count=certificate_count,
+        page_title=f"Welcome, {current_user.full_name}",
+        page_subtitle="Continue your learning journey today.",
         overall_progress=round(
             overall_progress,
             1,
@@ -218,6 +220,8 @@ def my_courses():
     return render_template(
         "student/my_courses.html",
         enrollments=enrollments,
+        page_title="My Courses",
+        page_subtitle="Continue learning from your enrolled courses.",
     )
 
 @student_bp.route("/courses/<int:course_id>")
@@ -294,6 +298,8 @@ def course_curriculum(course_id):
         enrollment=enrollment,
         completed_lessons=completed_lessons,
         quiz_status=quiz_status,
+        page_title=course.title,
+        page_subtitle=course.description,
     )
 
 @student_bp.route("/lessons/<int:lesson_id>")
@@ -535,6 +541,8 @@ def take_quiz(quiz_id):
     return render_template(
         "student/quiz.html",
         quiz=quiz,
+        page_title=quiz.title,
+        page_subtitle=f"{quiz.module.title} Quiz",
     )
 
 @student_bp.route(
@@ -606,6 +614,8 @@ def quiz_result(attempt_id):
         correct_count=correct_count,
         incorrect_count=incorrect_count,
         total_questions=total_questions,
+        page_title="Quiz Result",
+        page_subtitle=attempt.quiz.title,
     )
 
 @student_bp.route("/certificates")

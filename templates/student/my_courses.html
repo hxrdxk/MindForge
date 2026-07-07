@@ -1,44 +1,10 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/student_layout.html" %}
 
 {% block title %}
 My Courses | {{ brand.name }}
 {% endblock %}
 
-{% block content %}
-
-<div class="container py-5">
-
-    <!-- Header -->
-
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
-
-        <div>
-
-            <h1 class="fw-bold">
-
-                📚 My Courses
-
-            </h1>
-
-            <p class="text-muted mb-0">
-
-                Continue your learning journey and track your progress.
-
-            </p>
-
-        </div>
-
-        <a
-            href="{{ url_for('student.dashboard') }}"
-            class="btn btn-outline-secondary">
-
-            <i class="bi bi-arrow-left"></i>
-
-            Dashboard
-
-        </a>
-
-    </div>
+{% block dashboard_content %}
 
     {% if enrollments %}
 
@@ -48,21 +14,29 @@ My Courses | {{ brand.name }}
 
         <div class="col-lg-6">
 
-            <div class="card border-0 shadow-sm h-100">
+            <div class="glass-card">
 
-                <div class="card-body d-flex flex-column">
-
+                <div class="d-flex flex-column h-100">
+                
                     <div class="d-flex justify-content-between align-items-start mb-3">
 
                         <div>
 
                             <h4 class="mb-1">
 
-                                {{ enrollment.course.title }}
+                                <a
+                                    href="{{ url_for(
+                                        'student.course_curriculum',
+                                        course_id=enrollment.course.id
+                                    ) }}">
+
+                                    {{ enrollment.course.title }}
+
+                                </a>
 
                             </h4>
 
-                            <p class="text-muted mb-0">
+                            <p class="mb-0">
 
                                 {{ enrollment.course.description[:110] }}
                                 {% if enrollment.course.description|length > 110 %}...{% endif %}
@@ -73,7 +47,7 @@ My Courses | {{ brand.name }}
 
                         {% if enrollment.completed %}
 
-                        <span class="badge bg-success">
+                        <span class="mf-badge mf-badge-success">
 
                             Completed
 
@@ -81,7 +55,7 @@ My Courses | {{ brand.name }}
 
                         {% else %}
 
-                        <span class="badge bg-primary">
+                        <span class="mf-badge mf-badge-primary">
 
                             In Progress
 
@@ -109,10 +83,10 @@ My Courses | {{ brand.name }}
 
                         </div>
 
-                        <div class="progress">
+                        <div class="mf-progress">
 
                             <div
-                                class="progress-bar"
+                                class="mf-progress-fill"
                                 role="progressbar"
                                 style="width: {{ enrollment.progress }}%;"
                                 aria-valuenow="{{ enrollment.progress }}"
@@ -125,23 +99,23 @@ My Courses | {{ brand.name }}
 
                     </div>
 
-                    <div class="row text-muted small mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
 
-                        <div class="col-6">
+                        <small>
 
-                            <i class="bi bi-person"></i>
+                            <i class="bi bi-person me-2 text-black"></i>
 
                             {{ enrollment.course.teacher.full_name }}
 
-                        </div>
+                        </small>
 
-                        <div class="col-6 text-end">
+                        <small>
 
-                            <i class="bi bi-calendar3"></i>
+                            <i class="bi bi-calendar3 me-2 text-black"></i>
 
                             {{ enrollment.enrolled_at.strftime("%d %b %Y") }}
 
-                        </div>
+                        </small>
 
                     </div>
 
@@ -152,17 +126,17 @@ My Courses | {{ brand.name }}
                                 'student.course_curriculum',
                                 course_id=enrollment.course.id
                             ) }}"
-                            class="btn btn-primary w-100">
+                            class="primary-btn w-100">
 
                             {% if enrollment.completed %}
 
-                            <i class="bi bi-eye"></i>
+                            <i class="bi bi-eye text-light"></i>
 
                             Review Course
 
                             {% else %}
 
-                            <i class="bi bi-play-fill"></i>
+                            <i class="bi bi-play-fill text-light"></i>
 
                             Continue Learning
 
@@ -184,11 +158,11 @@ My Courses | {{ brand.name }}
 
     {% else %}
 
-    <div class="card border-0 shadow-sm">
+    <div class="glass-card">
 
-        <div class="card-body text-center py-5">
+        <div class="text-center py-5">
 
-            <i class="bi bi-book display-1 text-muted"></i>
+            <i class="bi bi-book display-1"></i>
 
             <h3 class="mt-4">
 
@@ -204,8 +178,8 @@ My Courses | {{ brand.name }}
             </p>
 
             <a
-                href="{{ url_for('course.catalog') }}"
-                class="btn btn-primary">
+                href="{{ url_for('course.index') }}"
+                class="primary-btn">
 
                 <i class="bi bi-search"></i>
 
@@ -218,7 +192,5 @@ My Courses | {{ brand.name }}
     </div>
 
     {% endif %}
-
-</div>
 
 {% endblock %}

@@ -138,7 +138,7 @@ Teacher Dashboard | {{ brand.name }}
 
                                 {% if course.is_published %}
 
-                                    <span class="badge bg-success">
+                                    <span class="mf-badge mf-badge-success">
 
                                         Published
 
@@ -146,7 +146,7 @@ Teacher Dashboard | {{ brand.name }}
 
                                 {% else %}
 
-                                    <span class="badge bg-secondary">
+                                    <span class="mf-badge mf-badge-primary">
 
                                         Draft
 
@@ -161,7 +161,7 @@ Teacher Dashboard | {{ brand.name }}
                                 <a
                                     href="{{ url_for('teacher.manage_course',
                                                     course_id=course.id) }}"
-                                    class="btn btn-sm btn-outline-primary">
+                                    class="btn btn-sm primary-btn">
 
                                     Manage
 

@@ -1,82 +1,68 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/student_layout.html" %}
 
 {% block title %}
 {{ course.title }} | {{ brand.name }}
 {% endblock %}
 
-{% block content %}
-
-<div class="container py-5">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <div>
-
-            <h1>{{ course.title }}</h1>
-
-            <p class="text-muted">
-
-                {{ course.description }}
-
-            </p>
-
-        </div>
-
-        <a
-            href="{{ url_for('student.my_courses') }}"
-            class="btn btn-outline-secondary">
-
-            Back
-
-        </a>
-
-    </div>
+{% block dashboard_content %}
 
     <div class="mb-4">
 
         <strong>Course Progress</strong>
 
-        <div class="progress mt-2">
+        <div class="mf-progress">
 
             <div
-                class="progress-bar"
+                class="mf-progress-fill"
                 style="width: {{ enrollment.progress }}%;">
-
-                {{ enrollment.progress }}%
 
             </div>
 
         </div>
 
+        <p class="mt-2">
+
+            {{ enrollment.progress }}% Complete
+
+        </p>
+
+        <a
+            href="{{ url_for('student.my_courses') }}"
+            class="secondary-btn">
+
+            ← Back
+
+        </a>
+
     </div>
 
     {% for module in course.modules %}
 
-    <div class="card shadow-sm mb-4">
+    <div class="glass-card mb-4">
 
-        <div class="card-body">
+        <div>
 
             <h4>
 
-                📘 {{ module.title }}
+                <i class="bi bi-journal-bookmark-fill me-2 text-black"></i> {{ module.title }}
 
             </h4>
 
-            <p class="text-muted">
+            <p class="mb-4">
 
                 {{ module.description }}
 
             </p>
 
-            <p class="text-muted mb-2">
+            <small>
 
                 {{ module.lessons|length }} Lesson{% if module.lessons|length != 1 %}s{% endif %}
 
-            </p>
-            
+            </small>
+
             {% if module.lessons %}
             
-            <div class="list-group">
+            <div class="mt-4">
                 
                 {% for lesson in module.lessons %}
                 
@@ -85,7 +71,7 @@
                         'student.lesson_view',
                         lesson_id=lesson.id
                     ) }}"
-                    class="list-group-item list-group-item-action">
+                    class="mf-list-item">
 
                     {% if lesson.id in completed_lessons %}
 
@@ -97,7 +83,7 @@
 
                     {% else %}
 
-                    <i class="bi bi-play-circle me-2 text-primary"></i> {{ lesson.title }}
+                    <i class="bi bi-play-circle me-2"></i> {{ lesson.title }}
 
                     {% endif %}
                     
@@ -109,7 +95,7 @@
             
             {% else %}
             
-            <div class="alert alert-light">
+            <div class="mf-alert mf-alert-info">
                 
                 No lessons available.
                 
@@ -121,9 +107,9 @@
 
             {% set status = quiz_status.get(module.id) %}
 
-            <div class="card border-0 bg-light mb-3">
+            <div class="mt-4 pt-4 border-top">
 
-                <div class="card-body py-3">
+                <div class="py-3">
 
                     <div class="d-flex justify-content-between align-items-center">
 
@@ -137,7 +123,7 @@
 
                             {% if not module.quiz.is_published %}
 
-                                <span class="badge bg-warning text-dark">
+                                <span class="mf-badge mf-badge-warning">
 
                                     Draft
 
@@ -145,7 +131,7 @@
 
                             {% elif not status.attempted %}
 
-                                <span class="badge bg-secondary">
+                                <span class="mf-badge mf-badge-primary">
 
                                     Not Attempted
 
@@ -153,13 +139,13 @@
 
                             {% elif status.passed %}
 
-                                <span class="badge bg-success">
+                                <span class="mf-badge mf-badge-success">
 
                                     Passed
 
                                 </span>
 
-                                <small class="text-muted d-block mt-1">
+                                <small class=" d-block mt-1">
 
                                     Best Score:
                                     {{ status.best_score }}%
@@ -171,13 +157,13 @@
 
                             {% else %}
 
-                                <span class="badge bg-danger">
+                                <span class="mf-badge mf-badge-danger">
 
                                     Failed
 
                                 </span>
 
-                                <small class="text-muted d-block mt-1">
+                                <small class=" d-block mt-1">
 
                                     Latest Score:
                                     {{ status.latest_score }}%
@@ -200,7 +186,7 @@
                                         'student.take_quiz',
                                         quiz_id=module.quiz.id
                                     ) }}"
-                                    class="btn btn-primary">
+                                    class="primary-btn">
 
                                     {% if status.attempted %}
 

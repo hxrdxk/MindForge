@@ -1,0 +1,50 @@
+    <!-- Sidebar -->
+
+    <aside class="dashboard-sidebar">
+
+        <div class="dashboard-sidebar-title">
+
+            Student Menu
+
+        </div>
+
+        <nav class="dashboard-nav">
+
+            <a href="#" class="active">
+                <i class="bi bi-grid-fill"></i>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('student.my_courses') }}">
+                <i class="bi bi-book-half"></i>
+                My Courses
+            </a>
+
+            <a href="#">
+                <i class="bi bi-journal-bookmark"></i>
+                Resources
+            </a>
+
+            <a href="#">
+                <i class="bi bi-patch-question"></i>
+                Quizzes
+            </a>
+
+            <a href="#">
+                <i class="bi bi-stars"></i>
+                AI Assistant
+            </a>
+
+            <a href="{{ url_for('student.certificates') }}">
+                <i class="bi bi-award"></i>
+                Certificates
+            </a>
+
+            <a href="#">
+                <i class="bi bi-person"></i>
+                Profile
+            </a>
+
+        </nav>
+
+    </aside>

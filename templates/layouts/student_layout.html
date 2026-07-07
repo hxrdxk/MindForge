@@ -1,0 +1,25 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    {% include "components/student_sidebar.html" %}
+
+    <main class="dashboard-main">
+
+        {% block dashboard_header %}
+
+            {% include "components/student_header.html" %}
+
+        {% endblock %}
+
+        {% block dashboard_content %}
+        
+        {% endblock %}
+
+    </main>
+
+</div>
+
+{% endblock %}

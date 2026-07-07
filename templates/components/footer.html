@@ -1,18 +1,147 @@
-<footer class="border-top py-4 mt-5">
+<footer class="mf-footer">
 
-    <div class="container text-center">
+    <div class="container">
 
-        <p class="text-secondary mb-0">
+        <div class="footer-top">
 
-            © {{ current_year }}
+            <div class="footer-brand">
 
-            {{ brand.name }}
+                <div class="footer-brand-header">
 
-            ·
+                    <img
+                        src="{{ url_for('static', filename=brand.logo) }}"
+                        alt="{{ brand.name }}"
+                        class="footer-logo">
 
-            {{ brand.tagline }}
+                    <div>
 
-        </p>
+                        <h3>
+
+                            {{ brand.name }}
+
+                        </h3>
+
+                        <p class="footer-tagline">
+
+                            {{ brand.tagline }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <p class="footer-description">
+
+                    {{ brand.description }}
+
+                </p>
+
+            </div>
+
+            <div class="footer-right">
+                
+                <div class="footer-nav">
+                    
+                    <h5>
+                        
+                        Navigation
+
+                    </h5>
+
+                    <ul>
+
+                        <li>
+
+                            <a href="{{ url_for('main.home') }}">
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+                        {% if current_user.is_authenticated %}
+
+                        <li>
+
+                            <a href="{{ dashboard_url }}">
+                                
+                                Dashboard
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="{{ url_for('course.index') }}">
+
+                                Courses
+
+                            </a>
+
+                        </li>
+
+                        {% else %}
+
+                        <li>
+
+                            <a href="{{ url_for('auth.login') }}">
+
+                                Login
+
+                            </a>
+
+                        </li>
+
+                        {% endif %}
+
+                    </ul>
+
+                </div>
+
+                <div class="footer-contact">
+
+                    <h5>
+
+                        Contact
+
+                    </h5>
+
+                    <a
+                        href="mailto:contact@mindforge.in"
+                        class="footer-mail">
+
+                        <i class="bi bi-envelope-fill text-light"></i>
+
+                        contact@mindforge.in
+
+                    </a>
+                    
+                </div>
+                
+            </div>
+
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <div class="footer-bottom">
+            
+            <p>
+
+                © {{ current_year }} {{ brand.name }}. All Rights Reserved.
+
+            </p>
+
+            <p>
+
+                Empowering learners through technology.
+
+            </p>
+
+        </div>
 
     </div>
 

@@ -1,44 +1,62 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/student_layout.html" %}
 
-{% block content %}
-
-<div class="container py-5">
+{% block dashboard_content %}
 
 <h2>{{ quiz.title }}</h2>
 
 <form method="POST">
 
+<div class="mb-4">
+
+    <strong>
+
+        {{ quiz.questions|length }}
+
+        Questions
+
+    </strong>
+
+</div>
+
 {% for question in quiz.questions %}
 
-<div class="card mb-4">
+<div class="glass-card mb-4 mt-4">
 
-<div class="card-body">
+<div>
 
-<h5>
+<div class="d-flex align-items-center gap-3 mb-4">
 
-{{ loop.index }}.
-{{ question.question_text }}
+    <strong class="mf-badge mf-badge-primary">
 
-</h5>
+        Q{{ loop.index }}.
+
+    </strong>
+
+    <h4 class="mb-0">
+
+        {{ question.question_text }}
+
+    </h4>
+
+</div>
 
 {% for option in question.options %}
 
-<div class="form-check">
+<label class="mf-option">
 
-<input
-class="form-check-input"
-type="radio"
-name="question_{{ question.id }}"
-value="{{ option.id }}">
+    <input
+        type="radio"
+        name="question_{{ question.id }}"
+        value="{{ option.id }}">
 
-<label class="form-check-label">
+    <span>
 
-{{ option.option_text }}
+        {{ option.option_text }}
+
+    </span>
 
 </label>
 
-</div>
-
 {% endfor %}
 
 </div>
@@ -47,14 +65,20 @@ value="{{ option.id }}">
 
 {% endfor %}
 
-<button class="primary-btn">
+<div class="text-center mt-5">
 
-Submit Quiz
+    <button
+        type="submit"
+        class="primary-btn">
 
-</button>
+        <i class="bi bi-check-circle text-light"></i>
+
+        Submit Quiz
+
+    </button>
+
+</div>
 
 </form>
-
-</div>
 
 {% endblock %}

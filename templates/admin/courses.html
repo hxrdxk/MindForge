@@ -28,7 +28,7 @@ Manage Courses | {{ brand.name }}
 
         <a
             href="{{ url_for('admin.dashboard') }}"
-            class="btn btn-outline-secondary">
+            class="secondary-btn">
 
             <i class="bi bi-arrow-left"></i>
 
@@ -38,7 +38,7 @@ Manage Courses | {{ brand.name }}
 
     </div>
 
-    <div class="card shadow-sm border-0">
+    <div class="glass-card">
 
         <div class="table-responsive">
 
@@ -102,7 +102,7 @@ Manage Courses | {{ brand.name }}
 
                             {% if item.course.is_published %}
 
-                            <span class="badge bg-success">
+                            <span class="mf-badge mf-badge-success">
 
                                 Published
 
@@ -110,7 +110,7 @@ Manage Courses | {{ brand.name }}
 
                             {% else %}
 
-                            <span class="badge bg-secondary">
+                            <span class="mf-badge mf-badge-primary">
 
                                 Draft
 
