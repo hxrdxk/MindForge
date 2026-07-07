@@ -138,6 +138,18 @@
     margin-bottom:40px;
 }
 
+.dashboard-header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    flex-shrink:0;
+
+}
+
 .dashboard-title h1{
     font-size:2.2rem;
     margin-bottom:8px;
@@ -155,16 +167,23 @@
 }
 
 .dashboard-avatar{
-    width:52px;
-    height:52px;
+    width:42px;
+    height:42px;
     border-radius:50%;
+    background:var(--gradient);
     display:flex;
     align-items:center;
     justify-content:center;
-    background:var(--gradient);
     color:#fff;
     font-weight:700;
-    font-size:1.1rem;
+    font-size:.95rem;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:var(--transition);
+}
+
+.dashboard-avatar:hover{
+    transform:translateY(-2px);
 }
 
 /* ==========================================

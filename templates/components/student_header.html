@@ -1,29 +1,27 @@
-        <div class="dashboard-header">
+<div class="dashboard-header">
 
-            <div class="dashboard-title">
+    <div class="dashboard-title">
 
-                <h1>
+        <h1>
 
-                    {{ page_title }}
+            {{ page_title }}
 
-                </h1>
+        </h1>
 
-                <p>
+        <p>
 
-                    {{ page_subtitle }}
+            {{ page_subtitle }}
 
-                </p>
+        </p>
 
-            </div>
+    </div>
 
-            <div class="dashboard-profile">
+    <div class="dashboard-header-actions">
 
-                <div class="dashboard-avatar">
+        {% block dashboard_actions %}
 
-                    {{ current_user.full_name[0] }}
+        {% endblock %}
 
-                </div>
+    </div>
 
-            </div>
-
-        </div>
+</div>
