@@ -8,11 +8,33 @@
 
     <main class="dashboard-main">
 
-        {% block dashboard_header %}
+        <div class="dashboard-header">
 
-            {% include "components/student_header.html" %}
+            <div class="dashboard-title">
 
-        {% endblock %}
+                <h1>
+
+                    {{ page_title }}
+
+                </h1>
+
+                <p>
+
+                    {{ page_subtitle }}
+
+                </p>
+
+            </div>
+
+            <div class="dashboard-header-actions">
+
+                {% block dashboard_actions %}
+
+                {% endblock %}
+
+            </div>
+
+        </div>
 
         {% block dashboard_content %}
 
