@@ -201,6 +201,7 @@ def dashboard():
         certificate_count=certificate_count,
         page_title=f"Welcome, {current_user.full_name}",
         page_subtitle="Continue your learning journey today.",
+        active_page="dashboard",
         overall_progress=round(
             overall_progress,
             1,
@@ -222,6 +223,7 @@ def my_courses():
         enrollments=enrollments,
         page_title="My Courses",
         page_subtitle="Continue learning from your enrolled courses.",
+        active_page="courses"
     )
 
 @student_bp.route("/courses/<int:course_id>")
@@ -300,6 +302,7 @@ def course_curriculum(course_id):
         quiz_status=quiz_status,
         page_title=course.title,
         page_subtitle=course.description,
+        active_page="courses"
     )
 
 @student_bp.route("/lessons/<int:lesson_id>")
@@ -355,6 +358,7 @@ def lesson_view(lesson_id):
         previous_lesson=previous_lesson,
         next_lesson=next_lesson,
         completed=completed,
+        active_page="courses"
     )
 
 @student_bp.route(
@@ -543,6 +547,7 @@ def take_quiz(quiz_id):
         quiz=quiz,
         page_title=quiz.title,
         page_subtitle=f"{quiz.module.title} Quiz",
+        active_page="quizzes"
     )
 
 @student_bp.route(
@@ -616,6 +621,7 @@ def quiz_result(attempt_id):
         total_questions=total_questions,
         page_title="Quiz Result",
         page_subtitle=attempt.quiz.title,
+        active_page="quizzes"
     )
 
 @student_bp.route("/certificates")
@@ -636,6 +642,7 @@ def certificates():
     return render_template(
         "student/certificates.html",
         certificates=certificates,
+        active_page="certificates"
     )
 
 
@@ -670,6 +677,7 @@ def view_certificate(certificate_id):
     return render_template(
         "student/certificate.html",
         certificate=certificate,
+        active_page="certificates"
     )
 
 @student_bp.route(

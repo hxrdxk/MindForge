@@ -1,50 +1,107 @@
-    <!-- Sidebar -->
+<!-- Sidebar -->
 
-    <aside class="dashboard-sidebar">
+<aside class="dashboard-sidebar">
 
-        <div class="dashboard-sidebar-title">
+    <nav class="dashboard-nav">
 
-            Student Menu
+        <a
+            href="{{ url_for('student.dashboard') }}"
+            class="{% if active_page == 'dashboard' %}active{% endif %}">
 
-        </div>
+            <i class="bi bi-grid-fill"></i>
 
-        <nav class="dashboard-nav">
+            <span>
 
-            <a href="#" class="active">
-                <i class="bi bi-grid-fill"></i>
                 Dashboard
-            </a>
 
-            <a href="{{ url_for('student.my_courses') }}">
-                <i class="bi bi-book-half"></i>
+            </span>
+
+        </a>
+
+        <a
+            href="{{ url_for('student.my_courses') }}"
+            class="{% if active_page == 'courses' %}active{% endif %}">
+
+            <i class="bi bi-book-half"></i>
+
+            <span>
+
                 My Courses
-            </a>
 
-            <a href="#">
-                <i class="bi bi-journal-bookmark"></i>
+            </span>
+
+        </a>
+
+        <a
+            href="#"
+            class="{% if active_page == 'resources' %}active{% endif %}">
+
+            <i class="bi bi-journal-bookmark-fill"></i>
+
+            <span>
+
                 Resources
-            </a>
 
-            <a href="#">
-                <i class="bi bi-patch-question"></i>
+            </span>
+
+        </a>
+
+        <a
+            href="#"
+            class="{% if active_page == 'quizzes' %}active{% endif %}">
+
+            <i class="bi bi-patch-question-fill"></i>
+
+            <span>
+
                 Quizzes
-            </a>
 
-            <a href="#">
-                <i class="bi bi-stars"></i>
+            </span>
+
+        </a>
+
+        <a
+            href="#"
+            class="{% if active_page == 'assistant' %}active{% endif %}">
+
+            <i class="bi bi-stars"></i>
+
+            <span>
+
                 AI Assistant
-            </a>
 
-            <a href="{{ url_for('student.certificates') }}">
-                <i class="bi bi-award"></i>
+            </span>
+
+        </a>
+
+        <a
+            href="{{ url_for('student.certificates') }}"
+            class="{% if active_page == 'certificates' %}active{% endif %}">
+
+            <i class="bi bi-award-fill"></i>
+
+            <span>
+
                 Certificates
-            </a>
 
-            <a href="#">
-                <i class="bi bi-person"></i>
+            </span>
+
+        </a>
+
+        <a
+            href="#"
+            class="{% if active_page == 'profile' %}active{% endif %}">
+
+            <i class="bi bi-person-fill"></i>
+
+            <span>
+
                 Profile
-            </a>
 
-        </nav>
+            </span>
 
-    </aside>
+        </a>
+
+    </nav>
+
+</aside>

@@ -408,6 +408,26 @@
 }
 
 /* ==========================================
+   UTILITIES
+========================================== */
+
+.mf-between{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.mf-text-muted{
+
+    color:var(--text-light);
+
+}
+
+/* ==========================================
    GLASS CARD
 ========================================== */
 
@@ -713,13 +733,15 @@
 
     align-items:center;
 
+    justify-content: space-between;
+
     gap:16px;
 
     padding:16px 20px;
 
     border:1px solid var(--border);
 
-    border-radius:var(--radius-md);
+    border-radius:var(--radius-lg);
 
     background:var(--surface);
 
@@ -748,6 +770,12 @@
 .mf-list-item + .mf-list-item{
 
     margin-top:12px;
+
+}
+
+.mf-list-item .mf-badge{
+
+    margin-left:auto;
 
 }
 

@@ -6,244 +6,219 @@ Student Dashboard | {{ brand.name }}
 
 {% block dashboard_content %}
 
-        <!-- Stats -->
+<!-- Stats -->
 
-        <div class="dashboard-grid">
+<div class="dashboard-grid">
 
-            <div class="dashboard-card">
+    <div class="dashboard-card">
 
-                <div class="dashboard-card-icon">
-
-                    <i class="bi bi-book-half"></i>
-
-                </div>
-
-                <h3>{{ total_courses }}</h3>
-
-                <p>Enrolled Courses</p>
-
-            </div>
-
-            <div class="dashboard-card">
-
-                <div class="dashboard-card-icon">
-
-                    <i class="bi bi-check-circle-fill"></i>
-
-                </div>
-
-                <h3>{{ completed_courses }}</h3>
-
-                <p>Completed Courses</p>
-            
-            </div>
-
-            <div class="dashboard-card">
-
-                <div class="dashboard-card-icon">
-
-                    <i class="bi bi-award-fill"></i>
-
-                </div>
-
-                <h3>{{ certificate_count }}</h3>
-
-                <p>Certificates</p>
-
-            </div>
-
-            <div class="dashboard-card">
-
-                <div class="dashboard-card-icon">
-
-                    <i class="bi bi-lightning-fill"></i>
-
-                </div>
-
-                <h3>{{ overall_progress }}%</h3>
-
-                <p>Overall Progress</p>
-
-            </div>
-
+        <div class="dashboard-card-icon">
+            <i class="bi bi-book-half"></i>
         </div>
 
-        <!-- Continue Learning -->
+        <h3>{{ total_courses }}</h3>
 
-        <section class="dashboard-section">
+        <p>Enrolled Courses</p>
 
-            <div class="dashboard-section-header">
+    </div>
 
-                <h2>
+    <div class="dashboard-card">
 
-                    Continue Learning
+        <div class="dashboard-card-icon">
+            <i class="bi bi-check-circle-fill"></i>
+        </div>
 
-                </h2>
+        <h3>{{ completed_courses }}</h3>
 
-            </div>
+        <p>Completed Courses</p>
 
-            {% if enrollments %}
+    </div>
 
-            <div class="row g-4">
+    <div class="dashboard-card">
 
-                {% for enrollment in enrollments %}
+        <div class="dashboard-card-icon">
+            <i class="bi bi-award-fill"></i>
+        </div>
 
-                <div class="col-lg-6">
+        <h3>{{ certificate_count }}</h3>
 
-                    <div class="glass-card">
+        <p>Certificates</p>
 
-                        <div>
+    </div>
 
-                            <div class="d-flex justify-content-between align-items-start">
+    <div class="dashboard-card">
 
-                                <div>
+        <div class="dashboard-card-icon">
+            <i class="bi bi-lightning-fill"></i>
+        </div>
 
-                                    <h5 class="mb-2">
+        <h3>{{ overall_progress }}%</h3>
 
-                                         {{ enrollment.course.title }}
+        <p>Overall Progress</p>
 
-                                    </h5>
+    </div>
 
-                                    <p class="text-muted mb-3">
+</div>
 
-                                        {{ enrollment.course.description[:90] }}
-                                        {% if enrollment.course.description|length > 90 %}...{% endif %}
+<!-- Continue Learning -->
 
-                                    </p>
+<section class="dashboard-section">
 
-                                </div>
+    <div class="dashboard-section-header">
 
-                                {% if enrollment.completed %}
+        <h2>Continue Learning</h2>
 
-                                <span class="mf-badge mf-badge-success">
+    </div>
 
-                                    Completed
+    {% if enrollments %}
 
-                                </span>
+    <div class="row g-4">
 
-                                {% else %}
+        {% for enrollment in enrollments %}
 
-                                <span class="mf-badge mf-badge-primary">
+        <div class="col-xl-6">
 
-                                    In Progress
+            <div class="glass-card">
 
-                                </span>
+                <div class="d-flex justify-content-between align-items-start mb-3">
 
-                                {% endif %}
+                    <div>
 
-                            </div>
+                        <h4 class="mb-2">
 
-                            <div class="mb-2 d-flex justify-content-between">
+                            {{ enrollment.course.title }}
 
-                                <small>
+                        </h4>
 
-                                    Progress
+                        <p class="text-muted mb-0">
 
-                                </small>
+                            {{ enrollment.course.description[:90] }}
+                            {% if enrollment.course.description|length > 90 %}...{% endif %}
 
-                                <small>
+                        </p>
 
-                                    {{ enrollment.progress }}%
+                    </div>
 
-                                </small>
+                    {% if enrollment.completed %}
 
-                            </div>
+                    <span class="mf-badge mf-badge-success">
 
-                            <div class="mf-progress">
+                        Completed
 
-                                <div
-                                    class="mf-progress-fill"
-                                    role="progressbar"
-                                    style="width: {{ enrollment.progress }}%;"
-                                    aria-valuenow="{{ enrollment.progress }}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100">
+                    </span>
 
-                                </div>
+                    {% else %}
 
-                            </div>
+                    <span class="mf-badge mf-badge-primary">
 
-                            <div class="d-flex justify-content-between align-items-center">
+                        In Progress
 
-                                <small class="text-muted">
+                    </span>
 
-                                    Enrolled:
-                                    {{ enrollment.enrolled_at.strftime("%d %b %Y") }}
+                    {% endif %}
 
-                                </small>
+                </div>
 
-                                <a
-                                    href="{{ url_for(
-                                        'student.course_curriculum',
-                                        course_id=enrollment.course.id
-                                    ) }}"
-                                    class="btn primary-btn btn-sm">
+                <div class="d-flex justify-content-between mb-2">
 
-                                    Continue Learning →
+                    <small>Progress</small>
 
-                                </a>
+                    <small>{{ enrollment.progress }}%</small>
 
-                            </div>
+                </div>
 
-                        </div>
+                <div class="mf-progress mb-4">
+
+                    <div
+                        class="mf-progress-fill"
+                        style="width:{{ enrollment.progress }}%">
 
                     </div>
 
                 </div>
 
-                {% endfor %}
+                <div class="d-flex justify-content-between align-items-center">
 
-            </div>
+                    <small class="text-muted">
 
-            {% else %}
+                        Enrolled on {{ enrollment.enrolled_at.strftime("%d %b %Y") }}
 
-            <div class="glass-card">
+                    </small>
 
-                <div class="text-center py-5">
+                    <a
+                        href="{{ url_for('student.course_curriculum', course_id=enrollment.course.id) }}"
+                        class="primary-btn">
 
-                    <i class="bi bi-book display-3"></i>
+                        Continue Learning
 
-                    <h4 class="mt-4">
+                        <i class="bi bi-arrow-right"></i>
 
-                        No Courses Yet
-
-                    </h4>
-
-                    <p class="text-muted">
-
-                        Enroll in a course to begin your learning journey.
-
-                    </p>
+                    </a>
 
                 </div>
 
             </div>
 
-            {% endif %}
-            
-        </section>
+        </div>
 
-        <!-- Recent Activity -->
+        {% endfor %}
 
-        <section class="dashboard-section">
+    </div>
 
-            <div class="dashboard-section-header">
+    {% else %}
 
-                <h2>
+    <div class="glass-card text-center">
 
-                    Recent Activity
+        <i
+            class="bi bi-book display-3 mb-4"
+            style="color:var(--secondary);">
 
-                </h2>
+        </i>
 
-            </div>
+        <h3 class="mb-3">
 
-            <p>
+            No Courses Yet
 
-                No recent activity found.
+        </h3>
 
-            </p>
+        <p class="text-muted mb-4">
 
-        </section>
+            Enroll in a course to begin your learning journey.
+
+        </p>
+
+        <a
+            href="{{ url_for('course.catalog') }}"
+            class="primary-btn">
+
+            <i class="bi bi-search"></i>
+
+            Browse Courses
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+<!-- Recent Activity -->
+
+<section class="dashboard-section">
+
+    <div class="dashboard-section-header">
+
+        <h2>Recent Activity</h2>
+
+    </div>
+
+    <p class="text-muted mb-0">
+
+        No recent activity found.
+
+    </p>
+
+</section>
 
 {% endblock %}
-
