@@ -28,9 +28,9 @@
 
 <section class="dashboard-section lesson-page">
 
-    <!-- Breadcrumb -->
-
-    <nav class="lesson-breadcrumb">
+    <nav
+        class="lesson-breadcrumb"
+        aria-label="Lesson breadcrumb">
 
         <a href="{{ url_for('student.dashboard') }}">
             Dashboard
@@ -58,7 +58,7 @@
 
         <i class="bi bi-chevron-right"></i>
 
-        <strong>
+        <strong aria-current="page">
 
             {{ lesson.title }}
 
@@ -74,53 +74,65 @@
 
             <div class="lesson-hero-left">
 
-                <div class="module-block">
+                <div class="lesson-hero-main">
 
-                    <p class="module-index-label">
-                        Module {{ module_number }}
-                    </p>
+                    <div class="lesson-hero-copy">
 
-                    <h2 class="module-title">
-                        {{ lesson.module.title }}
-                    </h2>
+                        <div class="module-block">
 
-                    {% if lesson.module.description %}
-                    <p class="module-description">
-                        {{ lesson.module.description }}
-                    </p>
-                    {% endif %}
+                            <div class="lesson-title-stack">
 
-                </div>
+                                <span class="lesson-index-marker">
+                                    Module {{ module_number }}
+                                </span>
 
-                <div class="lesson-divider"></div>
+                                <h2 class="module-title">
+                                    {{ lesson.module.title }}
+                                </h2>
 
-                <div class="lesson-block">
+                            </div>
 
-                    <div class="lesson-heading">
-
-                        <div>
-
-                            <p class="lesson-index-label">
-                                Lesson {{ lesson_number }}
+                            {% if lesson.module.description %}
+                            <p class="module-description">
+                                {{ lesson.module.description }}
                             </p>
-
-                            <h1 class="lesson-title">
-                                {{ lesson.title }}
-                            </h1>
+                            {% endif %}
 
                         </div>
 
-                        {% if completed %}
+                        <div class="lesson-divider"></div>
 
-                        <span class="mf-badge mf-badge-success">
+                        <div class="lesson-block">
 
-                            <i class="bi bi-check-circle-fill"></i>
+                            <div class="lesson-heading">
 
-                            Completed
+                                <div class="lesson-title-stack">
 
-                        </span>
+                                    <span class="lesson-index-marker">
+                                        Lesson {{ lesson_number }}
+                                    </span>
 
-                        {% endif %}
+                                    <h1 class="lesson-title">
+                                        {{ lesson.title }}
+                                    </h1>
+
+                                </div>
+
+                                {% if completed %}
+
+                                <span class="mf-badge mf-badge-success">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                    Completed
+
+                                </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -128,11 +140,12 @@
 
             </div>
 
+            {% if not completed %}
+
             <div class="lesson-hero-right">
 
-                {% if not completed %}
-
                 <form
+                    class="lesson-complete-form"
                     method="POST"
                     action="{{ url_for(
                         'student.complete_lesson',
@@ -155,9 +168,21 @@
 
                 </form>
 
-                {% endif %}
+                <a
+                    href="#lesson-content"
+                    class="secondary-btn lesson-read-btn">
+
+                    <i class="bi bi-arrow-down"></i>
+
+                    <span>
+                        Start Reading
+                    </span>
+
+                </a>
 
             </div>
+
+            {% endif %}
 
         </div>
 
@@ -171,7 +196,15 @@
 
         <div class="dashboard-section-header">
 
-            <h3>Lesson Video</h3>
+            <div>
+
+                <span class="lesson-section-label">
+                    Watch
+                </span>
+
+                <h3>Lesson Video</h3>
+
+            </div>
 
         </div>
 
@@ -191,23 +224,29 @@
 
     <!-- Lesson Content -->
 
-    <section class="glass-card lesson-content-card">
+    <section
+        class="glass-card lesson-content-card"
+        id="lesson-content">
 
         <div class="dashboard-section-header mf-between">
 
-            <h3>Lesson Content</h3>
+            <div>
 
-            <span class="mf-badge">
+                <h3>Content</h3>
 
-                Lesson {{ lesson_number }}
-
-            </span>
+            </div>
 
         </div>
 
-        <div class="lesson-content">
+        <div class="lesson-content-frame">
 
-            {{ lesson.content|safe }}
+            <div
+                class="lesson-content"
+                data-lesson-content>
+
+                {{ lesson.content|safe }}
+
+            </div>
 
         </div>
 
@@ -215,7 +254,7 @@
 
     <!-- Lesson Navigation -->
 
-    <nav class="glass-card lesson-navigation">
+    <nav class="lesson-navigation">
 
         <div class="mf-between">
 
@@ -230,13 +269,15 @@
 
                 <i class="bi bi-arrow-left"></i>
 
-                <span>Previous Lesson</span>
+                <span>
+                    Previous Lesson
+                </span>
 
             </a>
 
             {% else %}
 
-            <span></span>
+            <span class="lesson-navigation-spacer"></span>
 
             {% endif %}
 
@@ -249,9 +290,28 @@
                 ) }}"
                 class="primary-btn">
 
-                <span>Next Lesson</span>
+                <span>
+                    Next Lesson
+                </span>
 
                 <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+            {% else %}
+
+            <a
+                href="{{ url_for(
+                    'student.course_curriculum',
+                    course_id=lesson.module.course.id
+                ) }}"
+                class="primary-btn">
+
+                <span>
+                    Finish Course View
+                </span>
+
+                <i class="bi bi-list-check"></i>
 
             </a>
 
@@ -260,5 +320,162 @@
         </div>
 
     </nav>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const content = document.querySelector("[data-lesson-content]");
+
+    if (!content) {
+        return;
+    }
+
+    const structuredSelector = "h1,h2,h3,h4,h5,h6,pre,code,ul,ol,table,blockquote";
+
+    if (content.querySelector(structuredSelector)) {
+        return;
+    }
+
+    const rawText = content.textContent.replace(/\s+/g, " ").trim();
+
+    if (!rawText) {
+        return;
+    }
+
+    const sectionTitles = [
+        "Learning Objectives",
+        "Introduction",
+        "Example",
+        "Output",
+        "Key Points",
+        "Practice Exercise",
+        "Summary",
+    ];
+
+    const escapedTitles = sectionTitles
+        .map(title => title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+        .join("|");
+
+    const headingPattern = new RegExp(`\\b(${escapedTitles})(?=\\s|:)`, "g");
+    const matches = [...rawText.matchAll(headingPattern)];
+
+    if (!matches.length) {
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+
+    matches.forEach((match, index) => {
+
+        const title = match[1];
+        const start = match.index + title.length;
+        const end = matches[index + 1]
+            ? matches[index + 1].index
+            : rawText.length;
+
+        const body = rawText
+            .slice(start, end)
+            .replace(/^:\s*/, "")
+            .trim();
+
+        const section = document.createElement("section");
+        section.className = "lesson-content-section";
+
+        const heading = document.createElement("h4");
+        heading.textContent = title;
+        section.appendChild(heading);
+
+        if (body) {
+            appendFormattedBody(section, title, body);
+        }
+
+        fragment.appendChild(section);
+
+    });
+
+    content.replaceChildren(fragment);
+
+    function appendFormattedBody(section, title, body) {
+
+        if (isCodeLike(title, body)) {
+            const pre = document.createElement("pre");
+            const code = document.createElement("code");
+            code.textContent = body;
+            pre.appendChild(code);
+            section.appendChild(pre);
+            return;
+        }
+
+        if (title === "Key Points") {
+            const items = body
+                .split(/(?<=\.)\s+(?=[A-Z])/)
+                .map(item => item.trim())
+                .filter(Boolean);
+
+            if (items.length > 1) {
+                const list = document.createElement("ul");
+
+                items.forEach(item => {
+                    const li = document.createElement("li");
+                    appendInlineCode(li, item);
+                    list.appendChild(li);
+                });
+
+                section.appendChild(list);
+                return;
+            }
+        }
+
+        const paragraph = document.createElement("p");
+        appendInlineCode(paragraph, body);
+        section.appendChild(paragraph);
+
+    }
+
+    function isCodeLike(title, body) {
+        return (
+            title === "Example"
+            || /^(print|console\.log|def|class|import|return|for|while|if)\b/.test(body)
+        );
+    }
+
+    function appendInlineCode(parent, text) {
+
+        const codePattern = /(\b[a-zA-Z_]\w*\([^)]*\)|`[^`]+`)/g;
+        let cursor = 0;
+
+        text.replace(codePattern, (match, _value, offset) => {
+
+            if (offset > cursor) {
+                parent.appendChild(
+                    document.createTextNode(text.slice(cursor, offset))
+                );
+            }
+
+            const code = document.createElement("code");
+            code.textContent = match.replace(/^`|`$/g, "");
+            parent.appendChild(code);
+
+            cursor = offset + match.length;
+
+        });
+
+        if (cursor < text.length) {
+            parent.appendChild(
+                document.createTextNode(text.slice(cursor))
+            );
+        }
+
+    }
+
+});
+</script>
 
 {% endblock %}
