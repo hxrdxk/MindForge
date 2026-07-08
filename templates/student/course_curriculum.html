@@ -22,11 +22,9 @@
 
 <div class="dashboard-section">
 
-    <!-- Progress -->
-
     <div class="mt-2 mb-5">
 
-        <div class="mf-between align-items-start mb-3">
+        <div class="mf-between align-items-start">
 
             <div class="flex-grow-1 mx-3">
 
@@ -64,33 +62,55 @@
 
     {% for module in course.modules %}
 
-    <div class="glass-card dashboard-module">
+    {% set completed_count = namespace(value=0) %}
 
-        <!-- Module Header -->
+    {% for lesson in module.lessons %}
+
+        {% if lesson.id in completed_lessons %}
+
+            {% set completed_count.value = completed_count.value + 1 %}
+
+        {% endif %}
+
+    {% endfor %}
+
+    <div class="glass-card dashboard-module">
 
         <div class="mf-between align-items-start mb-4">
 
-            <div>
+            <div class="flex-grow-1">
 
-                <h3 class="mb-2">
+                <div class="module-header">
 
-                    <i class="bi bi-journal-bookmark-fill me-2"></i>
+                    <span class="module-index">
 
-                    {{ module.title }}
+                        {{ module_numbers[module.id] }}.
 
-                </h3>
+                    </span>
 
-                <p class="mf-text-muted mb-0">
+                    <div class="module-content">
 
-                    {{ module.description }}
+                        <h3 class="module-title">
 
-                </p>
+                            {{ module.title }}
+
+                        </h3>
+
+                        <p class="module-description">
+
+                            {{ module.description }}
+
+                        </p>
+
+                    </div>
+
+                </div>
 
             </div>
 
             <span class="mf-badge mf-badge-primary">
 
-                {{ module.lessons|length }}
+                {{ completed_count.value }} / {{ module.lessons|length }}
 
                 Lesson{% if module.lessons|length != 1 %}s{% endif %}
 
@@ -100,7 +120,7 @@
 
         {% if module.lessons %}
 
-        <div>
+        <div class="lesson-list">
 
             {% for lesson in module.lessons %}
 
@@ -109,25 +129,35 @@
                     'student.lesson_view',
                     lesson_id=lesson.id
                 ) }}"
-                class="mf-list-item">
+                class="lesson-row {% if lesson.id in completed_lessons %}lesson-row-completed{% endif %}">
 
-                <div class="d-flex align-items-center gap-3">
+                <div class="lesson-left">
 
-                    {% if lesson.id in completed_lessons %}
+                    <div class="lesson-icon">
 
-                    <i class="bi bi-check-circle-fill"></i>
+                        {% if lesson.id in completed_lessons %}
 
-                    {% else %}
+                        <i class="bi bi-check-circle-fill"></i>
 
-                    <i class="bi bi-play-circle-fill"></i>
+                        {% else %}
 
-                    {% endif %}
+                        <i class="bi bi-circle"></i>
 
-                    <span>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="lesson-index">
+
+                        {{ loop.index }}.
+
+                    </div>
+
+                    <div class="lesson-name">
 
                         {{ lesson.title }}
 
-                    </span>
+                    </div>
 
                 </div>
 
@@ -175,13 +205,27 @@
 
         {% set status = quiz_status.get(module.id) %}
 
-        <div class="dashboard-section mt-4">
+        <div class="module-quiz
+            {% if status.attempted %}
+                {% if status.passed %}
+                    module-quiz-passed
+                {% else %}
+                    module-quiz-failed
+                {% endif %}
+            {% endif %}">
 
-            <div class="mf-between align-items-start mb-4">
+            <div class="mf-between align-items-center">
 
                 <div>
 
-                    <h4 class="mb-0">
+                    <h4 class="mb-2"
+                        style="color: {% if status.attempted %}
+                                {% if status.passed %}
+                                    var(--success)
+                                {% else %}
+                                    var(--danger)
+                                {% endif %}
+                            {% endif %}">
 
                         <i class="bi bi-patch-question-fill me-2"></i>
 
@@ -189,9 +233,45 @@
 
                     </h4>
 
+                    {% if status.attempted %}
+
+                    <p class="mb-0" style="color: var(--text-muted);">
+
+                        {% if status.passed %}
+
+                        Best Score:
+
+                        <strong style="color: color-mix(in srgb, var(--success), #fff 30%);">
+
+                            {{ status.best_score }}%
+
+                        </strong>
+
+                        {% else %}
+
+                        Latest Score:
+
+                        <strong style="color: color-mix(in srgb, var(--danger), #fff 30%);">
+
+                            {{ status.latest_score }}%
+
+                        </strong>
+
+                        {% endif %}
+
+                        &nbsp;•&nbsp;
+
+                        {{ status.attempts }}
+
+                        Attempt{% if status.attempts != 1 %}s{% endif %}
+
+                    </p>
+
+                    {% endif %}
+
                 </div>
 
-                <div>
+                <div class="d-flex align-items-center gap-4">
 
                     {% if not module.quiz.is_published %}
 
@@ -227,76 +307,32 @@
 
                     {% endif %}
 
-                </div>
+                    {% if module.quiz.is_published %}
 
-            </div>
+                    <a
+                        href="{{ url_for(
+                            'student.take_quiz',
+                            quiz_id=module.quiz.id
+                        ) }}"
+                        class="primary-btn">
 
-            <div class="mf-between align-items-center">
+                        <i class="bi bi-pencil-square"></i>
 
-                <div>
+                        {% if status.attempted %}
 
-                    {% if status.attempted %}
-
-                    <p class="mf-text-muted mb-0">
-
-                        {% if status.passed %}
-
-                        Best Score
-
-                        <strong>
-
-                            {{ status.best_score }}%
-
-                        </strong>
+                        Retake Quiz
 
                         {% else %}
 
-                        Latest Score
-
-                        <strong>
-
-                            {{ status.latest_score }}%
-
-                        </strong>
+                        Take Quiz
 
                         {% endif %}
 
-                        •
-
-                        {{ status.attempts }}
-
-                        Attempt{% if status.attempts != 1 %}s{% endif %}
-
-                    </p>
+                    </a>
 
                     {% endif %}
 
                 </div>
-
-                {% if module.quiz.is_published %}
-
-                <a
-                    href="{{ url_for(
-                        'student.take_quiz',
-                        quiz_id=module.quiz.id
-                    ) }}"
-                    class="primary-btn">
-
-                    <i class="bi bi-pencil-square"></i>
-
-                    {% if status.attempted %}
-
-                    Retake Quiz
-
-                    {% else %}
-
-                    Take Quiz
-
-                    {% endif %}
-
-                </a>
-
-                {% endif %}
 
             </div>
 

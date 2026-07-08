@@ -4,6 +4,9 @@
 {{ lesson.title }} | {{ brand.name }}
 {% endblock %}
 
+{% set page_title = lesson.module.course.title %}
+{% set page_subtitle = lesson.module.course.description %}
+
 {% block dashboard_actions %}
 
 <a
@@ -25,7 +28,7 @@
 
 <!-- Breadcrumb -->
 
-<nav class="mb-3">
+<nav class="mb-4">
 
     <div class="lesson-breadcrumb">
 
@@ -51,72 +54,104 @@
 
         <span>
 
-            {{ lesson.title }}
+            {{ lesson.module.title }}
 
         </span>
+
+        <i class="bi bi-chevron-right"></i>
+
+        <strong>
+
+            {{ lesson.title }}
+
+        </strong>
 
     </div>
 
 </nav>
 
-<!-- Lesson Info -->
+<!-- Lesson Hero -->
 
-<div class="glass-card mb-4">
+<div class="glass-card lesson-hero mb-4">
 
-    <div class="mf-between align-items-start mb-4">
+    <div class="lesson-hero-content">
 
-        <span class="badge-ai">
+        <div class="lesson-hero-left">
 
-            {{ lesson.module.title }}
+            <div class="lesson-module">
 
-        </span>
+                <span>
 
-        {% if completed %}
+                    Module {{ module_number }}
 
-        <span class="mf-badge mf-badge-success">
+                </span>
 
-            <i class="bi bi-check-circle-fill"></i>
+                <span class="mx-2">
 
-            Lesson Completed
+                    •
 
-        </span>
+                </span>
 
-        {% else %}
+                <span>
 
-        <form
-            method="POST"
-            action="{{ url_for(
-                'student.complete_lesson',
-                lesson_id=lesson.id
-            ) }}">
+                    {{ lesson.module.title }}
 
-            <button
-                type="submit"
-                class="primary-btn">
+                </span>
 
-                <i class="bi bi-check-lg"></i>
+            </div>
 
-                Mark as Complete
+            <div class="lesson-label mt-3">
 
-            </button>
+                Lesson {{ lesson_number }}
 
-        </form>
+            </div>
 
-        {% endif %}
+            <h1 class="lesson-title mt-2">
+
+                {{ lesson.title }}
+
+            </h1>
+
+        </div>
+
+        <div class="lesson-hero-right">
+
+            {% if completed %}
+
+            <span class="mf-badge mf-badge-success lesson-status">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                Completed
+
+            </span>
+
+            {% else %}
+
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'student.complete_lesson',
+                    lesson_id=lesson.id
+                ) }}">
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+
+                    <i class="bi bi-check-lg"></i>
+
+                    Mark as Complete
+
+                </button>
+
+            </form>
+
+            {% endif %}
+
+        </div>
 
     </div>
-
-    <h2 class="mb-2">
-
-        {{ lesson.title }}
-
-    </h2>
-
-    <p class="mf-text-muted mb-0">
-
-        {{ lesson.module.course.title }}
-
-    </p>
 
 </div>
 
@@ -124,13 +159,17 @@
 
 {% if lesson.video_url %}
 
-<div class="video-player mb-4">
+<div class="glass-card mb-4">
 
-    <iframe
-        src="{{ lesson.video_url }}"
-        allowfullscreen>
+    <div class="video-player">
 
-    </iframe>
+        <iframe
+            src="{{ lesson.video_url }}"
+            allowfullscreen>
+
+        </iframe>
+
+    </div>
 
 </div>
 
@@ -140,6 +179,18 @@
 
 <div class="glass-card">
 
+    <div class="dashboard-section-header">
+
+        <h3>
+
+            Lesson Content
+
+        </h3>
+
+    </div>
+
+    <hr class="mt-0 mb-4">
+
     <div class="lesson-content">
 
         {{ lesson.content|safe }}
@@ -148,49 +199,53 @@
 
 </div>
 
-<!-- Navigation -->
+<!-- Lesson Navigation -->
 
-<div class="mf-between mt-4">
+<div class="glass-card mt-4">
 
-    <div>
+    <div class="mf-between align-items-center">
 
-        {% if previous_lesson %}
+        <div>
 
-        <a
-            href="{{ url_for(
-                'student.lesson_view',
-                lesson_id=previous_lesson.id
-            ) }}"
-            class="secondary-btn">
+            {% if previous_lesson %}
 
-            <i class="bi bi-arrow-left"></i>
+            <a
+                href="{{ url_for(
+                    'student.lesson_view',
+                    lesson_id=previous_lesson.id
+                ) }}"
+                class="secondary-btn">
 
-            Previous Lesson
+                <i class="bi bi-arrow-left"></i>
 
-        </a>
+                Previous Lesson
 
-        {% endif %}
+            </a>
 
-    </div>
+            {% endif %}
 
-    <div>
+        </div>
 
-        {% if next_lesson %}
+        <div>
 
-        <a
-            href="{{ url_for(
-                'student.lesson_view',
-                lesson_id=next_lesson.id
-            ) }}"
-            class="primary-btn">
+            {% if next_lesson %}
 
-            Next Lesson
+            <a
+                href="{{ url_for(
+                    'student.lesson_view',
+                    lesson_id=next_lesson.id
+                ) }}"
+                class="primary-btn">
 
-            <i class="bi bi-arrow-right"></i>
+                Next Lesson
 
-        </a>
+                <i class="bi bi-arrow-right"></i>
 
-        {% endif %}
+            </a>
+
+            {% endif %}
+
+        </div>
 
     </div>
 

@@ -206,6 +206,380 @@
 }
 
 /* ==========================================
+   COURSE CURRICULUM
+========================================== */
+
+.module-header{
+    display:flex;
+    align-items:baseline;
+}
+
+.module-index{
+    width: 58px;
+    flex-shrink:0;
+    font-size:1.5rem;
+    font-weight:700;
+    text-align:right;
+    line-height:1.25;
+    color:var(--text);
+    padding-right:15px;
+}
+
+.module-content{
+    flex:1;
+}
+
+.module-title{
+    margin:0 0 8px;
+    font-size:1.5rem;
+    font-weight:700;
+    line-height:1.25;
+}
+
+.module-description{
+    margin:0;
+    color:var(--text-light);
+}
+
+.module-title-row{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:8px;
+}
+
+/* ---------- Lesson List ---------- */
+
+.lesson-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.lesson-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:56px;
+    padding:12px 18px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    transition:var(--transition);
+    color:inherit;
+}
+
+.lesson-row:hover{
+    background:rgba(124,58,237,.05);
+    border-color:rgba(124,58,237,.25);
+    transform:translateX(6px);
+}
+
+.lesson-left{
+    display:flex;
+    align-items:center;
+    flex:1;
+    min-width:0;
+}
+
+.lesson-icon{
+    width:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:15px;
+    flex-shrink:0;
+}
+
+.lesson-icon .bi-check-circle-fill{
+    font-size:1rem;
+    color:var(--success);
+}
+
+.lesson-icon .bi-circle{
+    font-size:.8rem;
+    color:#d1d5db;
+}
+
+.lesson-index{
+    width:26px;
+    font-size:1rem;
+    font-weight:500;
+    color:var(--text);
+    flex-shrink:0;
+}
+
+.lesson-name{
+    margin-left:4px;
+    font-size:1rem;
+    font-weight:500;
+    color:var(--text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* ---------- Completed ---------- */
+
+
+.lesson-row-completed{
+    border-color:rgba(34,197,94,.45);
+}
+
+.lesson-row-completed:hover{
+    background:rgba(34,197,94,.06);
+    border-color:var(--success);
+}
+
+.lesson-row-completed .lesson-index,
+.lesson-row-completed .lesson-name{
+    color:var(--success);
+}
+
+.lesson-row-completed .lesson-icon i{
+    color:var(--success);
+}
+
+.lesson-row-completed .mf-badge{
+    padding:.28rem .7rem;
+}
+
+/* ---------- Module Quiz ---------- */
+
+.module-quiz{
+    padding:20px 24px;
+    margin-top:18px;
+    transition:var(--transition);
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:var(--radius-lg);
+}
+
+.module-quiz h4{
+    font-size:1.1rem;
+    font-weight:700;
+    margin:0;
+}
+
+.module-quiz .primary-btn{
+    align-self:center;
+}
+
+.module-quiz-passed{
+    border-color:rgba(34,197,94,.45);
+}
+
+.module-quiz-passed:hover{
+    background:rgba(34,197,94,.06);
+    border-color:var(--success);
+}
+
+.module-quiz-failed{
+    border-color:rgba(239,68,68,.45);
+}
+
+.module-quiz-failed:hover{
+    background:rgba(239,68,68,.06);
+    border-color:var(--danger);
+}
+
+/* ==========================================
+   LESSON
+========================================== */
+
+.lesson-hero{
+
+    padding:36px 42px;
+
+}
+
+.lesson-hero-content{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:32px;
+
+}
+
+.lesson-hero-left{
+
+    flex:1;
+
+}
+
+.lesson-hero-right{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:flex-end;
+
+    flex-shrink:0;
+
+}
+
+.lesson-module{
+
+    font-size:1.15rem;
+
+    font-weight:var(--fw-semibold);
+
+    color:var(--secondary);
+
+    margin-bottom:10px;
+
+}
+
+.lesson-title{
+
+    font-size:2rem;
+
+    font-weight:var(--fw-bold);
+
+    line-height:1.25;
+
+    margin:0;
+
+}
+
+.lesson-status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:14px 22px;
+
+    font-size:1rem;
+
+}
+
+.lesson-status i{
+
+    color:inherit;
+
+}
+
+.lesson-breadcrumb{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    font-size:.95rem;
+
+}
+
+.lesson-breadcrumb strong{
+
+    font-weight:var(--fw-semibold);
+
+}
+
+.lesson-content{
+
+    font-size:1.02rem;
+
+    line-height:1.9;
+
+}
+
+.lesson-content h1{
+
+    margin-top:2rem;
+
+    margin-bottom:1rem;
+
+}
+
+.lesson-content h2{
+
+    margin:34px 0 18px;
+
+}
+
+.lesson-content h3{
+
+    margin:28px 0 16px;
+
+}
+
+.lesson-content p{
+
+    margin-bottom:18px;
+
+}
+
+.lesson-content ul,
+.lesson-content ol{
+
+    padding-left:24px;
+
+    margin-bottom:18px;
+
+}
+
+.lesson-content img{
+
+    border-radius:var(--radius-lg);
+
+    margin:24px 0;
+
+    max-width:100%;
+
+}
+
+.lesson-content code{
+
+    background:var(--surface-alt);
+
+    padding:2px 6px;
+
+    border-radius:6px;
+
+}
+
+.lesson-content pre{
+
+    padding:20px;
+
+    border-radius:var(--radius-md);
+
+    overflow:auto;
+
+}
+
+@media(max-width:992px){
+
+    .lesson-hero-content{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .lesson-hero-right{
+
+        width:100%;
+
+        justify-content:flex-start;
+
+    }
+
+}
+
+/* ==========================================
    ALERTS
 ========================================== */
 
@@ -418,12 +792,6 @@
     justify-content:space-between;
 
     align-items:center;
-
-}
-
-.mf-text-muted{
-
-    color:var(--text-light);
 
 }
 
@@ -780,73 +1148,6 @@
 }
 
 /* ==========================================
-   LESSON CONTENT
-========================================== */
-
-.lesson-content{
-
-    line-height:1.9;
-
-}
-
-.lesson-content h2{
-
-    margin:34px 0 18px;
-
-}
-
-.lesson-content h3{
-
-    margin:28px 0 16px;
-
-}
-
-.lesson-content p{
-
-    margin-bottom:18px;
-
-}
-
-.lesson-content ul,
-.lesson-content ol{
-
-    padding-left:24px;
-
-    margin-bottom:18px;
-
-}
-
-.lesson-content img{
-
-    border-radius:var(--radius-lg);
-
-    margin:24px 0;
-
-    max-width:100%;
-
-}
-
-.lesson-content code{
-
-    background:var(--surface-alt);
-
-    padding:2px 6px;
-
-    border-radius:6px;
-
-}
-
-.lesson-content pre{
-
-    padding:20px;
-
-    border-radius:var(--radius-md);
-
-    overflow:auto;
-
-}
-
-/* ==========================================
    QUIZ OPTION
 ========================================== */
 
@@ -862,7 +1163,7 @@
 
     border:1px solid var(--border);
 
-    border-radius:var(--radius-md);
+    border-radius:var(--radius-lg);
 
     cursor:pointer;
 

@@ -90,7 +90,7 @@ Student Dashboard | {{ brand.name }}
 
                         </h4>
 
-                        <p class="text-muted mb-0">
+                        <p class="mb-0" style="color: var(--text-light);">
 
                             {{ enrollment.course.description[:90] }}
                             {% if enrollment.course.description|length > 90 %}...{% endif %}
@@ -139,7 +139,7 @@ Student Dashboard | {{ brand.name }}
 
                 <div class="d-flex justify-content-between align-items-center">
 
-                    <small class="text-muted">
+                    <small style="color: var(--text-light);">
 
                         Enrolled on {{ enrollment.enrolled_at.strftime("%d %b %Y") }}
 
@@ -181,7 +181,7 @@ Student Dashboard | {{ brand.name }}
 
         </h3>
 
-        <p class="text-muted mb-4">
+        <p style="color: var(--text-light);" class="mb-4">
 
             Enroll in a course to begin your learning journey.
 
@@ -213,7 +213,7 @@ Student Dashboard | {{ brand.name }}
 
     </div>
 
-    <p class="text-muted mb-0">
+    <p class="mb-0" style="color: var(--text-light);">
 
         No recent activity found.
 

@@ -17,6 +17,37 @@ from models.question import Question
 from models.certificate import Certificate
 from utils.pdf import generate_certificate_pdf
 
+def to_roman(number):
+
+    roman_map = [
+
+        (1000, "M"),
+        (900, "CM"),
+        (500, "D"),
+        (400, "CD"),
+        (100, "C"),
+        (90, "XC"),
+        (50, "L"),
+        (40, "XL"),
+        (10, "X"),
+        (9, "IX"),
+        (5, "V"),
+        (4, "IV"),
+        (1, "I"),
+
+    ]
+
+    result = ""
+
+    for value, numeral in roman_map:
+
+        while number >= value:
+
+            result += numeral
+            number -= value
+
+    return result
+
 student_bp = Blueprint(
     "student",
     __name__,
@@ -243,7 +274,17 @@ def course_curriculum(course_id):
 
     quiz_status = {}
 
-    for module in course.modules:
+    sorted_modules = sorted(
+        course.modules,
+        key=lambda m: m.position,
+    )
+
+    module_numbers = {
+        module.id: to_roman(index + 1)
+        for index, module in enumerate(sorted_modules)
+    }   
+
+    for module in sorted_modules:
 
         if not module.quiz:
 
@@ -302,7 +343,8 @@ def course_curriculum(course_id):
         quiz_status=quiz_status,
         page_title=course.title,
         page_subtitle=course.description,
-        active_page="courses"
+        active_page="courses",
+        module_numbers=module_numbers,
     )
 
 @student_bp.route("/lessons/<int:lesson_id>")
@@ -350,6 +392,23 @@ def lesson_view(lesson_id):
         lesson_id=lesson.id,
         completed=True,
     ).first()
+
+    sorted_modules = sorted(
+        lesson.module.course.modules,
+        key=lambda m: m.position,
+    )
+
+    module_number = to_roman(
+        sorted_modules.index(lesson.module) + 1
+    )
+
+    lesson_number = (
+        sorted(
+            lesson.module.lessons,
+            key=lambda l: l.position,
+        ).index(lesson)
+        + 1
+    )
     
     return render_template(
         "student/lesson_view.html",
@@ -358,7 +417,9 @@ def lesson_view(lesson_id):
         previous_lesson=previous_lesson,
         next_lesson=next_lesson,
         completed=completed,
-        active_page="courses"
+        active_page="courses",
+        module_number=module_number,
+        lesson_number=lesson_number,
     )
 
 @student_bp.route(
