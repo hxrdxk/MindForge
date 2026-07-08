@@ -18,7 +18,7 @@
 
     <i class="bi bi-arrow-left"></i>
 
-    Back to Curriculum
+    <span>Back to Curriculum</span>
 
 </a>
 
@@ -26,16 +26,14 @@
 
 {% block dashboard_content %}
 
-<!-- Breadcrumb -->
+<section class="dashboard-section lesson-page">
 
-<nav class="mb-4">
+    <!-- Breadcrumb -->
 
-    <div class="lesson-breadcrumb">
+    <nav class="lesson-breadcrumb">
 
         <a href="{{ url_for('student.dashboard') }}">
-
             Dashboard
-
         </a>
 
         <i class="bi bi-chevron-right"></i>
@@ -66,146 +64,160 @@
 
         </strong>
 
-    </div>
+    </nav>
 
-</nav>
+    <!-- Lesson Hero -->
 
-<!-- Lesson Hero -->
+    <section class="glass-card lesson-hero">
 
-<div class="glass-card lesson-hero mb-4">
+        <div class="lesson-hero-content">
 
-    <div class="lesson-hero-content">
+            <div class="lesson-hero-left">
 
-        <div class="lesson-hero-left">
+                <div class="module-block">
 
-            <div class="lesson-module">
+                    <p class="module-index-label">
+                        Module {{ module_number }}
+                    </p>
 
-                <span>
+                    <h2 class="module-title">
+                        {{ lesson.module.title }}
+                    </h2>
 
-                    Module {{ module_number }}
+                    {% if lesson.module.description %}
+                    <p class="module-description">
+                        {{ lesson.module.description }}
+                    </p>
+                    {% endif %}
 
-                </span>
+                </div>
 
-                <span class="mx-2">
+                <div class="lesson-divider"></div>
 
-                    •
+                <div class="lesson-block">
 
-                </span>
+                    <div class="lesson-heading">
 
-                <span>
+                        <div>
 
-                    {{ lesson.module.title }}
+                            <p class="lesson-index-label">
+                                Lesson {{ lesson_number }}
+                            </p>
 
-                </span>
+                            <h1 class="lesson-title">
+                                {{ lesson.title }}
+                            </h1>
+
+                        </div>
+
+                        {% if completed %}
+
+                        <span class="mf-badge mf-badge-success">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            Completed
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="lesson-label mt-3">
+            <div class="lesson-hero-right">
+
+                {% if not completed %}
+
+                <form
+                    method="POST"
+                    action="{{ url_for(
+                        'student.complete_lesson',
+                        lesson_id=lesson.id
+                    ) }}">
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        <i class="bi bi-check-lg"></i>
+
+                        <span>
+
+                            Mark as Complete
+
+                        </span>
+
+                    </button>
+
+                </form>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Video -->
+
+    {% if lesson.video_url %}
+
+    <section class="glass-card lesson-video">
+
+        <div class="dashboard-section-header">
+
+            <h3>Lesson Video</h3>
+
+        </div>
+
+        <div class="video-player">
+
+            <iframe
+                src="{{ lesson.video_url }}"
+                allowfullscreen>
+
+            </iframe>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+    <!-- Lesson Content -->
+
+    <section class="glass-card lesson-content-card">
+
+        <div class="dashboard-section-header mf-between">
+
+            <h3>Lesson Content</h3>
+
+            <span class="mf-badge">
 
                 Lesson {{ lesson_number }}
 
-            </div>
-
-            <h1 class="lesson-title mt-2">
-
-                {{ lesson.title }}
-
-            </h1>
-
-        </div>
-
-        <div class="lesson-hero-right">
-
-            {% if completed %}
-
-            <span class="mf-badge mf-badge-success lesson-status">
-
-                <i class="bi bi-check-circle-fill"></i>
-
-                Completed
-
             </span>
 
-            {% else %}
+        </div>
 
-            <form
-                method="POST"
-                action="{{ url_for(
-                    'student.complete_lesson',
-                    lesson_id=lesson.id
-                ) }}">
+        <div class="lesson-content">
 
-                <button
-                    type="submit"
-                    class="primary-btn">
-
-                    <i class="bi bi-check-lg"></i>
-
-                    Mark as Complete
-
-                </button>
-
-            </form>
-
-            {% endif %}
+            {{ lesson.content|safe }}
 
         </div>
 
-    </div>
+    </section>
 
-</div>
+    <!-- Lesson Navigation -->
 
-<!-- Video -->
+    <nav class="glass-card lesson-navigation">
 
-{% if lesson.video_url %}
-
-<div class="glass-card mb-4">
-
-    <div class="video-player">
-
-        <iframe
-            src="{{ lesson.video_url }}"
-            allowfullscreen>
-
-        </iframe>
-
-    </div>
-
-</div>
-
-{% endif %}
-
-<!-- Lesson Content -->
-
-<div class="glass-card">
-
-    <div class="dashboard-section-header">
-
-        <h3>
-
-            Lesson Content
-
-        </h3>
-
-    </div>
-
-    <hr class="mt-0 mb-4">
-
-    <div class="lesson-content">
-
-        {{ lesson.content|safe }}
-
-    </div>
-
-</div>
-
-<!-- Lesson Navigation -->
-
-<div class="glass-card mt-4">
-
-    <div class="mf-between align-items-center">
-
-        <div>
+        <div class="mf-between">
 
             {% if previous_lesson %}
 
@@ -218,15 +230,15 @@
 
                 <i class="bi bi-arrow-left"></i>
 
-                Previous Lesson
+                <span>Previous Lesson</span>
 
             </a>
 
+            {% else %}
+
+            <span></span>
+
             {% endif %}
-
-        </div>
-
-        <div>
 
             {% if next_lesson %}
 
@@ -237,7 +249,7 @@
                 ) }}"
                 class="primary-btn">
 
-                Next Lesson
+                <span>Next Lesson</span>
 
                 <i class="bi bi-arrow-right"></i>
 
@@ -247,8 +259,6 @@
 
         </div>
 
-    </div>
-
-</div>
+    </nav>
 
 {% endblock %}
