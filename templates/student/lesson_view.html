@@ -71,118 +71,90 @@
     <section class="glass-card lesson-hero">
 
         <div class="lesson-hero-content">
+            
+            <div class="module-block">
 
-            <div class="lesson-hero-left">
+                <div class="lesson-title-stack">
 
-                <div class="lesson-hero-main">
+                    <span class="lesson-index-marker">
+                        Module {{ module_number }}
+                    </span>
 
-                    <div class="lesson-hero-copy">
+                    <h2 class="module-title">
+                        {{ lesson.module.title }}
+                    </h2>
 
-                        <div class="module-block">
+                </div>
 
-                            <div class="lesson-title-stack">
+                {% if lesson.module.description %}
+                <p class="module-description">
+                    {{ lesson.module.description }}
+                </p>
+                {% endif %}
 
-                                <span class="lesson-index-marker">
-                                    Module {{ module_number }}
-                                </span>
+            </div>
 
-                                <h2 class="module-title">
-                                    {{ lesson.module.title }}
-                                </h2>
+            <div class="lesson-divider"></div>
 
-                            </div>
+            <div class="lesson-block">
 
-                            {% if lesson.module.description %}
-                            <p class="module-description">
-                                {{ lesson.module.description }}
-                            </p>
-                            {% endif %}
+                <div class="lesson-heading">
 
-                        </div>
+                    <div class="lesson-title-stack">
 
-                        <div class="lesson-divider"></div>
+                        <span class="lesson-index-marker">
+                            Lesson {{ lesson_number }}
+                        </span>
 
-                        <div class="lesson-block">
-
-                            <div class="lesson-heading">
-
-                                <div class="lesson-title-stack">
-
-                                    <span class="lesson-index-marker">
-                                        Lesson {{ lesson_number }}
-                                    </span>
-
-                                    <h1 class="lesson-title">
-                                        {{ lesson.title }}
-                                    </h1>
-
-                                </div>
-
-                                {% if completed %}
-
-                                <span class="mf-badge mf-badge-success">
-
-                                    <i class="bi bi-check-circle-fill"></i>
-
-                                    Completed
-
-                                </span>
-
-                                {% endif %}
-
-                            </div>
-
-                        </div>
+                        <h1 class="lesson-title">
+                            {{ lesson.title }}
+                        </h1>
 
                     </div>
+
+                    {% if completed %}
+
+                    <span class="mf-badge mf-badge-success">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Completed
+
+                    </span>
+                    
+                    {% endif %}
+
+                    {% if not completed %}
+        
+                        <form
+                            class="lesson-complete-form"
+                            method="POST"
+                            action="{{ url_for(
+                                'student.complete_lesson',
+                                lesson_id=lesson.id
+                            ) }}">
+        
+                            <button
+                                type="submit"
+                                class="primary-btn">
+        
+                                <i class="bi bi-check-lg"></i>
+        
+                                <span>
+        
+                                    Mark as Complete
+        
+                                </span>
+        
+                            </button>
+        
+                        </form>
+        
+                    {% endif %}
 
                 </div>
 
             </div>
-
-            {% if not completed %}
-
-            <div class="lesson-hero-right">
-
-                <form
-                    class="lesson-complete-form"
-                    method="POST"
-                    action="{{ url_for(
-                        'student.complete_lesson',
-                        lesson_id=lesson.id
-                    ) }}">
-
-                    <button
-                        type="submit"
-                        class="primary-btn">
-
-                        <i class="bi bi-check-lg"></i>
-
-                        <span>
-
-                            Mark as Complete
-
-                        </span>
-
-                    </button>
-
-                </form>
-
-                <a
-                    href="#lesson-content"
-                    class="secondary-btn lesson-read-btn">
-
-                    <i class="bi bi-arrow-down"></i>
-
-                    <span>
-                        Start Reading
-                    </span>
-
-                </a>
-
-            </div>
-
-            {% endif %}
 
         </div>
 
