@@ -3,9 +3,23 @@
 ========================================== */
 
 .dashboard{
-    display:flex;
+    position:relative;
+    display:grid;
+    grid-template-columns:270px minmax(0, 1fr);
+    align-items:start;
     min-height:calc(100vh - 76px);
     background:#f8f9ff;
+}
+
+.dashboard::before{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    width:270px;
+    background:var(--surface);
+    border-right:1px solid var(--border);
 }
 
 /* ==========================================
@@ -13,14 +27,20 @@
 ========================================== */
 
 .dashboard-sidebar{
+    position:sticky;
+    top:var(--navbar-height);
+    align-self:start;
     width:270px;
+    max-height:calc(100vh - var(--navbar-height));
     background:#fff;
     border-right:1px solid var(--border);
     padding:32px 24px;
     display:flex;
     flex-direction:column;
     gap:12px;
-    flex-shrink:0;
+    overflow-y:auto;
+    scrollbar-width:thin;
+    z-index:1;
 }
 
 .dashboard-sidebar-title{
@@ -131,7 +151,7 @@
 ========================================== */
 
 .dashboard-main{
-    flex:1;
+    min-width:0;
     padding:40px;
 }
 
@@ -158,13 +178,17 @@
 .dashboard-title h1{
     font-size:2.2rem;
     margin-bottom:8px;
-    width: 1120px;
+    max-width:100%;
 }
 
 .dashboard-title p{
     color:var(--text-light);
     margin:0;
-    width: 1120px;
+    max-width:100%;
+}
+
+.dashboard-title{
+    min-width:0;
 }
 
 .dashboard-profile{
@@ -268,16 +292,46 @@
 @media(max-width:992px){
 
     .dashboard{
+        display:flex;
         flex-direction:column;
     }
 
+    .dashboard::before{
+        display:none;
+    }
+
     .dashboard-sidebar{
+        position:static;
         width:100%;
+        height:auto;
+        max-height:none;
         border-right:none;
         border-bottom:1px solid var(--border);
+        padding:20px 24px;
+        overflow:visible;
+    }
+
+    .dashboard-nav{
+        flex-direction:row;
+        flex-wrap:wrap;
+    }
+
+    .dashboard-nav a{
+        flex:1 1 190px;
+    }
+
+    .dashboard-nav a.active::before{
+        left:10px;
+        top:auto;
+        right:10px;
+        bottom:0;
+        width:auto;
+        height:4px;
     }
 
     .dashboard-main{
+        width:100%;
+        margin-left:0;
         padding:24px;
     }
 
@@ -290,6 +344,20 @@
 }
 
 @media(max-width:576px){
+
+    .dashboard-sidebar{
+        padding:16px 18px;
+    }
+
+    .dashboard-nav{
+        flex-direction:column;
+        flex-wrap:nowrap;
+    }
+
+    .dashboard-nav a{
+        flex:0 0 auto;
+        width:100%;
+    }
 
     .dashboard-main{
         padding:18px;

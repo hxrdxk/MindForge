@@ -1,26 +1,86 @@
 {% extends "layouts/student_layout.html" %}
 
+{% block title %}
+{{ quiz.title }} | {{ brand.name }}
+{% endblock %}
+
+{% set page_title = quiz.module.course.title %}
+{% set page_subtitle = quiz.module.course.description %}
+
+{% block dashboard_actions %}
+
+<a
+    href="{{ url_for(
+        'student.course_curriculum',
+        course_id=quiz.module.course.id
+    ) }}"
+    class="secondary-btn">
+
+    <i class="bi bi-arrow-left"></i>
+
+    <span>Back to Curriculum</span>
+
+</a>
+
+{% endblock %}
+
 {% block dashboard_content %}
 
-<h2>{{ quiz.title }}</h2>
+<section class="dashboard-section quiz-page">
 
-<form method="POST">
+    <section class="glass-card lesson-hero quiz-hero">
 
-<div class="mb-4">
+        <div class="lesson-hero-content">
 
-    <strong>
+            <div class="module-block">
 
-        {{ quiz.questions|length }}
+                <div class="lesson-title-stack">
 
-        Questions
+                    <span class="lesson-index-marker">
+                        Module {{ module_number }}
+                    </span>
 
-    </strong>
+                    <h2 class="module-title">
+                        {{ quiz.module.title }}
+                    </h2>
 
-</div>
+                </div>
+
+                {% if quiz.module.description %}
+                <p class="module-description">
+                    {{ quiz.module.description }}
+                </p>
+                {% endif %}
+
+            </div>
+
+            <div class="lesson-divider"></div>
+
+            <div class="lesson-block">
+
+                <div class="lesson-heading">
+
+                    <h1 class="lesson-title">{{ quiz.title }}</h1>
+
+                    <span class="mf-badge mf-badge-primary quiz-question-count">
+
+                        {{ quiz.questions|length }} Questions
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <form method="POST" class="quiz-form">
 
 {% for question in quiz.questions %}
 
-<div class="glass-card mb-4 mt-4">
+<div class="glass-card quiz-question-card">
 
 <div>
 
@@ -28,7 +88,7 @@
 
     <strong class="mf-badge mf-badge-primary">
 
-        Q{{ loop.index }}.
+        Q{{ loop.index }}
 
     </strong>
 
@@ -44,10 +104,22 @@
 
 <label class="mf-option">
 
-    <input
-        type="radio"
-        name="question_{{ question.id }}"
-        value="{{ option.id }}">
+    <span class="quiz-radio-control">
+
+        <input
+            type="radio"
+            name="question_{{ question.id }}"
+            value="{{ option.id }}">
+
+        <i
+            class="bi bi-circle quiz-radio-empty"
+            aria-hidden="true"></i>
+
+        <i
+            class="bi bi-check-circle-fill quiz-radio-selected"
+            aria-hidden="true"></i>
+
+    </span>
 
     <span>
 
@@ -65,7 +137,7 @@
 
 {% endfor %}
 
-<div class="text-center mt-5">
+<div class="quiz-submit">
 
     <button
         type="submit"
@@ -81,5 +153,26 @@
 
 </form>
 
+</section>
+
 {% endblock %}
 
+{% block scripts %}
+
+<script>
+document.querySelectorAll(".mf-option").forEach((option) => {
+    const input = option.querySelector('input[type="radio"]');
+
+    option.addEventListener("mousedown", () => {
+        input.dataset.wasChecked = input.checked ? "true" : "false";
+    });
+
+    input.addEventListener("click", () => {
+        if (input.dataset.wasChecked === "true") {
+            input.checked = false;
+        }
+    });
+});
+</script>
+
+{% endblock %}

@@ -4,228 +4,218 @@
 Quiz Result | {{ brand.name }}
 {% endblock %}
 
+{% block dashboard_actions %}
+
+<a
+    href="{{ url_for(
+        'student.course_curriculum',
+        course_id=attempt.quiz.module.course.id
+    ) }}"
+    class="secondary-btn">
+
+    <i class="bi bi-arrow-left"></i>
+
+    <span>Back to Curriculum</span>
+
+</a>
+
+{% endblock %}
+
 {% block dashboard_content %}
 
-    <!-- Summary -->
+<section class="dashboard-section quiz-result-page">
 
-    <div class="glass-card">
+    <section class="glass-card quiz-result-summary">
 
-        <div class=" text-center">
+        <div class="quiz-result-summary-header">
 
-            <h1 class="quiz-score">
+            <div>
 
-                {{ attempt.score }}%
+                <span class="lesson-section-label">
+                    Final Score
+                </span>
 
-            </h1>
-
-            <h3 class="mt-3">
-
-                Quiz Completed
-
-            </h3>
-            
-            {% if attempt.passed %}
-
-            <div class="mf-alert mf-alert-success mt-3">
-
-                <h5 class="mb-0">
-
-                    🎉 Congratulations! You Passed
-
-                </h5>
+                <h2 class="quiz-score {% if attempt.passed %}quiz-score-passed{% else %}quiz-score-failed{% endif %}">
+                    {{ attempt.score }}%
+                </h2>
 
             </div>
 
-            {% else %}
+            <div class="quiz-result-summary-meta">
 
-            <div class="mf-alert mf-alert-danger mt-3">
+                {% if attempt.passed %}
+                <span class="mf-badge mf-badge-success quiz-result-status">
 
-                <h5 class="mb-0">
+                    <i class="bi bi-check-circle-fill"></i>
 
-                    ❌ You Did Not Pass
+                    Passed
 
-                </h5>
+                </span>
 
-            </div>
+                <p>You met the passing score for this quiz.</p>
+                {% else %}
+                <span class="mf-badge mf-badge-danger quiz-result-status">
 
-            {% endif %}
+                    <i class="bi bi-arrow-counterclockwise"></i>
 
-            <div class="row text-center mt-4">
+                    Retry Needed
 
-                <div class="col-md-4">
+                </span>
 
-                    <div class="glass-card">
-
-                        <h3>
-
-                            {{ total_questions }}
-
-                        </h3>
-
-                        <small style="color: var(--text-light)">
-
-                            Questions
-
-                        </small>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="glass-card">
-
-                        <h3>
-
-                            {{ correct_count }}
-
-                        </h3>
-
-                        <small style="color: var(--text-light);">
-
-                            Correct
-
-                        </small>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="glass-card">
-
-                        <h3>
-
-                            {{ incorrect_count }}
-
-                        </h3>
-
-                        <small style="color: var(--text-light);">
-
-                            Incorrect
-
-                        </small>
-
-                    </div>
-
-                </div>
+                <p>Review the answers below and try again when you are ready.</p>
+                {% endif %}
 
             </div>
 
         </div>
 
-    </div>
+        <div class="quiz-result-stats">
 
-    <!-- Review -->
+            <div class="quiz-result-stat">
 
-    <h3 class="mb-4 mt-5">
+                <span>Questions</span>
 
-        Answer Review
-
-    </h3>
-
-    {% for item in review %}
-
-    <div class="glass-card mb-4">
-
-        <div class="">
-
-            <div class="d-flex align-items-center gap-3 mb-3">
-
-                <strong class="mf-badge mf-badge-primary">
-
-                    Q{{ loop.index }}.
-
-                </strong>
-
-                <h4 class="mb-0">
-
-                    {{ item.question.question_text }}
-
-                </h4>
+                <strong>{{ total_questions }}</strong>
 
             </div>
 
-            <div class="mb-4"></div>
+            <div class="quiz-result-stat">
 
-            {% if item.is_correct %}
+                <span>Correct</span>
 
-            <div class="mf-alert mf-alert-success mb-3">
-
-                ✓ Correct
+                <strong>{{ correct_count }}</strong>
 
             </div>
 
-            {% else %}
+            <div class="quiz-result-stat">
 
-            <div class="mf-alert mf-alert-danger mb-3">
+                <span>Incorrect</span>
 
-                ✗ Incorrect
-
-            </div>
-
-            {% endif %}
-
-            <p>
-
-                <strong>
-
-                    Your Answer
-
-                </strong>
-
-            </p>
-
-            <div class="mf-list-item">
-
-                <i class="bi bi-person-check-fill"></i>
-
-                {{ item.selected_option.option_text }}
+                <strong>{{ incorrect_count }}</strong>
 
             </div>
-
-            {% if not item.is_correct %}
-
-            <p>
-
-                <strong>
-
-                    Correct Answer
-
-                </strong>
-
-            </p>
-
-            <div class="mf-list-item">
-
-                <i class="bi bi-check-circle-fill"></i>
-
-                {{ item.correct_option.option_text }}
-
-            </div>            {% endif %}
 
         </div>
 
-    </div>
+    </section>
 
-    {% endfor %}
+    <section class="glass-card quiz-review-section">
 
-    <!-- Buttons -->
+        <div class="dashboard-section-header">
 
-    <div class="d-flex justify-content-between mt-5">
+            <div>
 
-        <a
-            href="{{ url_for(
-                'student.take_quiz',
-                quiz_id=attempt.quiz.id
-            ) }}"
-            class="secondary-btn">
+                <span class="lesson-section-label">
+                    Review
+                </span>
 
-            Retake Quiz
+                <h3>Answer Review</h3>
 
-        </a>
+            </div>
+
+        </div>
+
+        <div class="quiz-review-list">
+
+            {% for item in review %}
+
+            <article class="quiz-review-item">
+
+                <div class="quiz-review-item-header">
+
+                    <div class="quiz-review-question">
+
+                        <span class="mf-badge mf-badge-primary">
+                            Q{{ loop.index }}
+                        </span>
+
+                        <h4>{{ item.question.question_text }}</h4>
+
+                    </div>
+
+                    {% if item.is_correct %}
+                    <span class="mf-badge mf-badge-success">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Correct
+
+                    </span>
+
+                    {% elif not item.selected_option %}
+                    <span class="mf-badge mf-badge-warning">
+
+                        <i class="bi bi-dash-circle-fill"></i>
+
+                        Not Answered
+
+                    </span>
+
+                    {% else %}
+                    <span class="mf-badge mf-badge-danger">
+
+                        <i class="bi bi-x-circle-fill"></i>
+
+                        Incorrect
+
+                    </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="quiz-review-answers">
+
+                    <div class="quiz-review-answer">
+
+                        <span class="quiz-review-answer-label">
+                            Your Answer
+                        </span>
+
+                        <div class="mf-list-item quiz-review-selected-answer {% if item.is_correct %}quiz-review-answer-correct{% elif not item.selected_option %}quiz-review-answer-warning{% else %}quiz-review-answer-incorrect{% endif %}">
+
+                            {% if item.selected_option %}
+                            <i class="bi bi-person-fill"></i>
+
+                            {{ item.selected_option.option_text }}
+                            {% else %}
+                            <i class="bi bi-dash-circle-fill"></i>
+
+                            Not answered
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    {% if not item.is_correct %}
+                    <div class="quiz-review-answer">
+
+                        <span class="quiz-review-answer-label">
+                            Correct Answer
+                        </span>
+
+                        <div class="mf-list-item">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            {{ item.correct_option.option_text }}
+
+                        </div>
+
+                    </div>
+                    {% endif %}
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <nav class="quiz-result-actions">
 
         <a
             href="{{ url_for(
@@ -234,10 +224,27 @@ Quiz Result | {{ brand.name }}
             ) }}"
             class="primary-btn">
 
-            ← Back to Course
+            <i class="bi bi-arrow-left"></i>
+
+            <span>Back to Curriculum</span>
 
         </a>
 
-    </div>
+        <a
+            href="{{ url_for(
+                'student.take_quiz',
+                quiz_id=attempt.quiz.id
+            ) }}"
+            class="secondary-btn">
+
+            <i class="bi bi-arrow-counterclockwise"></i>
+
+            <span>Retake Quiz</span>
+
+        </a>
+
+    </nav>
+
+</section>
 
 {% endblock %}

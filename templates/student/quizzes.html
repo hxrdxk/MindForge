@@ -1,0 +1,222 @@
+{% extends "layouts/student_layout.html" %}
+
+{% block title %}
+Quizzes | {{ brand.name }}
+{% endblock %}
+
+{% block dashboard_content %}
+
+<section class="dashboard-section quizzes-page">
+
+    {% if quiz_items %}
+
+    <div class="quizzes-page-header">
+
+        <div>
+
+            <span class="lesson-section-label">
+                Assessments
+            </span>
+
+            <h2>All Quizzes</h2>
+
+        </div>
+
+        <span class="mf-badge mf-badge-primary quizzes-count">
+
+            <i class="bi bi-patch-question-fill"></i>
+
+            {{ quiz_items|length }} Available
+
+        </span>
+
+    </div>
+
+    <div class="quizzes-grid">
+
+        {% for item in quiz_items %}
+
+        <article class="glass-card quiz-library-card">
+
+            <div class="quiz-library-card-header">
+
+                <a
+                    href="{{ url_for(
+                        'student.course_curriculum',
+                        course_id=item.course.id
+                    ) }}"
+                    class="quiz-library-course">
+
+                    {{ item.course.title }}
+
+                </a>
+
+                {% if not item.quiz.is_published %}
+                <span class="mf-badge mf-badge-warning">
+                    Draft
+                </span>
+                {% elif not item.status.attempted %}
+                <span class="mf-badge mf-badge-primary">
+                    Not Attempted
+                </span>
+                {% elif item.status.passed %}
+                <span class="mf-badge mf-badge-success">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Passed
+
+                </span>
+                {% else %}
+                <span class="mf-badge mf-badge-danger">
+
+                    <i class="bi bi-x-circle-fill"></i>
+
+                    Failed
+
+                </span>
+                {% endif %}
+
+            </div>
+
+            <div class="quiz-library-card-body">
+
+                <span class="lesson-index-marker">
+                    Module {{ item.module_number }}
+                </span>
+
+                <h3>{{ item.quiz.title }}</h3>
+
+                <p class="quiz-library-module">
+                    {{ item.module.title }}
+                </p>
+
+                {% if item.quiz.description %}
+                <p class="quiz-library-description">
+                    {{ item.quiz.description }}
+                </p>
+                {% endif %}
+
+            </div>
+
+            <dl class="quiz-library-record">
+
+                <div>
+
+                    <dt>Questions</dt>
+
+                    <dd>{{ item.quiz.questions|length }}</dd>
+
+                </div>
+
+                <div>
+
+                    <dt>Passing Score</dt>
+
+                    <dd>{{ item.quiz.passing_score }}%</dd>
+
+                </div>
+
+                {% if item.status.attempted %}
+                <div>
+
+                    <dt>{% if item.status.passed %}Best Score{% else %}Latest Score{% endif %}</dt>
+
+                    <dd class="{% if item.status.passed %}quiz-library-score-success{% else %}quiz-library-score-danger{% endif %}">
+                        {% if item.status.passed %}
+                        {{ item.status.best_score }}%
+                        {% else %}
+                        {{ item.status.latest_score }}%
+                        {% endif %}
+                    </dd>
+
+                </div>
+
+                <div>
+
+                    <dt>Attempts</dt>
+
+                    <dd>{{ item.status.attempts }}</dd>
+
+                </div>
+                {% endif %}
+
+            </dl>
+
+            <div class="quiz-library-card-actions">
+
+                <a
+                    href="{{ url_for(
+                        'student.course_curriculum',
+                        course_id=item.course.id
+                    ) }}"
+                    class="secondary-btn">
+
+                    <i class="bi bi-journal-text"></i>
+
+                    <span>Curriculum</span>
+
+                </a>
+
+                {% if item.quiz.is_published %}
+                <a
+                    href="{{ url_for(
+                        'student.take_quiz',
+                        quiz_id=item.quiz.id
+                    ) }}"
+                    class="primary-btn">
+
+                    <i class="bi bi-pencil-square"></i>
+
+                    <span>{% if item.status.attempted %}Retake Quiz{% else %}Take Quiz{% endif %}</span>
+
+                </a>
+                {% else %}
+                <span class="secondary-btn quiz-library-unavailable">
+
+                    <i class="bi bi-lock-fill"></i>
+
+                    <span>Unavailable</span>
+
+                </span>
+                {% endif %}
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <section class="glass-card quizzes-empty-state">
+
+        <span class="quizzes-empty-icon">
+            <i class="bi bi-patch-question"></i>
+        </span>
+
+        <h2>No Quizzes Available</h2>
+
+        <p>
+            Enroll in a course to see its module quizzes here.
+        </p>
+
+        <a
+            href="{{ url_for('student.my_courses') }}"
+            class="primary-btn">
+
+            <i class="bi bi-book"></i>
+
+            <span>Browse My Courses</span>
+
+        </a>
+
+    </section>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

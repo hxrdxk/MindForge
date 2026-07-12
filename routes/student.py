@@ -15,7 +15,7 @@ from models.answer import Answer
 from models.option import Option
 from models.question import Question
 from models.certificate import Certificate
-from utils.pdf import generate_certificate_pdf
+from utils.pdf import generate_certificate_pdf, generate_certificate_preview
 
 def to_roman(number):
 
@@ -550,6 +550,8 @@ def take_quiz(quiz_id):
                 f"question_{question.id}"
             )
 
+            total_points += question.points
+
             if not selected:
                 continue
 
@@ -561,8 +563,6 @@ def take_quiz(quiz_id):
 
             if correct:
                 earned_points += question.points
-
-            total_points += question.points
 
             db.session.add(
                 Answer(
@@ -603,12 +603,22 @@ def take_quiz(quiz_id):
             )
         )
     
+    sorted_modules = sorted(
+        quiz.module.course.modules,
+        key=lambda m: m.position,
+    )
+
+    module_number = to_roman(
+        sorted_modules.index(quiz.module) + 1
+    )
+
     return render_template(
         "student/quiz.html",
         quiz=quiz,
         page_title=quiz.title,
         page_subtitle=f"{quiz.module.title} Quiz",
-        active_page="quizzes"
+        active_page="quizzes",
+        module_number=module_number,
     )
 
 @student_bp.route(
@@ -634,13 +644,18 @@ def quiz_result(attempt_id):
             )
         )
 
+    answers_by_question = {
+        answer.question_id: answer
+        for answer in attempt.answers
+    }
+
     review = []
 
     correct_count = 0
 
-    for answer in attempt.answers:
+    for question in attempt.quiz.questions:
 
-        question = answer.question
+        answer = answers_by_question.get(question.id)
 
         correct_option = next(
             (
@@ -655,15 +670,17 @@ def quiz_result(attempt_id):
 
             "question": question,
 
-            "selected_option": answer.selected_option,
+            "selected_option": (
+                answer.selected_option if answer else None
+            ),
 
             "correct_option": correct_option,
 
-            "is_correct": answer.is_correct,
+            "is_correct": answer.is_correct if answer else False,
 
         })
 
-        if answer.is_correct:
+        if answer and answer.is_correct:
 
             correct_count += 1
 
@@ -682,7 +699,7 @@ def quiz_result(attempt_id):
         total_questions=total_questions,
         page_title="Quiz Result",
         page_subtitle=attempt.quiz.title,
-        active_page="quizzes"
+        active_page="quizzes",
     )
 
 @student_bp.route("/certificates")
@@ -704,6 +721,80 @@ def certificates():
         "student/certificates.html",
         certificates=certificates,
         active_page="certificates"
+    )
+
+@student_bp.route("/quizzes")
+@student_required
+def quizzes():
+
+    enrollments = Enrollment.query.filter_by(
+        user_id=current_user.id,
+    ).all()
+
+    quiz_items = []
+
+    for enrollment in enrollments:
+
+        sorted_modules = sorted(
+            enrollment.course.modules,
+            key=lambda module: module.position,
+        )
+
+        for index, module in enumerate(sorted_modules, start=1):
+
+            if not module.quiz:
+                continue
+
+            quiz = module.quiz
+            attempts = (
+                QuizAttempt.query.filter_by(
+                    enrollment_id=enrollment.id,
+                    quiz_id=quiz.id,
+                )
+                .order_by(
+                    QuizAttempt.submitted_at.desc()
+                )
+                .all()
+            )
+
+            if attempts:
+                latest_attempt = attempts[0]
+                status = {
+                    "attempted": True,
+                    "passed": any(
+                        attempt.passed
+                        for attempt in attempts
+                    ),
+                    "best_score": max(
+                        attempt.score
+                        for attempt in attempts
+                    ),
+                    "latest_score": latest_attempt.score,
+                    "attempts": len(attempts),
+                }
+            else:
+                status = {
+                    "attempted": False,
+                    "passed": False,
+                    "best_score": 0,
+                    "latest_score": 0,
+                    "attempts": 0,
+                }
+
+            quiz_items.append({
+                "quiz": quiz,
+                "module": module,
+                "course": enrollment.course,
+                "module_number": to_roman(index),
+                "status": status,
+            })
+
+    return render_template(
+        "student/quizzes.html",
+        quiz_items=quiz_items,
+        page_title="Quizzes",
+        page_subtitle="Review and continue assessments across your enrolled courses.",
+        active_page="quizzes",
     )
 
 
@@ -780,5 +871,42 @@ def download_certificate(certificate_id):
         mimetype="application/pdf",
         as_attachment=True,
         download_name=filename,
+    )
+
+@student_bp.route(
+    "/certificate/<int:certificate_id>/preview"
+)
+@student_required
+def preview_certificate(certificate_id):
+
+    certificate = Certificate.query.get_or_404(
+        certificate_id
+    )
+
+    if (
+        certificate.enrollment.user_id
+        != current_user.id
+    ):
+
+        flash(
+            "Unauthorized access.",
+            "danger",
+        )
+
+        return redirect(
+            url_for(
+                "student.dashboard"
+            )
+        )
+
+    certificate_preview = generate_certificate_preview(
+        certificate
+    )
+
+    return send_file(
+        certificate_preview,
+        mimetype="image/png",
+        as_attachment=False,
+        download_name=f"{certificate.certificate_id}.png",
     )
 

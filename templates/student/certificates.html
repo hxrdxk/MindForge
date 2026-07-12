@@ -4,106 +4,109 @@
 My Certificates | {{ brand.name }}
 {% endblock %}
 
+{% set page_title = "My Certificates" %}
+{% set page_subtitle = "Your issued MindForge course credentials." %}
+
 {% block dashboard_content %}
 
-{% if certificates %}
+<section class="dashboard-section certificates-page">
 
-<div class="row g-4">
+    {% if certificates %}
 
-    {% for certificate in certificates %}
+    <div class="certificates-page-header">
 
-    <div class="col-lg-6">
+        <div>
 
-        <div class="glass-card h-100">
+            <span class="lesson-section-label">
+                Credentials
+            </span>
 
-            <div class="d-flex justify-content-between align-items-start mb-4">
+            <h2>Issued Certificates</h2>
+
+        </div>
+
+        <span class="mf-badge mf-badge-primary certificates-count">
+
+            <i class="bi bi-award-fill"></i>
+
+            {{ certificates|length }} Issued
+
+        </span>
+
+    </div>
+
+    <div class="certificates-grid">
+
+        {% for certificate in certificates %}
+
+        <article class="glass-card certificate-card">
+
+            <div class="certificate-card-header">
+
+                <span class="mf-badge mf-badge-primary">
+
+                    <i class="bi bi-award"></i>
+
+                    Certificate
+
+                </span>
+
+                <i class="bi bi-patch-check-fill certificate-card-verified"></i>
+
+            </div>
+
+            <div class="certificate-card-body">
+
+                <h3>{{ certificate.enrollment.course.title }}</h3>
+
+                <p>
+                    Awarded to {{ certificate.enrollment.user.full_name }} for course completion.
+                </p>
+
+            </div>
+
+            <dl class="certificate-card-record">
 
                 <div>
 
-                    <span class="mf-badge mf-badge-primary">
+                    <dt>Final Score</dt>
 
-                        <i class="bi bi-award me-2"></i>
-
-                        Certificate
-                        
-                    </span>
-
-                    <h3 class="mt-3 mb-2">
-
-                        {{ certificate.enrollment.course.title }}
-
-                    </h3>
-
-                </div>
-
-                <i class="bi bi-patch-check-fill fs-2"></i>
-
-            </div>
-
-            <div class="mb-4">
-
-                <div class="d-flex justify-content-between mb-3">
-
-                    <span>
-
-                        Final Score
-
-                    </span>
-
-                    <strong>
-
+                    <dd class="certificate-card-score">
                         {{ certificate.final_score }}%
-
-                    </strong>
-
-                </div>
-
-                <div class="d-flex justify-content-between mb-3">
-
-                    <span>
-
-                        Issued
-
-                    </span>
-
-                    <strong>
-
-                        {{ certificate.issued_at.strftime("%d %b %Y") }}
-
-                    </strong>
+                    </dd>
 
                 </div>
 
-                <div class="d-flex justify-content-between">
+                <div>
 
-                    <span>
+                    <dt>Issued</dt>
 
-                        Certificate ID
-
-                    </span>
-
-                    <strong>
-
-                        {{ certificate.certificate_id }}
-
-                    </strong>
+                    <dd>{{ certificate.issued_at.strftime("%d %b %Y") }}</dd>
 
                 </div>
 
-            </div>
+                <div class="certificate-card-id">
 
-            <div class="d-flex gap-3 mt-auto">
+                    <dt>Certificate ID</dt>
+
+                    <dd>{{ certificate.certificate_id }}</dd>
+
+                </div>
+
+            </dl>
+
+            <div class="certificate-card-actions">
 
                 <a
                     href="{{ url_for(
                         'student.view_certificate',
                         certificate_id=certificate.id
                     ) }}"
-                    class="primary-btn flex-fill">
+                    class="primary-btn">
 
                     <i class="bi bi-eye"></i>
 
-                    View
+                    <span>View Certificate</span>
 
                 </a>
 
@@ -112,58 +115,50 @@ My Certificates | {{ brand.name }}
                         'student.download_certificate',
                         certificate_id=certificate.id
                     ) }}"
-                    class="secondary-btn flex-fill">
+                    class="secondary-btn">
 
                     <i class="bi bi-download"></i>
 
-                    PDF
+                    <span>Download PDF</span>
 
                 </a>
 
             </div>
 
-        </div>
+        </article>
+
+        {% endfor %}
 
     </div>
 
-    {% endfor %}
+    {% else %}
 
-</div>
+    <section class="glass-card certificates-empty-state">
 
-{% else %}
+        <span class="certificates-empty-icon">
+            <i class="bi bi-award"></i>
+        </span>
 
-<div class="glass-card">
-
-    <div class="text-center py-5">
-
-        <i class="bi bi-award display-1"></i>
-
-        <h3 class="mt-4">
-
-            No Certificates Yet
-
-        </h3>
+        <h2>No Certificates Yet</h2>
 
         <p>
-
-            Complete your enrolled courses and pass all required quizzes to unlock your certificates.
-
+            Complete your enrolled courses and pass all required quizzes to unlock your credentials.
         </p>
 
         <a
             href="{{ url_for('student.my_courses') }}"
-            class="primary-btn mt-3">
+            class="primary-btn">
 
             <i class="bi bi-book"></i>
 
-            Continue Learning
+            <span>Continue Learning</span>
 
         </a>
 
-    </div>
+    </section>
 
-</div>
+    {% endif %}
 
-{% endif %}
+</section>
 
 {% endblock %}
